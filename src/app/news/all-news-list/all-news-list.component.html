@@ -1,0 +1,5 @@
+<button>Sort</button>
+<button>Filter</button>
+<div *ngFor="let summary of newsSummary">
+  <app-news-summary [newsItem]="summary"></app-news-summary>
+</div>
