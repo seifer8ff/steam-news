@@ -1,2 +1,11 @@
-<h4>{{ newsItem.title }}</h4>
-<div [innerHTML]="newsItem.body"></div>
+<div >
+    <div [routerLink]="[newsItem.appId]">
+        <h3>{{ newsItem.appId }}</h3>
+    </div>
+    <div [routerLink]="[newsItem.appId, newsItem.articleId]">
+        <h4>{{ newsItem.title }}</h4>
+        <p>{{ newsItem.body | slice:0:200 }}</p>
+        <!-- <div [innerHTML]="newsItem.body"></div> -->
+    </div>
+</div>
+

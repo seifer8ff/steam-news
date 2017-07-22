@@ -23,7 +23,14 @@ export class NewsService {
         var newsArr: News[] = [];
         data.appnews.newsitems.forEach((newsItem) => {
           newsArr.push(
-            new News(newsItem.title, newsItem.contents, newsItem.url, newsItem.date, newsItem.appid)
+            new News(
+              newsItem.title,
+              newsItem.contents,
+              newsItem.url,
+              newsItem.date,
+              newsItem.appid,
+              newsItem.gid
+            )
           );
         });
         return newsArr;
@@ -33,6 +40,11 @@ export class NewsService {
     .do(newArr => this.allNews = newArr )
     .publishReplay(1)
     .refCount();
+  }
+
+  getNewsItem(articleId: string) {
+    // NOT DONE
+    return this.allNews[0];
   }
 
 }

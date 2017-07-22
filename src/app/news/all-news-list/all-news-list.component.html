@@ -1,5 +1,15 @@
-<button>Sort</button>
-<button>Filter</button>
-<div *ngFor="let summary of newsSummary">
-  <app-news-summary [newsItem]="summary"></app-news-summary>
+<h1>Latest News</h1>
+<hr>
+<div fxLayoutAlign="center center">
+  <div fxFlex="95">
+    <button>Sort</button>
+    <button>Filter</button>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
+      <app-news-summary fxFlex="20" *ngFor="let summary of newsSummary" [newsItem]="summary"></app-news-summary>
+    </div>
+  </div>
 </div>
+
+
+
+

@@ -20,6 +20,7 @@ export class AllNewsListComponent implements OnInit, OnDestroy {
     .subscribe(
       (news) => {
         this.newsSummary = news;
+        console.log(this.newsSummary);
       }
     );
   }

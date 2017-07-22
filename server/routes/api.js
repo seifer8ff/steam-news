@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/news/:id', (req, res) => {
-  axios.get(newsURL + req.params.id + '&count=3')
+  axios.get(newsURL + req.params.id + '&count=10')
     .then(news => {
       res.status(200).json(news.data);
     })

@@ -15,4 +15,8 @@ export class NewsSummaryComponent implements OnInit {
   ngOnInit() {
   }
 
+  onViewMore() {
+
+  }
+
 }
