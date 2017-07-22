@@ -43,8 +43,7 @@ export class NewsService {
   }
 
   getNewsItem(articleId: string) {
-    // NOT DONE
-    return this.allNews[0];
+    return this.allNews.find( (newsItem) => { return newsItem.articleId === articleId; } );
   }
 
 }

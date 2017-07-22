@@ -1,8 +1,8 @@
-<h1>Game Name</h1>
+<h1>{{ newsItem.appId }}</h1>
 <a href="{{ 'http://store.steampowered.com/app/' + newsItem.appId + '/'}}">Link to Store Page</a>
 <hr>
 <div>
-  <h3>Article Name</h3>
-  <p>Here's the full article. It's really long, with lots of information about this game. Things like genre, number of players, etc.</p>
+  <h3>{{ newsItem.title }}</h3>
+  <p>{{ newsItem.body }}</p>
    <a href="{{ newsItem.url }}">View on Steam</a> 
 </div>
