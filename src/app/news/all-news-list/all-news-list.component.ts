@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { NewsService } from '../news.service';
 import { News } from '../news';
@@ -8,13 +9,23 @@ import { News } from '../news';
   templateUrl: './all-news-list.component.html',
   styleUrls: ['./all-news-list.component.css']
 })
-export class AllNewsListComponent implements OnInit {
+export class AllNewsListComponent implements OnInit, OnDestroy {
   newsSummary: News[];
+  newsSub: Subscription;
 
   constructor(private newsService: NewsService) { }
 
   ngOnInit() {
-    this.newsSummary = this.newsService.getAllNews();
+    this.newsSub = this.newsService.getNews('361420')
+    .subscribe(
+      (news) => {
+        this.newsSummary = news;
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    this.newsSub.unsubscribe();
   }
 
 }
