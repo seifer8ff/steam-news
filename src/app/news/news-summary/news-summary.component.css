@@ -1,0 +1,4 @@
+:host /deep/ .bbcode_image {
+    display: block;
+    max-width: 80%;
+}

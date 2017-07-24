@@ -19,10 +19,12 @@ export class NewsService {
   getAllNews(forceRefresh: boolean) {
     if (!this.allNews.observers.length || forceRefresh) {
       this.http.get('/api/news?id=440&id=361420')
-      .map((res: Response) => res.json())
-      .subscribe(data => {
-        this.allNews.next(data);
-        this.allNewsKeys.next(Object.keys(data));
+      .map((newsRes: Response) => newsRes.json())
+      .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
+      .subscribe(newsRes => {
+        // console.log(newsRes);
+        this.allNews.next(newsRes);
+        this.allNewsKeys.next(Object.keys(newsRes));
       })
     }
     return this.allNews;
@@ -52,5 +54,23 @@ export class NewsService {
   //     });
   //   });
   // }
+
+  responseToNews(newsRes: any) {
+    let processedNews = {};
+    for (let game in newsRes) {
+      processedNews[game] = newsRes[game].map(newsItem => {
+        newsItem = Object.assign( new News(
+          newsItem.title,
+          newsItem.body,
+          newsItem.url,
+          newsItem.date,
+          newsItem.appId,
+          newsItem.articleId), newsItem);
+          return newsItem;
+      });
+    }
+    // console.log(processedNews);
+    return processedNews;
+  }
 
 }

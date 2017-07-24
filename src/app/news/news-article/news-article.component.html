@@ -2,7 +2,8 @@
 <a href="{{ 'http://store.steampowered.com/app/' + newsItem?.appId + '/'}}">Link to Store Page</a>
 <hr>
 <div>
-  <h3>{{ newsItem?.title }}</h3>
-  <p>{{ newsItem?.body }}</p>
-   <a href="{{ newsItem?.url }}">View on Steam</a> 
+  <h3>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h3> 
+  <div [innerHTML]="newsItem?.body"></div> 
+  <!-- <p>{{ newsItem?.body }}</p> -->
+  <a href="{{ newsItem?.url }}">View on Steam</a> 
 </div>

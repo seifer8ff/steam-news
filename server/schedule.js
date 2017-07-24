@@ -2,11 +2,12 @@ const scheduler = require('node-schedule');
 const GameTrack = require('./models/game-track');
 const News = require('./models/news');
 const axios = require('axios');
+var bbcode = require('bbcode.js');
 
 var schedule = {};
 
 schedule.rule = new scheduler.RecurrenceRule();
-schedule.rule.minute = 59;
+schedule.rule.minute = 50;
 schedule.newsURL = 'https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=';
  
 schedule.saveLatestNewsJob = scheduler.scheduleJob(schedule.rule, getLatestNews);
@@ -31,9 +32,12 @@ function getLatestNews() {
 }
 
 function processNewsItem(rawNewsItem) {
+    // convert bbcode to html before saving to DB
+    let processedBody = bbcode.render(rawNewsItem.contents);
+
     return {
         title: rawNewsItem.title,
-        body: rawNewsItem.contents,
+        body: processedBody,
         url: rawNewsItem.url,
         date: rawNewsItem.date,
         appId: rawNewsItem.appid,

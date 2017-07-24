@@ -8,4 +8,8 @@ export class News {
         public appId: string,
         public articleId: string
     ) {}
+
+    getDate() {
+        return Number(this.date) * 1000;
+    }
 }

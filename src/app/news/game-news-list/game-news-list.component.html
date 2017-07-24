@@ -2,7 +2,8 @@
 <hr>
 <div *ngFor="let news of gameNews">
   <h4>{{ news.title }}</h4>
-  <p>{{  news.body }}</p>
+  <div [innerHTML]="news.body"></div> 
+  <!-- <p>{{  news.body }}</p> -->
   <hr>
 </div>
 
