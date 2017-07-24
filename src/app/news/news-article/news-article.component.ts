@@ -11,6 +11,8 @@ import { NewsService } from '../news.service';
 })
 export class NewsArticleComponent implements OnInit {
   newsItem: News;
+  appId: string;
+  articleId: string;
 
   constructor(private newsService: NewsService, private route: ActivatedRoute) { }
 
@@ -18,10 +20,19 @@ export class NewsArticleComponent implements OnInit {
     this.route.params
     .subscribe(
       (params: Params) => {
+        console.log('article params:');
         console.log(params);
-        this.newsItem = this.newsService.getNewsItem(params['articleId']);
+        this.appId = params['appId'];
+        this.articleId = params['articleId'];
       }
     );
+
+    this.newsService.getAllNews(false)
+    .subscribe(allNews => {
+      this.newsItem = allNews[this.appId].find((newsItem) => {
+        return newsItem.articleId === this.articleId; 
+      });
+    });
   }
 
 }

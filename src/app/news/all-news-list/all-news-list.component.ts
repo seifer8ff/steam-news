@@ -1,32 +1,18 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Component, OnInit } from '@angular/core';
 
 import { NewsService } from '../news.service';
-import { News } from '../news';
 
 @Component({
   selector: 'app-all-news-list',
   templateUrl: './all-news-list.component.html',
   styleUrls: ['./all-news-list.component.css']
 })
-export class AllNewsListComponent implements OnInit, OnDestroy {
-  newsSummary: News[];
-  newsSub: Subscription;
+export class AllNewsListComponent implements OnInit {
 
   constructor(private newsService: NewsService) { }
 
   ngOnInit() {
-    this.newsSub = this.newsService.getNews('361420')
-    .subscribe(
-      (news) => {
-        this.newsSummary = news;
-        console.log(this.newsSummary);
-      }
-    );
-  }
 
-  ngOnDestroy() {
-    this.newsSub.unsubscribe();
   }
 
 }

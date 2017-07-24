@@ -3,11 +3,16 @@ const express = require('express');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
+const schedule = require("./server/schedule");
 
 // Get our API routes
 const api = require('./server/routes/api');
 
 const app = express();
+
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost/steam-news");
 
 // Parsers for POST data
 app.use(bodyParser.json());
@@ -21,7 +26,7 @@ app.use('/api', api);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
+  res.sendFile(path.join(__dirname, './dist/index.html'));
 });
 
 /**
@@ -34,6 +39,12 @@ app.set('port', port);
  * Create HTTP server.
  */
 const server = http.createServer(app);
+
+
+// sync news from Steam every X minutes
+// schedule.setUpDummyData();
+// schedule.getLatestNews();
+
 
 /**
  * Listen on provided port, on all network interfaces.

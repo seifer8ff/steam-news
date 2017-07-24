@@ -10,6 +10,7 @@ import { NewsService } from './news/news.service';
 import { GameNewsListComponent } from './news/game-news-list/game-news-list.component';
 import { NewsSummaryComponent } from './news/news-summary/news-summary.component';
 import { AppRoutingModule } from './app-routing.module';
+import { UserService } from './user/user.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
     FlexLayoutModule,
     AppRoutingModule
   ],
-  providers: [NewsService],
+  providers: [UserService, NewsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,8 +8,8 @@ import { GameNewsListComponent } from './news/game-news-list/game-news-list.comp
 const routes: Routes = [
   { path: '', redirectTo: '/news', pathMatch: 'full' },
   { path: 'news', component: AllNewsListComponent  },
-  { path: 'news/:id', component: GameNewsListComponent },
-  { path: 'news/:id/:articleId', component: NewsArticleComponent }
+  { path: 'news/:appId', component: GameNewsListComponent },
+  { path: 'news/:appId/:articleId', component: NewsArticleComponent }
 ];
 
 @NgModule({
