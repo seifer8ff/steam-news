@@ -1,7 +1,12 @@
 <!-- FULL WIDTH HEADER HERE -->
 
-<div fxLayout="row" fxLayoutAlign="center center">
-    <div fxFlex="90">
+<div fxLayout="row" fxLayoutAlign="start start">
+    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="10">
+        <div fxFlex="100">
+            <app-game-list></app-game-list>
+        </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex="85">
         <router-outlet></router-outlet>
     </div>
 </div>

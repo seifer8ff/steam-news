@@ -1,0 +1,7 @@
+<div class="container">
+  <div>
+    <input #newGame type="text">
+    <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button>
+  </div>
+  <h2 *ngFor="let game of (userService.getGameList() | async)" [routerLink]="['news', game]">{{ game }}</h2> 
+</div>

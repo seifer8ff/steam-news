@@ -11,16 +11,12 @@ import { News } from '../news';
 })
 export class GameNewsListComponent implements OnInit {
   appId: string;
-  gameNews: News[];
 
   constructor(private newsService: NewsService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params
     .subscribe((params: Params) => this.appId = params['appId']);
-
-    this.newsService.getAllNews(false)
-    .subscribe(allNews => this.gameNews = allNews[this.appId]);
   }
 
 }

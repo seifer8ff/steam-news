@@ -11,6 +11,7 @@ import { GameNewsListComponent } from './news/game-news-list/game-news-list.comp
 import { NewsSummaryComponent } from './news/news-summary/news-summary.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './user/user.service';
+import { GameListComponent } from './user/game-list/game-list.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UserService } from './user/user.service';
     AllNewsListComponent,
     NewsArticleComponent,
     GameNewsListComponent,
-    NewsSummaryComponent
+    NewsSummaryComponent,
+    GameListComponent
   ],
   imports: [
     BrowserModule,

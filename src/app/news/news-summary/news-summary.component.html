@@ -1,11 +1,10 @@
 <div >
-    <div [routerLink]="[newsItem.appId]">
-        <h3>{{ newsItem.appId }}</h3>
+    <div [routerLink]="[newsItem?.appId]">
+        <h3>{{ newsItem?.appId }}</h3>
     </div>
-    <div [routerLink]="[newsItem.appId, newsItem.articleId]">
-        <h4>{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h4>
-        <!-- <p>{{ newsItem.body | slice:0:200 }}</p> -->
-        <div [innerHTML]="newsItem.body | slice:0:250"></div> 
+    <div [routerLink]="[newsItem?.appId, newsItem?.articleId]">
+        <h4>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h4>
+        <div [innerHTML]="newsItem?.body | slice:0:250"></div> 
     </div>
 </div>
 

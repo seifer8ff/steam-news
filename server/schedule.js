@@ -1,5 +1,5 @@
 const scheduler = require('node-schedule');
-const GameTrack = require('./models/game-track');
+const GameList = require('./models/game-list');
 const News = require('./models/news');
 const axios = require('axios');
 var bbcode = require('bbcode.js');
@@ -7,15 +7,32 @@ var bbcode = require('bbcode.js');
 var schedule = {};
 
 schedule.rule = new scheduler.RecurrenceRule();
-schedule.rule.minute = 50;
+schedule.rule.minute = 40;
 schedule.newsURL = 'https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=';
  
-schedule.saveLatestNewsJob = scheduler.scheduleJob(schedule.rule, getLatestNews);
+schedule.saveLatestNewsJob = scheduler.scheduleJob(schedule.rule, refreshNews);
 
-function getLatestNews() {
+schedule.getNews = function getNews(appIds) {
+    return new Promise(function (resolve, reject) {
+        if (!appIds) resolve(null);
+
+        console.log("fetching news for appId: " + appIds[0]);
+
+        axios.get(schedule.newsURL + appIds[0] + '&count=30')
+        .then(news => news.data.appnews.newsitems)
+        .then(newsItems => newsItems.map(processNewsItem))
+        .then((processedNewsItems) => processedNewsItems.map(addNewsItemToDB))
+        .then(processedNewsItems => resolve(processedNewsItems))
+        .catch(error => {
+            console.log("error getting news for ");
+        });
+    });
+}
+
+function refreshNews() {
     console.log("fetching latest news from steam");
     
-    GameTrack.find()
+    GameList.find()
     .catch(err => console.log(err))
     .then(games => {
         games.forEach((game) => {
@@ -32,6 +49,7 @@ function getLatestNews() {
 }
 
 function processNewsItem(rawNewsItem) {
+    // console.log('processing News items');
     // convert bbcode to html before saving to DB
     let processedBody = bbcode.render(rawNewsItem.contents);
 
@@ -51,6 +69,7 @@ function addNewsItemToDB(newsItem) {
         if (err) console.log(err);
         // console.log('saved');
     });
+    return newsItem;
 }
 
 schedule.setUpDummyData = function() {
@@ -61,8 +80,8 @@ schedule.setUpDummyData = function() {
     var game2 = {
         appId: '361420'
     }
-    GameTrack.create(game1);
-    GameTrack.create(game2);
+    GameList.create(game1);
+    GameList.create(game2);
 }
 
 module.exports = schedule;
