@@ -24,6 +24,7 @@
     "@angular/router": "^4.0.0",
     "axios": "^0.16.2",
     "bbcode.js": "^0.4.0",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "core-js": "^2.4.1",
     "express": "^4.15.3",

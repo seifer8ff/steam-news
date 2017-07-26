@@ -4,14 +4,15 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
-const schedule = require("./server/schedule");
+const scheduler = require('node-schedule');
+const steam = require("./server/steamInterface");
 
 // Get our API routes
 const api = require('./server/routes/api');
 
 const app = express();
 
-mongoose.Promise = global.Promise;
+mongoose.Promise = require('bluebird');
 mongoose.connect("mongodb://localhost/steam-news");
 
 // Parsers for POST data
@@ -40,10 +41,21 @@ app.set('port', port);
  */
 const server = http.createServer(app);
 
+// sync game names and ids once a day
+var gameRule = new scheduler.RecurrenceRule();
+gameRule.dayOfWeek = [new scheduler.Range(0, 6)];
+gameRule.hour = 3;
+gameRule.minute = 0;
+
+var gameJob = scheduler.scheduleJob(gameRule, steam.refreshGameNames);
 
 // sync news from Steam every X minutes
-// schedule.setUpDummyData();
-// schedule.getLatestNews();
+var newsRule = new scheduler.RecurrenceRule();
+newsRule.minute = 40;
+var newsJob = scheduler.scheduleJob(newsRule, steam.refreshNews);
+
+// Setup dummy data for gameList + get all game names + appIds
+steam.serverSetup();
 
 
 /**

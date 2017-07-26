@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const News = require('../models/news');
-const GameList = require('../models/game-list');
-const schedule = require('../schedule');
+const TrackedGames = require('../models/tracked-game');
+const steam = require('../steamInterface');
+const Promise = require('bluebird');
 
 /* GET api listing. */
 router.get('/', (req, res) => {
@@ -17,53 +18,42 @@ router.get('/news', (req, res) => {
 
   var refreshAppIds = [];
   typeof req.query.refreshId === 'string' ? refreshAppIds.push(req.query.refreshId) : refreshAppIds = req.query.refreshId;
-  console.log('refreshAppIds = ' + refreshAppIds);
 
   //set up return objects
   var newsObj = {};
 
-  // get news for new ids
-  schedule.getNews(refreshAppIds) // gets and saves to DB
+  var newsPromise = new Promise((resolve, reject) => {
+    if (!refreshAppIds) {
+      // if we don't need to refresh, just return appIds
+      return resolve(appIds);
+    }
 
-  //add refreshAppIds to appIds
-  .then( () => {
-    appIds = refreshAppIds ? appIds.concat(refreshAppIds): appIds;
-    return(appIds);
-  })
-  
-  // get all news from db 
-  .then(appIds => {
-    var queryArray = [];
-    console.log('AppIds= ' + appIds);
-
-    appIds.forEach(appId => {
-      // add DB query promise to array for each appId
-      var newQuery = News.find({ appId: appId })
-        .catch(err => console.log("error fetching news from DB for " + appId))
-        // add news returned from DB to final newsArray obj
-        .then(news => newsObj[appId] = news);
-      queryArray.push(newQuery);
-    });
-    return queryArray;
-  })
-
-  // once all promises have finished, respond to front end with all news
-  .then(queryArray => {
-    Promise.all(queryArray)
-    .then( () => {
-      console.log('all promises done and returning');
-      res.status(200).json(newsObj);
+    steam.getNews(refreshAppIds) // gets and saves to DB
+    .then(() => {
+      appIds = appIds.concat(refreshAppIds);
+      return resolve(appIds);
     })
+  })
+  // get all news from db 
+  .each(appId => {
+    return News.find({ appId: appId })
+      .catch(err => console.log("error fetching news from DB for " + appId))
+      // add news returned from DB to final newsArray obj
+      .then(news => newsObj[appId] = news);
+  })
+  .then(() => {
+    console.log('all promises done and returning');
+    res.status(200).json(newsObj);
   })
 });
 
 router.get('/games', (req, res) => {
   console.log('querying DB for gameList');
 
-  GameList.find()
-  .then(data => data.map(gameList => gameList.appId))
-  .then(gameList => {
-    res.status(200).json(gameList)
+  TrackedGames.find()
+  .then(data => data.map(games => games.appId))
+  .then(appIds => {
+    res.status(200).json(appIds)
   });
 })
 
@@ -73,10 +63,9 @@ router.post('/games', (req, res) => {
     console.log('appId received: ' + req.body.appId);
 
     var newGame = { appId: req.body.appId }
-    GameList.findOneAndUpdate(newGame, newGame, {upsert:true}, (err, doc) => {
+    TrackedGames.findOneAndUpdate(newGame, newGame, {upsert:true}, (err, doc) => {
       if (err) console.log(err);
     });
-    schedule.getNews(req.body.appId);
   } else {
     console.log('invalid appId received');
   }
