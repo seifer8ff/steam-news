@@ -1,6 +1,6 @@
 <div >
     <div [routerLink]="[newsItem?.appId]">
-        <h3>{{ newsItem?.appId }}</h3>
+          <h3>{{ game?.title  }}</h3> 
     </div>
     <div [routerLink]="[newsItem?.appId, newsItem?.articleId]">
         <h4>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h4>

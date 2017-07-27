@@ -118,10 +118,12 @@ function addNewsItemToDB(newsItem) {
 function addBaseGames() {
     console.log("adding dummy games to db");
     var game1 = {
-        appId: '440'
+        appId: '440',
+        title: 'Team Fortress 2'
     }
     var game2 = {
-        appId: '361420'
+        appId: '361420',
+        title: 'Astroneer'
     }
     TrackedGames.findOneAndUpdate(game1, game1, {upsert:true}, (err, doc) => {});
     TrackedGames.findOneAndUpdate(game2, game2, {upsert:true}, (err, doc) => {});

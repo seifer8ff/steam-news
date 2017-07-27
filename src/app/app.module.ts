@@ -12,6 +12,7 @@ import { NewsSummaryComponent } from './news/news-summary/news-summary.component
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './user/user.service';
 import { GameListComponent } from './user/game-list/game-list.component';
+import { FirstElementPipe } from './first-element.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { GameListComponent } from './user/game-list/game-list.component';
     NewsArticleComponent,
     GameNewsListComponent,
     NewsSummaryComponent,
-    GameListComponent
+    GameListComponent,
+    FirstElementPipe
   ],
   imports: [
     BrowserModule,

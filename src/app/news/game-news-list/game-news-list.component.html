@@ -1,4 +1,4 @@
-<h1>{{ appId }} - News</h1>
+<h1>{{ userService.getGame(appId)?.title }} - News</h1>
 <hr>
 <div *ngFor="let news of (newsService.getGameNews(appId) | async)">
   <h4>{{ news.title }}</h4>

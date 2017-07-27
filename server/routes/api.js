@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const News = require('../models/news');
+const Games = require('../models/game');
 const TrackedGames = require('../models/tracked-game');
 const steam = require('../steamInterface');
 const Promise = require('bluebird');
@@ -48,21 +49,31 @@ router.get('/news', (req, res) => {
 });
 
 router.get('/games', (req, res) => {
+  console.log('querying DB for gamedata');
+
+  Games.find()
+  .then(games => {
+    res.status(200).json(games)
+  });
+});
+
+router.get('/gamelist', (req, res) => {
   console.log('querying DB for gameList');
 
   TrackedGames.find()
-  .then(data => data.map(games => games.appId))
-  .then(appIds => {
-    res.status(200).json(appIds)
+  // .then(data => data.map(games => games.appId))
+  .then(games => {
+    res.status(200).json(games)
   });
-})
+});
 
-router.post('/games', (req, res) => {
+router.post('/gamelist', (req, res) => {
   console.log('trying to add appId to gameList');
-  if (req.body.appId) {
+  console.log(req.body);
+  if (req.body.appId && req.body.title) {
     console.log('appId received: ' + req.body.appId);
 
-    var newGame = { appId: req.body.appId }
+    var newGame = req.body;
     TrackedGames.findOneAndUpdate(newGame, newGame, {upsert:true}, (err, doc) => {
       if (err) console.log(err);
     });

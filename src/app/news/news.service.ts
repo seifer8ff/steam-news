@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/Rx';
 
 import { News } from './news';
+import { Game } from '../user/game';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -15,7 +16,7 @@ export class NewsService {
   allNewsKeys: ReplaySubject<string[]> = new ReplaySubject(1);
   
   gameNews: ReplaySubject<any> = new ReplaySubject(1);
-  gameList: string[];
+  gameList: Game[];
 
 
   constructor(private http: Http, private userService: UserService) {
@@ -73,7 +74,7 @@ export class NewsService {
   }
 
   getGameNews(appId: string) {
-    console.log("getting game news for appId: " + appId);
+    // console.log("getting game news for appId: " + appId);
     this.getAllNews(false).subscribe((allNews) => {
       this.gameNews.next(allNews[appId]);
     });
@@ -116,16 +117,18 @@ export class NewsService {
     return processedNews;
   }
 
-  buildRequestURL(gameList: string[], refreshIds?: string[]) {
+  buildRequestURL(gameList: Game[], refreshIds?: string[]) {
     let finalUrl = '/api/news?';
-    gameList.forEach(appId => {
-      finalUrl += 'id=' + appId + '&';
+    console.log(gameList);
+    gameList.forEach(game => {
+      finalUrl += 'id=' + game.appId + '&';
     });
     if (refreshIds) {
       refreshIds.forEach(appId => {
         finalUrl += 'refreshId=' + appId + '&';
       });
     }
+    console.log(finalUrl);
     return finalUrl;
   }
 

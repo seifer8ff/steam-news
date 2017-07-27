@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 
 import { News } from '../news';
 import { NewsService } from '../news.service';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'app-news-article',
@@ -14,7 +15,7 @@ export class NewsArticleComponent implements OnInit {
   appId: string;
   articleId: string;
 
-  constructor(private newsService: NewsService, private route: ActivatedRoute) { }
+  constructor(private newsService: NewsService, private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params

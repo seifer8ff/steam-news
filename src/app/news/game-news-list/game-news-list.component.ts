@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { NewsService } from '../news.service';
+import { UserService } from '../../user/user.service';
 import { News } from '../news';
 
 @Component({
@@ -12,7 +13,7 @@ import { News } from '../news';
 export class GameNewsListComponent implements OnInit {
   appId: string;
 
-  constructor(private newsService: NewsService, private route: ActivatedRoute) { }
+  constructor(private newsService: NewsService, private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params

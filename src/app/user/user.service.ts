@@ -3,31 +3,42 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Http, Headers, Response } from '@angular/http';
 
 import { User } from './user';
+import { Game } from './game';
 
 @Injectable()
 export class UserService {
   currentUser: User = new User(
     'Test User',
     [
-      '440',
-      '361420'
+      { appId: '440', title: 'Team Fortress 2' },
+      { appId: '211820', title: 'Starbound' }
     ]
   );
-  gameList: ReplaySubject<string[]> = new ReplaySubject(1);
+  gameData: Game[] = [];
+  gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
+  gameDataSub: ReplaySubject<Game[]> = new ReplaySubject(1);
 
   constructor(private http: Http) {
-    this.init()
+    this.init();
   }
 
    init() {
+    this.http.get('api/gamelist')
+      .map((gameListRes: Response) => gameListRes.json())
+      .subscribe(gameListRes => {
+        // this.currentUser.gameList = gameListRes;
+        this.gameListSub.next(gameListRes);
+        this.gameListSub.
+          subscribe(gameList => this.currentUser.gameList = gameList);
+      });
+    
     this.http.get('api/games')
-    .map((gameList: Response) => gameList.json())
-    .subscribe(gameList => {
-      this.currentUser.gameList = gameList;
-      this.gameList.next(gameList);
-      this.gameList.
-      subscribe(gameList => this.currentUser.gameList = gameList);
-    });
+      .map((gameDataRes: Response) => gameDataRes.json())
+      .subscribe(gameDataRes => {
+        this.gameDataSub.next(gameDataRes);
+        this.gameDataSub.
+          subscribe(gameData => this.gameData = gameData);
+      });
   }
 
   getUser() {
@@ -35,23 +46,34 @@ export class UserService {
   }
 
   getGameList() {
-    return this.gameList;
+    return this.gameListSub;
+  }
+
+  getGameData() {
+    return this.gameDataSub;
   }
 
   onAddGame(appId: string) {
-    if (!this.currentUser.gameList.find(thisAppId => thisAppId === appId)) {
-      this.currentUser.gameList.push(appId);
-      this.gameList.next(this.currentUser.gameList);
+    if (!this.currentUser.gameList.find(thisGame => thisGame.appId === appId)) {
+      var newGame = new Game(appId, this.getGame(appId).title);
+      
+      this.currentUser.gameList.push(newGame);
+      this.gameListSub.next(this.currentUser.gameList);
 
       let jsonHeaders = new Headers({
         'Content-Type': 'application/json'
       });
-      let postBody = {
-        appId: appId
-      }
-      this.http.post('/api/games', JSON.stringify(postBody), {headers: jsonHeaders})
+
+      this.http.post('/api/gamelist', JSON.stringify(newGame), {headers: jsonHeaders})
       .subscribe()
     }
+  }
+
+  getGame(appId: string) {
+    if (!this.gameData.length) return {appId: '0', title: 'Game'};
+
+    let match = this.gameData.find(thisGame => thisGame.appId === appId);
+    return match;
   }
 
 }

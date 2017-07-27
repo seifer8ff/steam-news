@@ -5,7 +5,12 @@
     <button>Sort</button>
     <button>Filter</button>
     <div fxLayout="row wrap" fxLayoutAlign="space-between start" fxLayoutGap="10px">
-      <app-news-summary fxFlex="20" *ngFor="let newsKey of (newsService.getAllNewsKeys() | async)" [newsItem]="(newsService.getAllNews(false) | async)[newsKey][0]"></app-news-summary>
+      <app-news-summary 
+        fxFlex="20" 
+        *ngFor="let game of (userService?.getGameList() | async)" 
+        [newsItem]="newsService?.getGameNews(game?.appId) | async | firstElement"
+        [game]="game">
+      </app-news-summary>
     </div>
   </div>
 </div> 
