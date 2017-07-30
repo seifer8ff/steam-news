@@ -1,10 +1,11 @@
-
-<app-game-list fxFlex="20" [fxHide]="userService.sidebarIsOpen() | async"></app-game-list>
-<div fxLayout="column" fxLayoutAlign="start start" fxFlex="grow">
+<app-game-list></app-game-list>
+ <div class="container" fxLayout="column" fxLayoutAlign="start start">
     <app-header></app-header>
-    <div class="main" fxLayout="row" fxLayoutAlign="center stretch">
+    <div class="main" fxLayout="row" fxLayoutAlign="center stretch" fxFlex="grow">
         <div fxFlex="94">
-            <router-outlet></router-outlet>
+            <div class="container" fxLayout="column" fxLayoutAlign="start start" fxFlex="grow">
+                <router-outlet></router-outlet>
+            </div>
         </div>
-    </div> 
-</div>
+    </div>
+</div> 

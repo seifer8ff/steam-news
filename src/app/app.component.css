@@ -1,9 +1,13 @@
-.main {
-    height: 94vh;   
-    overflow: auto;
-}
-
 app-header {
     width: 100%;
     min-width: 100%;
-} 
+}  
+
+.container {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.main {
+    width: 100%;
+}

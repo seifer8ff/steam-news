@@ -1,5 +1,5 @@
 <div>
-  <button fxFlex="5" appSidebarToggle>
+  <button class="click-outside" fxFlex="5" (click)="userService.openSidebar()">
     SideBar
   </button>
   <a fxFlex="20" [routerLink]="['news']">Home</a>

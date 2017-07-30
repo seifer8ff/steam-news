@@ -15,7 +15,7 @@ import { GameListComponent } from './user/game-list/game-list.component';
 import { FirstElementPipe } from './first-element.pipe';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { SidebarToggleDirective } from './sidebar-toggle.directive';
+import { ClickOutsideDirective } from './click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +28,7 @@ import { SidebarToggleDirective } from './sidebar-toggle.directive';
     FirstElementPipe,
     HeaderComponent,
     FooterComponent,
-    SidebarToggleDirective
+    ClickOutsideDirective
   ],
   imports: [
     BrowserModule,

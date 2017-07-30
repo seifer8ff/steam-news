@@ -18,7 +18,7 @@ export class UserService {
   gameData: Game[] = [];
   gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
   gameDataSub: ReplaySubject<Game[]> = new ReplaySubject(1);
-  sidebarToggleSub: BehaviorSubject<boolean> = new BehaviorSubject(true);
+  sidebarToggleSub: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private http: Http) {
     this.init();
@@ -82,8 +82,12 @@ export class UserService {
     return this.sidebarToggleSub;
   }
 
-  toggleSidebar() {
-    this.sidebarToggleSub.next(!this.sidebarToggleSub.getValue())
+  openSidebar() {
+    this.sidebarToggleSub.next(true);
+  }
+
+  closeSidebar() {
+    this.sidebarToggleSub.next(false);
   }
 
 }
