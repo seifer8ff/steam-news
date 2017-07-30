@@ -1,0 +1,9 @@
+.main {
+    height: 94vh;   
+    overflow: auto;
+}
+
+app-header {
+    width: 100%;
+    min-width: 100%;
+} 

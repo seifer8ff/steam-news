@@ -1,10 +1,12 @@
-<div >
-    <div [routerLink]="[newsItem?.appId]">
-          <h3>{{ game?.title  }}</h3> 
+<div class="summary-container" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
+    <div fxLayout="row" fxLayoutAlign="center center" fxFlex="60px">
+        <div class="summary-title" [routerLink]="[newsItem?.appId]" fxFlexFill>
+            <h3>{{ game?.title  }}</h3> 
+        </div>
     </div>
-    <div [routerLink]="[newsItem?.appId, newsItem?.articleId]">
+    <div class="summary-content" [routerLink]="[newsItem?.appId, newsItem?.articleId]">
         <h4>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h4>
-        <div [innerHTML]="newsItem?.body | slice:0:250"></div> 
+        <div [innerHTML]="newsItem?.body | slice:0:300"></div> 
     </div>
 </div>
 

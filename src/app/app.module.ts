@@ -13,6 +13,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './user/user.service';
 import { GameListComponent } from './user/game-list/game-list.component';
 import { FirstElementPipe } from './first-element.pipe';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { SidebarToggleDirective } from './sidebar-toggle.directive';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { FirstElementPipe } from './first-element.pipe';
     GameNewsListComponent,
     NewsSummaryComponent,
     GameListComponent,
-    FirstElementPipe
+    FirstElementPipe,
+    HeaderComponent,
+    FooterComponent,
+    SidebarToggleDirective
   ],
   imports: [
     BrowserModule,

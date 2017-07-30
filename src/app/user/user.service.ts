@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { Http, Headers, Response } from '@angular/http';
 
 import { User } from './user';
@@ -17,6 +18,7 @@ export class UserService {
   gameData: Game[] = [];
   gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
   gameDataSub: ReplaySubject<Game[]> = new ReplaySubject(1);
+  sidebarToggleSub: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(private http: Http) {
     this.init();
@@ -74,6 +76,14 @@ export class UserService {
 
     let match = this.gameData.find(thisGame => thisGame.appId === appId);
     return match;
+  }
+
+  sidebarIsOpen() {
+    return this.sidebarToggleSub;
+  }
+
+  toggleSidebar() {
+    this.sidebarToggleSub.next(!this.sidebarToggleSub.getValue())
   }
 
 }

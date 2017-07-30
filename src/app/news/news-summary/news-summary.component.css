@@ -3,3 +3,22 @@
     max-width: 80%;
     margin: auto;
 }
+
+:host {
+    margin-top: 20px;
+    margin-bottom: 20px; 
+}
+
+.summary-container {
+    background-color: #414651;
+    box-shadow: 0px 4px 11px 1px #202021;
+}
+
+.summary-content {
+    padding: 0 12px 12px 12px;  
+}
+
+.summary-title {
+    text-align: center;
+    background-color: #2f4c84;
+}

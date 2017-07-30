@@ -1,14 +1,10 @@
-<!-- FULL WIDTH HEADER HERE -->
 
-<div fxLayout="row" fxLayoutAlign="start start">
-    <div fxLayout="column" fxLayoutAlign="start start" fxFlex="10">
-        <div fxFlex="100">
-            <app-game-list></app-game-list>
+<app-game-list fxFlex="20" [fxHide]="userService.sidebarIsOpen() | async"></app-game-list>
+<div fxLayout="column" fxLayoutAlign="start start" fxFlex="grow">
+    <app-header></app-header>
+    <div class="main" fxLayout="row" fxLayoutAlign="center stretch">
+        <div fxFlex="94">
+            <router-outlet></router-outlet>
         </div>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="center center" fxFlex="85">
-        <router-outlet></router-outlet>
-    </div>
+    </div> 
 </div>
-
-
