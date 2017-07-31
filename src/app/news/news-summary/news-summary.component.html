@@ -5,7 +5,7 @@
     <div class="summary-content" fxFlex="grow">
         <h3>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h3>
         <hr>
-        <div class="summary-body" [innerHTML]="newsItem?.body | slice:0:150"></div> 
+        <div class="summary-body" [innerHTML]="newsItem?.body | shorten:150"></div> 
     </div>
 </article>
 

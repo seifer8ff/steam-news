@@ -23,6 +23,7 @@
 
 .summary-content {
     padding: 0 8px 8px 8px;  
+    letter-spacing: 0.02em; 
 }
 
 .summary-content > h3 {
@@ -37,7 +38,6 @@
 .summary-body {
     line-height: 1.7em;
     font-size: 1em; 
-    letter-spacing: 0.02em; 
 }
 
 .summary-body /deep/ h1,h2,h3 {

@@ -16,6 +16,7 @@ import { FirstElementPipe } from './first-element.pipe';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ClickOutsideDirective } from './click-outside.directive';
+import { ShortenPipe } from './shorten.pipe';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ClickOutsideDirective } from './click-outside.directive';
     FirstElementPipe,
     HeaderComponent,
     FooterComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    ShortenPipe
   ],
   imports: [
     BrowserModule,
