@@ -1,15 +1,22 @@
+:host {
+    width: 100%;
+    min-width: 100%;
+}
+
 div {
-    padding: 15px;
+    padding: 8px;
     text-align: center;
-    background-color: black;
-    color: white;
+    background-color: #2a2a2d;
     
 }
 
-h5 {
-    margin: 0;
+h6 {
+    margin: 0 60px 0 0;
+    display: inline-block;
+    font-size: 0.9em;
 }
 
-h6 {
-    margin: 0;
+a {
+    display: inline-block;
+    font-size: 0.9em;
 }

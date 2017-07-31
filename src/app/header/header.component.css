@@ -1,3 +1,8 @@
+:host {
+    width: 100%;
+    min-width: 100%;
+}
+
 div {
     background-color: #2a2a2d;
     padding: 20px;

@@ -5,7 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { AllNewsListComponent } from './news/all-news-list/all-news-list.component';
-import { NewsArticleComponent } from './news/news-article/news-article.component';
+import { NewsArticleComponent } from './news/game-news-list/news-article/news-article.component';
 import { NewsService } from './news/news.service';
 import { GameNewsListComponent } from './news/game-news-list/game-news-list.component';
 import { NewsSummaryComponent } from './news/news-summary/news-summary.component';

@@ -1,5 +1,5 @@
 <article class="article-container">
   <h2 id="{{ a + newsItem.articleId }}" class="article-title">{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h2>
   <div class="article-body" [innerHTML]="newsItem.body"></div>
-  <a href="{{ newsItem.url }}">View on Steam</a> 
+  <a class="article-link-steam" href="{{ newsItem.url }}">View on Steam</a> 
 </article> 

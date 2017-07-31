@@ -3,6 +3,12 @@
     color: #8cc3ff;
 }
 
+.article-link-steam {
+    display: block;
+    clear: both;
+    margin-top: 20px;
+}
+
 .article-body {
     line-height: 1.2em;
     font-size: 1.1em; 
