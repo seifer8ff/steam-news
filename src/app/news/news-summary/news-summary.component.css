@@ -1,8 +1,4 @@
-:host /deep/ .bbcode_image {
-    display: block;
-    max-width: 80%;
-    margin: auto;
-}
+
 
 :host {
     margin-top: 20px;
@@ -12,13 +8,44 @@
 .summary-container {
     background-color: #414651;
     box-shadow: 0px 4px 11px 1px #202021;
-}
-
-.summary-content {
-    padding: 0 12px 12px 12px;  
+    border-radius: 4px;
 }
 
 .summary-title {
     text-align: center;
     background-color: #2f4c84;
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    font-size: 1.4em;
+    border-radius: 4px 4px 0 0px;
+}
+
+.summary-content {
+    padding: 0 8px 8px 8px;  
+}
+
+.summary-content > h3 {
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.summary-content hr {
+    opacity: 0.5;
+}
+
+.summary-body {
+    line-height: 1.7em;
+    font-size: 1em; 
+    letter-spacing: 0.02em; 
+}
+
+.summary-body /deep/ h1,h2,h3 {
+    font-size: 1.1em;
+}
+
+.summary-body /deep/ .bbcode_image {
+    display: block;
+    max-width: 80%;
+    margin: auto;
 }

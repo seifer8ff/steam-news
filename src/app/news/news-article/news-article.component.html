@@ -1,8 +1,5 @@
-<h1>{{ userService.getGame(appId)?.title }}</h1>
-<a href="{{ 'http://store.steampowered.com/app/' + newsItem?.appId + '/'}}">Link to Store Page</a>
-<hr>
-<div>
-  <h3>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h3> 
-  <div [innerHTML]="newsItem?.body"></div> 
-  <a href="{{ newsItem?.url }}">View on Steam</a> 
-</div>
+<article class="article-container">
+  <h2 id="{{ a + newsItem.articleId }}" class="article-title">{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h2>
+  <div class="article-body" [innerHTML]="newsItem.body"></div>
+  <a href="{{ newsItem.url }}">View on Steam</a> 
+</article> 

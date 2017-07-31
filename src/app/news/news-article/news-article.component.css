@@ -1,5 +1,33 @@
-:host /deep/ .bbcode_image {
-    display: block;
-    max-width: 80%;
-    margin: auto;
+.article-title {
+    font-size: 3em;
+    color: #8cc3ff;
+}
+
+.article-body {
+    line-height: 1.2em;
+    font-size: 1.1em; 
+    letter-spacing: 0.014em; 
+}
+
+.article-body /deep/ .bbcode_image {
+    float: left;
+    max-width: 600px;
+    max-height: 400px;
+    margin: 10px 10px 40px 10px;
+}
+
+.article-body /deep/ h1,h2,h3 {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    font-size: 1.1em;
+    clear: both;
+}
+
+.article-body /deep/ hr {
+    clear: both;
+}
+
+.article-body /deep/ li {
+    margin-top: 4px;
+    margin-bottom: 4px;
 }

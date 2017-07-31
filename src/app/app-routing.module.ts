@@ -12,7 +12,7 @@ const routes: Routes = [
     { path: '', component: GameListComponent }
   ] },
   { path: 'news/:appId', component: GameNewsListComponent },
-  { path: 'news/:appId/:articleId', component: NewsArticleComponent }
+  { path: '**', component: GameNewsListComponent }
 ];
 
 @NgModule({

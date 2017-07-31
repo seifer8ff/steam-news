@@ -2,9 +2,9 @@
 <hr>
 <button>Sort</button>
 <button>Filter</button>
-<div fxLayout="row wrap" fxLayoutAlign="space-between stretch">
+<div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
   <app-news-summary 
-    fxFlex="18"
+    fxFlex="375px"
     *ngFor="let game of (userService?.getGameList() | async)" 
     [newsItem]="newsService?.getGameNews(game?.appId) | async | firstElement"
     [game]="game">
