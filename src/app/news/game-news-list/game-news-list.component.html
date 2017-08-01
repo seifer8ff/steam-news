@@ -1,6 +1,6 @@
 
 <div class="container" fxLayout="column" fxLayoutAlign="start center" fxFlex="grow">
-  <div class="title-container">
+  <div class="title-container main">
     <h1 class="game-title">{{ userService.getGame(appId)?.title }} News</h1>
   </div>
   <app-news-article *ngFor="let article of (newsService.getGameNews(appId) | async)" [newsItem]="article"></app-news-article>

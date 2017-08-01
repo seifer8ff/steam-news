@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="center start">
   <article class="content-container" fxFlex="85">
-    <div class="subtitle-container">
+    <div class="title-container sub">
       <h2 class="deep-ignore" id="{{ a + newsItem.articleId }}">{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h2>
     </div>
     <div class="article-body" [innerHTML]="newsItem.body"></div>

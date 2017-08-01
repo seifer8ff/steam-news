@@ -5,7 +5,6 @@ html,body {
 }
 
 body {
-    /* background-color: #1f293d; */
     background-color: #303030;
     color: #dddddd;
 }
@@ -32,11 +31,14 @@ hr {
     align-items: center;
     justify-content: center; 
     width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title-container.main {
     min-height: 100px;
     background-color: #64c0f4;
     color: #303030;
-    text-align: center;
-    margin-bottom: 20px;
 }
 
 .title-container.alt {
@@ -49,19 +51,16 @@ hr {
     font-size: 2.2em;
 }
 
-.subtitle-container {
+.title-container.sub {
     min-height: 70px;
-    width: 100%;
-    display: flex; 
-    align-items: center;
-    justify-content: center; 
     background-color: #9bf3ff;
     color: #303030;
     text-align: center;
     border-radius: 4px 4px 0 0px;
+    margin-bottom: 0px;
 }
 
-.subtitle-container h2 {
+.title-container h2 {
     margin: 0;
     font-size: 1.5em;
 }

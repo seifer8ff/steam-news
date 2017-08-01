@@ -1,12 +1,20 @@
-<div class="container" [fxHide]="!(userService.sidebarIsOpen() | async)" (appClickOutside)="userService.closeSidebar()">
-  <h2>Game Track List</h2>
-  <hr>
-  <div>
-    <input #newGame type="text">
-    <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button>
-  </div>
-  <div *ngFor="let game of (userService.getGameList() | async)" [routerLink]="['news', game.appId]">
-    <h2 >{{ game.title }}</h2> 
+<aside class="container content-container" [fxHide]="!(userService.sidebarIsOpen() | async)" (appClickOutside)="userService.closeSidebar()">
+  <div class="sidebar-inner">
+    <div class="title-container">
+      <h2>Game Track List</h2>
+    </div>
     <hr>
+    <div>
+      <input #newGame type="text">
+      <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button>
+    </div>
+    <ul>
+      <li *ngFor="let game of (userService.getGameList() | async)" [routerLink]="['news', game.appId]">
+        <a>{{ game.title }}</a>
+      </li>
+    </ul>
   </div>
+</aside>
+<div class="sidebar-overlay" [fxHide]="!(userService.sidebarIsOpen() | async)">
+  test
 </div>
