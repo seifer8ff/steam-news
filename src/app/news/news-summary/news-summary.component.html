@@ -1,11 +1,11 @@
-<article class="summary-container" [routerLink]="[newsItem?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
-    <div class="summary-title" fxFlex="90px">
-        <h2>{{ game?.title  }}</h2> 
+<article class="content-container" [routerLink]="[newsItem?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
+    <div class="subtitle-container" fxFlex="90px">
+        <h2 class="deep-ignore">{{ game?.title  }}</h2> 
     </div>
     <div class="summary-content" fxFlex="grow">
         <h3>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h3>
         <hr>
         <div class="summary-body" [innerHTML]="newsItem?.body | shorten:150"></div> 
     </div>
-</article>
+</article> 
 

@@ -1,5 +1,15 @@
-<article class="article-container">
-  <h2 id="{{ a + newsItem.articleId }}" class="article-title">{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h2>
-  <div class="article-body" [innerHTML]="newsItem.body"></div>
-  <a class="article-link-steam" href="{{ newsItem.url }}">View on Steam</a> 
-</article> 
+<div fxLayout="row" fxLayoutAlign="center start">
+  <article class="content-container" fxFlex="85">
+    <div class="subtitle-container">
+      <h2 class="deep-ignore" id="{{ a + newsItem.articleId }}">{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h2>
+    </div>
+    <div class="article-body" [innerHTML]="newsItem.body"></div>
+    <a class="article-link" href="{{ newsItem.url }}">
+      <div class="article-bottom">
+        <hr>
+        <p>View on Steam</p>
+      </div>
+    </a>
+  </article> 
+</div>
+

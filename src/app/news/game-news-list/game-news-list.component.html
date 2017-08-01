@@ -1,17 +1,18 @@
 
 <div class="container" fxLayout="column" fxLayoutAlign="start center" fxFlex="grow">
-  <div>
+  <div class="title-container">
     <h1 class="game-title">{{ userService.getGame(appId)?.title }} News</h1>
-    <hr>
   </div>
   <app-news-article *ngFor="let article of (newsService.getGameNews(appId) | async)" [newsItem]="article"></app-news-article>
 </div>
-<aside class="container article-list" fxLayout="column" fxLayoutAlign="start center" fxFlex="25">
-  <h4 class="article-list-title">{{ userService.getGame(appId)?.title }} News Articles</h4>
-  <a href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Link to Store Page</a>
-  <ul>
-    <li *ngFor="let news of (newsService.getGameNews(appId) | async)">
-      <a [routerLink] fragment="{{ a + news.articleId }}">{{ news.title }}</a>
-    </li>
-  </ul>
+<aside class="container article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="20">
+  <div class="article-list-inner">
+    <h4 class="article-list-title">{{ userService.getGame(appId)?.title }} News Articles</h4>
+    <a href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Link to Store Page</a>
+    <ul>
+      <li *ngFor="let news of (newsService.getGameNews(appId) | async)" [routerLink] fragment="{{ a + news.articleId }}">
+        <a>{{ news.title | shorten:45 }}</a>
+      </li>
+    </ul>
+  </div>
 </aside> 

@@ -1,12 +1,17 @@
-<h1>Latest</h1>
-<hr>
-<div fxLayout="row wrap" fxLayoutAlign="space-around stretch">
-  <app-news-summary 
-    fxFlex="375px"
-    *ngFor="let game of (userService?.getGameList() | async)" 
-    [newsItem]="newsService?.getGameNews(game?.appId) | async | firstElement"
-    [game]="game">
-  </app-news-summary>
+<div class="title-container">
+  <h1>Latest News</h1>
+</div>
+<div>
+  <div fxLayout="row" fxLayoutAlign="center start">
+    <div fxLayout="row wrap" fxLayoutAlign="space-around stretch" fxFlex="90">
+      <app-news-summary 
+        fxFlex="375px"
+        *ngFor="let game of (userService?.getGameList() | async)" 
+        [newsItem]="newsService?.getGameNews(game?.appId) | async | firstElement"
+        [game]="game">
+      </app-news-summary>
+    </div>
+  </div>
 </div> 
 
 

@@ -1,39 +1,67 @@
-.article-title {
-    font-size: 3em;
-    color: #8cc3ff;
+:host {
+    width: 100%;
 }
 
-.article-link-steam {
-    display: block;
+.article-link {
+    text-decoration: none;
+}
+
+.article-bottom {
     clear: both;
-    margin-top: 20px;
+    height: 60px;
+    text-align: right;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.article-bottom:hover {
+    border-radius: 4px;
+    background-color: #64c0f4;
+}
+
+.article-bottom:hover p {
+    color: #303030;
+}
+
+.article-bottom hr {
+    margin-top: 0;
+}
+
+.article-bottom p {
+    margin-right: 18%;
 }
 
 .article-body {
     line-height: 1.2em;
     font-size: 1.1em; 
     letter-spacing: 0.014em; 
+    padding: 30px; 
 }
 
-.article-body /deep/ .bbcode_image {
+.article-body >>> .bbcode_image {
     float: left;
     max-width: 600px;
     max-height: 400px;
     margin: 10px 10px 40px 10px;
 }
 
-.article-body /deep/ h1,h2,h3 {
+.article-body >>> h1,h2:not(.deep-ignore),h3 {
     margin-top: 60px;
     margin-bottom: 20px;
     font-size: 1.1em;
     clear: both;
 }
 
-.article-body /deep/ hr {
+.article-body >>> hr {
     clear: both;
 }
 
-.article-body /deep/ li {
+.article-body >>> li {
     margin-top: 4px;
     margin-bottom: 4px;
 }
+
+.content-container {
+    margin-bottom: 100px;
+}
+
