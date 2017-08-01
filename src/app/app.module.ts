@@ -11,7 +11,7 @@ import { GameNewsListComponent } from './news/game-news-list/game-news-list.comp
 import { NewsSummaryComponent } from './news/news-summary/news-summary.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './user/user.service';
-import { GameListComponent } from './user/game-list/game-list.component';
+import { SidebarGamesComponent } from './user/sidebar-games/sidebar-games.component';
 import { FirstElementPipe } from './first-element.pipe';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -25,7 +25,7 @@ import { ShortenPipe } from './shorten.pipe';
     NewsArticleComponent,
     GameNewsListComponent,
     NewsSummaryComponent,
-    GameListComponent,
+    SidebarGamesComponent,
     FirstElementPipe,
     HeaderComponent,
     FooterComponent,
