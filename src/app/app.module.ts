@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AllNewsListComponent } from './news/all-news-list/all-news-list.component';
@@ -36,7 +37,8 @@ import { ShortenPipe } from './shorten.pipe';
     BrowserModule,
     HttpModule,
     FlexLayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule
   ],
   providers: [UserService, NewsService],
   bootstrap: [AppComponent]

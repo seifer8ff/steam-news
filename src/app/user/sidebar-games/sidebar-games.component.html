@@ -1,4 +1,4 @@
-<aside class="container content-container" [fxHide]="!(userService.sidebarIsOpen() | async)" (appClickOutside)="userService.closeSidebar()">
+<aside class="container content-container" *ngIf="(userService.sidebarIsOpen() | async)" [@sidebarState] (appClickOutside)="userService.closeSidebar()">
   <div class="sidebar-inner">
     <div class="title-container">
       <h2>Game Track List</h2>
@@ -18,4 +18,4 @@
     </ul>
   </div>
 </aside>
-<div class="sidebar-overlay" [fxHide]="!(userService.sidebarIsOpen() | async)"></div>
+<div class="sidebar-overlay" *ngIf="(userService.sidebarIsOpen() | async)" [@sidebarOverlayState]></div>
