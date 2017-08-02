@@ -6,7 +6,8 @@
 div {
     padding: 8px;
     text-align: center;
-    background-color: #2a2a2d;
+    background-color: #64c0f4;
+    color: #303030;
     
 }
 
@@ -19,4 +20,5 @@ h6 {
 a {
     display: inline-block;
     font-size: 0.9em;
+    color: #303030;
 }

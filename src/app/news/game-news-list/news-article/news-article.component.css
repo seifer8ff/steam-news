@@ -15,8 +15,8 @@
 }
 
 .article-bottom:hover {
-    border-radius: 4px;
-    background-color: #64c0f4;
+    border-radius: 0px 0px 4px 4px;
+    background-color: #9bf3ff;
 }
 
 .article-bottom:hover p {

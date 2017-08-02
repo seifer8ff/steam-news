@@ -9,12 +9,13 @@
       <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button>
     </div>
     <ul>
-      <li *ngFor="let game of (userService.getGameList() | async)" [routerLink]="['news', game.appId]">
-        <a>{{ game.title }}</a>
+      <li fxLayoutAlign="space-between" *ngFor="let game of (userService.getGameList() | async)">
+        <a fxFlex="grow" class="list-item" [routerLink]="['news', game.appId]">{{ game.title }}</a>
+        <div fxFlex="10" class="list-item delete" (click)="this.userService.onRemoveGame(game.appId)">
+          <img  src="assets/268-minus.svg" alt="Minus Icon">
+        </div>
       </li>
     </ul>
   </div>
 </aside>
-<div class="sidebar-overlay" [fxHide]="!(userService.sidebarIsOpen() | async)">
-  test
-</div>
+<div class="sidebar-overlay" [fxHide]="!(userService.sidebarIsOpen() | async)"></div>

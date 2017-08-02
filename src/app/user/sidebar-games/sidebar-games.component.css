@@ -24,39 +24,6 @@
     z-index: 9;
 }
 
-
-ul {
-    padding: 0;
-    text-align: left;
-    list-style: none;
-}
-
-ul li {
-     /* background-color: #9bf3ff;  */
-     /* background-color: #6e7c8d;  */
-    /* background-color: rgba(155, 243, 255, 0.3); */
-     /* background-color: rgba(200, 210, 255, 0.1);  */
+.list-item {
     font-size: 2em;
-    background-color: rgba(0, 0, 30, 0.15); 
-    padding: 5px 10px 5px 10px;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    transition: all 0.2s ease;
-}
-
-ul li:hover {
-    background-color: #64c0f4;
-    -webkit-transform: scale(1.03); 
-      -ms-transform: scale(1.03); 
-          transform: scale(1.03);
-}
-
-ul li:hover a {
-    color: #303030;
-}
-
-
-ul a {
-    /* color: #303030; */
-    text-decoration: none;
 }

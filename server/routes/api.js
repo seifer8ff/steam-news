@@ -48,6 +48,7 @@ router.get('/news', (req, res) => {
   })
 });
 
+// get all game data (appId + title)
 router.get('/games', (req, res) => {
   console.log('querying DB for gamedata');
 
@@ -57,16 +58,25 @@ router.get('/games', (req, res) => {
   });
 });
 
+// get the users current tracked game list
 router.get('/gamelist', (req, res) => {
   console.log('querying DB for gameList');
 
   TrackedGames.find()
-  // .then(data => data.map(games => games.appId))
   .then(games => {
     res.status(200).json(games)
   });
 });
 
+// delete a game from the users tracked game list
+router.delete('/gamelist/:appId', (req, res) => {
+  TrackedGames.findOneAndRemove({appId: req.params.appId})
+    .then(doc => {
+      res.status(200).json(doc);
+    });
+});
+
+// add a game to the users tracked game list
 router.post('/gamelist', (req, res) => {
   console.log('trying to add appId to gameList');
   console.log(req.body);

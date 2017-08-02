@@ -10,8 +10,8 @@
     <h4 class="article-list-title">{{ userService.getGame(appId)?.title }} News Articles</h4>
     <a href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Link to Store Page</a>
     <ul>
-      <li *ngFor="let news of (newsService.getGameNews(appId) | async)" [routerLink] fragment="{{ a + news.articleId }}">
-        <a>{{ news.title | shorten:45 }}</a>
+      <li fxLayout="row" *ngFor="let news of (newsService.getGameNews(appId) | async)">
+        <a class="list-item" [routerLink] fragment="{{ a + news.articleId }}">{{ news.title | shorten:35 }}</a>
       </li>
     </ul>
   </div>

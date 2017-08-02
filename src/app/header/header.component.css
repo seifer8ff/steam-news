@@ -5,10 +5,7 @@
 
 .header-container {
     position: relative;
-    /* background-color: #2a2a2d;  */
-    /* background-color: #212121;  */
-     background-color: #2190c1; 
-    /* padding: 20px; */
+    background-color: #64c0f4; 
     z-index: 4;
     box-shadow: 0px 2px 20px 2px #202021;
 }
@@ -20,14 +17,22 @@ button {
     background-color: transparent;
 }
 
+button img {
+      height: 24px;  
+}
+
 .header-item {
-    padding: 12px;
-    /* color: #303030; */
+    padding: 16px;
+     color: #303030; 
     font-size: 1.3em;
     text-decoration: none;
 }
 
+.header-item.icon {
+     padding: 0; 
+}
+
 .header-item:hover {
-    background-color: #64c0f4;
-     color: #303030; 
+    background-color: #2190c1;
+    color: #dddddd;  
 }
