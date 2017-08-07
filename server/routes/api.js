@@ -12,6 +12,25 @@ const User = require("../models/user");
 const expressJwt = require('express-jwt');  
 const authenticate = expressJwt({secret : auth.secret});
 
+var dummyGameList = [
+  {
+    appId: '440',
+    title: 'Team Fortress 2'
+  },
+  {
+    appId: '582660',
+    title: 'Black Desert Online'
+  },
+  {
+    appId: '252950',
+    title: 'Rocket League'
+  },
+  {
+    appId: '211820',
+    title: 'Starbound'
+  }
+];
+
 
 
 // initialize and configure passport
@@ -57,15 +76,12 @@ router.get('/news', (req, res) => {
       .then(news => newsObj[appId] = news);
   })
   .then(() => {
-    console.log('all promises done and returning');
     res.status(200).json(newsObj);
   })
 });
 
 // get all game data (appId + title)
 router.get('/games', (req, res) => {
-  console.log('querying DB for gamedata');
-
   Games.find()
   .then(games => {
     res.status(200).json(games)
@@ -73,6 +89,14 @@ router.get('/games', (req, res) => {
 });
 
 
+
+// DEMO ROUTES --------------------------
+
+// get a dummy gamelist
+router.get('/demo/gamelist/', (req, res) => {
+  console.log('returning dummy gamelist');
+  res.status(200).json(dummyGameList);
+});
 
 
 
@@ -121,6 +145,8 @@ router.post('/:username/gamelist', authenticate, (req, res) => {
 
 
 
+
+
 // MIDDLEWARE -------------------------------
 
 function generateToken(req, res, next) {  
@@ -134,14 +160,16 @@ function generateToken(req, res, next) {
 
 function respond(req, res) {
   res.status(200).json({
-    username: req.user.username,
-    gameList: req.user.gameList,
+    user: {
+      username: req.user.username,
+      gameList: req.user.gameList,
+    },
     token: req.token
   });
 }
 
 function registerUser(req, res, next) {
-  var user = new User({ username: req.body.username, password: req.body.password });
+  let user = new User({ username: req.body.username, password: req.body.password });
   // save in Mongo
   user.save(function(err) {
     if(err) {

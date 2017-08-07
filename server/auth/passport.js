@@ -43,7 +43,12 @@ module.exports = function() {
       }
       // if the user is found then log them in
       if (user) {
-        return done(null, user); // user found, return that user
+        user.comparePassword(password, function(err, isMatch) {
+          if (err) throw err;
+          if (isMatch) {
+            return done(null, user); // user found, return that user
+          }
+        });
       }
       // no user
       if (!user) {

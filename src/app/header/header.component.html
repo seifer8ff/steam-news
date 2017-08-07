@@ -5,7 +5,10 @@
   <a class="header-item" [routerLink]="['news']">
     Home
   </a>
-  <a class="header-item" [routerLink]="['login']">
+  <a class="header-item" *ngIf="!userService.isLoggedIn()" [routerLink]="['login']">
     Login
+  </a>
+  <a class="header-item right" *ngIf="userService.isLoggedIn()" (click)="userService.logOut()">
+    {{ userService.currentUser?.username }} - logout
   </a>
 </div>

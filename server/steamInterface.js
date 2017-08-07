@@ -60,7 +60,7 @@ steam.refreshNews = function() {
     })  
 }
 
-function refreshGameNames() {
+steam.refreshGameNames = function() {
     axios.get(steam.gameNameURL)
         // .then(response => console.log(response.data))
         .then(response => response.data.applist.apps)
@@ -117,16 +117,28 @@ function addNewsItemToDB(newsItem) {
 
 function addBaseGames() {
     console.log("adding dummy games to db");
-    var game1 = {
+    let baseGames = [
+        {
         appId: '440',
         title: 'Team Fortress 2'
-    }
-    var game2 = {
-        appId: '361420',
-        title: 'Astroneer'
-    }
-    TrackedGames.findOneAndUpdate(game1, game1, {upsert:true}, (err, doc) => {});
-    TrackedGames.findOneAndUpdate(game2, game2, {upsert:true}, (err, doc) => {});
+        },
+        {
+        appId: '582660',
+        title: 'Black Desert Online'
+        },
+        {
+        appId: '252950',
+        title: 'Rocket League'
+        },
+        {
+        appId: '211820',
+        title: 'Starbound'
+        }
+    ];
+    
+    baseGames.forEach(game => {
+        TrackedGames.findOneAndUpdate(game, game, {upsert:true}, (err, doc) => {});
+    })
 }
 
 

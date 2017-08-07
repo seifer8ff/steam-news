@@ -26,6 +26,7 @@ button img {
      color: #303030; 
     font-size: 1.3em;
     text-decoration: none;
+    text-transform: uppercase;
 }
 
 .header-item.icon {
@@ -35,4 +36,8 @@ button img {
 .header-item:hover {
     background-color: #2190c1;
     color: #dddddd;  
+}
+
+.header-item.right {
+    margin-left: auto;
 }

@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+const bcrypt = require('bcrypt');
 
 var gameSchema = new mongoose.Schema({
     appId: String,
@@ -19,7 +20,25 @@ userSchema.pre("save", function(next) {
         title: "Team Fortress 2"
     });
   }
-  next();
+
+  if (!this.isModified('password')) {
+      next();
+  }
+  if (this.isModified('password')) {
+    bcrypt.hash(this.password, 10, (err, hash) => {
+        this.password = hash;
+        next();
+    });
+  }
 });
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if (err) return cb(err);
+        cb(null, isMatch);
+    });
+};
+
+
 
 module.exports = mongoose.model("user", userSchema);

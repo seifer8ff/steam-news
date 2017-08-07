@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { User } from './user';
 import { Game } from './game';
 import { AuthHttp } from 'angular2-jwt';
+import { tokenNotExpired } from 'angular2-jwt';
 
 @Injectable()
 export class UserService {
@@ -15,8 +16,7 @@ export class UserService {
     [
       { appId: '440', title: 'Team Fortress 2' },
       { appId: '211820', title: 'Starbound' }
-    ],
-    null
+    ]
   );
   gameData: Game[] = [];
   gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
@@ -28,15 +28,18 @@ export class UserService {
   }
 
    init() {
+     // get stored user for display while data is updating
      if (localStorage.getItem('currentUser')) {
        let storedUser = JSON.parse(localStorage.getItem('currentUser'));
-       this.currentUser = new User(storedUser.username, storedUser.gameList, storedUser.token);
+       this.currentUser = new User(storedUser.username, storedUser.gameList);
      }
 
+     // get latest game list from backend
      this.gameListSub
       .subscribe(gameList => this.currentUser.gameList = gameList);
     this.updateGameList();
     
+    // get latest listing of appIds and titles from backend
     this.http.get('api/games')
       .map((gameDataRes: Response) => gameDataRes.json())
       .subscribe(gameDataRes => {
@@ -95,9 +98,16 @@ export class UserService {
     }
   }
 
+  // get latest game list for user from backend
   updateGameList() {
+    let url = 'api/'
 
-    this.authHttp.get('api/' + this.currentUser.username + '/gamelist')
+    if (!this.isLoggedIn()) {
+      url += 'demo/gamelist'
+    } else {
+      url += this.currentUser.username + '/gamelist';
+    }
+    this.authHttp.get(url)
       .map((res: Response) => {
         console.log(res);
         return res;
@@ -108,6 +118,7 @@ export class UserService {
       });
   }
 
+  // find game by appId (typically used to find game title by appId)
   getGame(appId: string) {
     if (!this.gameData.length) return {appId: '0', title: 'Game'};
 
@@ -115,21 +126,23 @@ export class UserService {
     return match;
   }
 
+
+  // AUTH --------------------------------------------
+
   register(username: string, password: string) {
-    console.log("signing up with");
-    console.log(username + " " + password);
-
     let user = { username: username, password: password };
-
     let jsonHeaders = new Headers({
       'Content-Type': 'application/json'
     });
 
     this.http.post('/api/register', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
-      .subscribe(userObj => {
-        console.log(userObj);
-        localStorage.setItem('currentUser', JSON.stringify(userObj));
+      .subscribe(resObj => {
+        this.currentUser = resObj.user;
+        localStorage.setItem('currentUser', JSON.stringify(resObj.user));
+        localStorage.setItem('token', resObj.token);
+        this.init();
+        this.router.navigate(['news']);
       });
   }
 
@@ -145,10 +158,23 @@ export class UserService {
 
     this.http.post('/api/login', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
-      .subscribe(userObj => {
-        console.log(userObj);
-        localStorage.setItem('currentUser', JSON.stringify(userObj));
+      .subscribe(resObj => {
+        this.currentUser = resObj.user;
+        localStorage.setItem('currentUser', JSON.stringify(resObj.user));
+        localStorage.setItem('token', resObj.token);
+        this.init();
+        this.router.navigate(['news']);
       });
+  }
+
+  logOut() {
+    localStorage.clear();
+    this.init();
+    this.router.navigate(['news']);
+  }
+
+  isLoggedIn() {
+    return tokenNotExpired();
   }
 
 
