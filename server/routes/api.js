@@ -1,15 +1,29 @@
 const express = require('express');
 const router = express.Router();
+const passport	= require("passport");
 const News = require('../models/news');
 const Games = require('../models/game');
 const TrackedGames = require('../models/tracked-game');
 const steam = require('../steamInterface');
 const Promise = require('bluebird');
+const jwt = require('jsonwebtoken');
+const auth = require("../auth/auth");
+const User = require("../models/user");
+const expressJwt = require('express-jwt');  
+const authenticate = expressJwt({secret : auth.secret});
+
+
+
+// initialize and configure passport
+require("../auth/passport")(passport);
+
 
 /* GET api listing. */
 router.get('/', (req, res) => {
   res.send('api works');
 });
+
+// NEWS ROUTES ----------------------------------------------
 
 //  GET news for all appIds in query string 
 router.get('/news', (req, res) => {
@@ -58,38 +72,87 @@ router.get('/games', (req, res) => {
   });
 });
 
+
+
+
+
+// USER ROUTES --------------------------------
+
+// register a user
+router.post('/register', registerUser, passport.authenticate('local', { session: false }), generateToken, respond);
+
+// login a user
+router.post('/login', passport.authenticate('local', { session: false }), generateToken, respond);
+
 // get the users current tracked game list
-router.get('/gamelist', (req, res) => {
-  console.log('querying DB for gameList');
-
-  TrackedGames.find()
-  .then(games => {
-    res.status(200).json(games)
-  });
-});
-
-// delete a game from the users tracked game list
-router.delete('/gamelist/:appId', (req, res) => {
-  TrackedGames.findOneAndRemove({appId: req.params.appId})
-    .then(doc => {
-      res.status(200).json(doc);
+router.get('/:username/gamelist/', authenticate, (req, res) => {
+  console.log('getting gamelist for: ' + req.params.username);
+  User.findOne({username: req.params.username})
+    .then(user => user.gameList)
+    .then(gameList => {
+      res.status(200).json(gameList);
     });
 });
 
-// add a game to the users tracked game list
-router.post('/gamelist', (req, res) => {
-  console.log('trying to add appId to gameList');
-  console.log(req.body);
-  if (req.body.appId && req.body.title) {
-    console.log('appId received: ' + req.body.appId);
+// delete a game from the users tracked game list
+router.delete('/:username/gamelist/:appId', authenticate, (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.params.username },
+    { "$pull": { "gameList": { "appId": req.params.appId } }},
+    { "new": true },
+    (err, user) => {
+      return res.status(200).json(user);
+    }
+  );
+});
 
+// add a game to the users tracked game list
+router.post('/:username/gamelist', authenticate, (req, res) => {
+  console.log('adding ' + req.body.title + ' to game track list');
+  if (req.body.appId && req.body.title) {
     var newGame = req.body;
-    TrackedGames.findOneAndUpdate(newGame, newGame, {upsert:true}, (err, doc) => {
+    User.findOneAndUpdate({ username: req.params.username }, { $push: {gameList: newGame} }, (err, doc) => {
       if (err) console.log(err);
     });
   } else {
     console.log('invalid appId received');
   }
 });
+
+
+
+// MIDDLEWARE -------------------------------
+
+function generateToken(req, res, next) {  
+  req.token = jwt.sign({
+    username: req.user.username
+  }, auth.secret, {
+    expiresIn: '1 days'
+  });
+  next();
+}
+
+function respond(req, res) {
+  res.status(200).json({
+    username: req.user.username,
+    gameList: req.user.gameList,
+    token: req.token
+  });
+}
+
+function registerUser(req, res, next) {
+  var user = new User({ username: req.body.username, password: req.body.password });
+  // save in Mongo
+  user.save(function(err) {
+    if(err) {
+      console.log(err);
+    } else {
+      console.log('user: ' + user.username + " saved.");
+    }
+    next();
+  });
+}
+
+
 
 module.exports = router;

@@ -1,11 +1,11 @@
-<div class="header-container" fxLayout="row" fxLayoutAlign="stretch center" fxLayoutGap="60px" fxFlexFill>
+<div class="header-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="60px" fxFlexFill>
   <button class="header-item icon click-outside" (click)="userService.openSidebar()" fxFlex="5">
     <img class="click-outside" src="assets/190-menu.svg" alt="Menu Icon"> 
   </button>
   <a class="header-item" [routerLink]="['news']">
     Home
   </a>
-  <a class="header-item">
-    User
+  <a class="header-item" [routerLink]="['login']">
+    Login
   </a>
 </div>

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 
 import { User } from './user';
 import { Game } from './game';
+import { AuthHttp } from 'angular2-jwt';
 
 @Injectable()
 export class UserService {
@@ -14,18 +15,24 @@ export class UserService {
     [
       { appId: '440', title: 'Team Fortress 2' },
       { appId: '211820', title: 'Starbound' }
-    ]
+    ],
+    null
   );
   gameData: Game[] = [];
   gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
   gameDataSub: ReplaySubject<Game[]> = new ReplaySubject(1);
   sidebarToggleSub: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private http: Http, private router: Router) {
+  constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
     this.init();
   }
 
    init() {
+     if (localStorage.getItem('currentUser')) {
+       let storedUser = JSON.parse(localStorage.getItem('currentUser'));
+       this.currentUser = new User(storedUser.username, storedUser.gameList, storedUser.token);
+     }
+
      this.gameListSub
       .subscribe(gameList => this.currentUser.gameList = gameList);
     this.updateGameList();
@@ -62,7 +69,7 @@ export class UserService {
         'Content-Type': 'application/json'
       });
 
-      this.http.post('/api/gamelist', JSON.stringify(newGame), {headers: jsonHeaders})
+      this.authHttp.post('/api/' + this.currentUser.username + '/gamelist', JSON.stringify(newGame), {headers: jsonHeaders})
       .subscribe();
     }
   }
@@ -78,11 +85,7 @@ export class UserService {
       this.router.navigate(['news']);
 
       // POST TO BACKEND 
-      let jsonHeaders = new Headers({
-        'Content-Type': 'application/json'
-      });
-
-      this.http.delete('/api/gamelist/' + appId, {headers: jsonHeaders})
+      this.authHttp.delete('/api/' + this.currentUser.username + '/gamelist/' + appId)
       .subscribe(res => {
         if (res.status === 200) {
           // update gameList for all components
@@ -93,7 +96,12 @@ export class UserService {
   }
 
   updateGameList() {
-    this.http.get('api/gamelist')
+
+    this.authHttp.get('api/' + this.currentUser.username + '/gamelist')
+      .map((res: Response) => {
+        console.log(res);
+        return res;
+      })
       .map((gameListRes: Response) => gameListRes.json())
       .subscribe(gameListRes => {
         this.gameListSub.next(gameListRes);
@@ -107,6 +115,46 @@ export class UserService {
     return match;
   }
 
+  register(username: string, password: string) {
+    console.log("signing up with");
+    console.log(username + " " + password);
+
+    let user = { username: username, password: password };
+
+    let jsonHeaders = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    this.http.post('/api/register', JSON.stringify(user), {headers: jsonHeaders})
+      .map(res => res.json())
+      .subscribe(userObj => {
+        console.log(userObj);
+        localStorage.setItem('currentUser', JSON.stringify(userObj));
+      });
+  }
+
+  logIn(username: string, password: string) {
+    console.log('logging in with');
+    console.log(username + " " + password);
+
+    let user = { username: username, password: password };
+
+    let jsonHeaders = new Headers({
+      'Content-Type': 'application/json'
+    });
+
+    this.http.post('/api/login', JSON.stringify(user), {headers: jsonHeaders})
+      .map(res => res.json())
+      .subscribe(userObj => {
+        console.log(userObj);
+        localStorage.setItem('currentUser', JSON.stringify(userObj));
+      });
+  }
+
+
+
+  // SIDEBAR ----------------------
+  
   sidebarIsOpen() {
     return this.sidebarToggleSub;
   }
