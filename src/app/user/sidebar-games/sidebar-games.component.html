@@ -1,12 +1,8 @@
 <aside class="container content-container" *ngIf="(userService.sidebarIsOpen() | async)" [@sidebarState] (appClickOutside)="userService.closeSidebar()">
   <div class="sidebar-inner">
-    <div class="title-container">
-      <h2>Games</h2>
-    </div>
-    <hr>
     <div *ngIf="userService.isLoggedIn()">
-      <input #newGame type="text">
-      <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button>
+      <input #newGame type="text" class="content-container search" placeholder="Add Game">
+      <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button> 
     </div>
     <ul>
       <li fxLayoutAlign="space-between" *ngFor="let game of (userService.getGameList() | async)">

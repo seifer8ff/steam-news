@@ -1,10 +1,10 @@
-<article class="content-container" [routerLink]="[newsItem?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
-    <div class="title-container sub" fxFlex="90px">
-        <h2 class="deep-ignore">{{ game?.title  }}</h2> 
+<article class="content-container hover" [routerLink]="[newsItem?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
+    <div class="media-container">
+         <img class="media deep-ignore" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ newsItem?.appId }}/header.jpg" alt="banner"> 
     </div>
     <div class="summary-content" fxFlex="grow">
-        <h3>{{ newsItem?.title }} - {{ newsItem?.getDate() | date }}</h3>
-        <hr>
+        <h3 class="title">{{ newsItem?.title }}</h3>
+        <h5 class="subtitle">{{ newsItem?.getDate() | date }}</h5>
         <div class="summary-body" [innerHTML]="newsItem?.body | shorten:150"></div> 
     </div>
 </article> 

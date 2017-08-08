@@ -1,8 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="center start">
   <article class="content-container" fxFlex="85">
-    <div class="title-container sub">
-      <h2 class="deep-ignore" id="{{ a + newsItem.articleId }}">{{ newsItem.title }} - {{ newsItem.getDate() | date }}</h2>
-    </div>
+    <h2 class="title deep-ignore" id="{{ a + newsItem.articleId }}">{{ newsItem.title }}</h2>
+    <h5 class="subtitle deep-ignore">{{ newsItem.getDate() | date }}</h5>
     <div class="article-body" [innerHTML]="newsItem.body"></div>
     <a class="article-link" href="{{ newsItem.url }}">
       <div class="article-bottom">
