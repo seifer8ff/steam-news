@@ -4,16 +4,30 @@ const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
+const passport	= require("passport");
 const scheduler = require('node-schedule');
 const steam = require("./server/steamInterface");
+const jwt = require('jsonwebtoken');
+const auth = require("./server/auth/auth");
+
+if(!process.env.MONGODB_URI) {
+  var env = require('./server/env.js');
+}
 
 // Get our API routes
 const api = require('./server/routes/api');
 
 const app = express();
 
+// initialize and configure passport
+require("./server/auth/passport")(passport);
+app.use(passport.initialize());
+
+
+
+
 mongoose.Promise = require('bluebird');
-mongoose.connect("mongodb://localhost/steam-news");
+mongoose.connect(process.env.MONGODB_URI);
 
 // Parsers for POST data
 app.use(bodyParser.json());

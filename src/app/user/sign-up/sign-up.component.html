@@ -1,0 +1,12 @@
+<div>
+  <h1>Sign Up to get the latest news on your Steam Wishlist!</h1>
+  <h2>Sign Up</h2>
+  <input #newUsername type="text">
+  <input #newPassword type="text">
+  <button (click)="userService.register(newUsername.value, newPassword.value); newUsername.value=null; newPassword.value=null;">Submit</button> 
+  <hr>
+  <h2>Login</h2>
+  <input #username type="text">
+  <input #password type="text">
+  <button (click)="userService.logIn(username.value, password.value); username.value=null; password.value=null;">Submit</button> 
+</div>

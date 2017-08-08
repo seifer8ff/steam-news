@@ -18,6 +18,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ClickOutsideDirective } from './click-outside.directive';
 import { ShortenPipe } from './shorten.pipe';
+import { SignUpComponent } from './user/sign-up/sign-up.component';
+import { AuthModule } from './auth.module';
 
 @NgModule({
   declarations: [
@@ -31,14 +33,16 @@ import { ShortenPipe } from './shorten.pipe';
     HeaderComponent,
     FooterComponent,
     ClickOutsideDirective,
-    ShortenPipe
+    ShortenPipe,
+    SignUpComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FlexLayoutModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AuthModule
   ],
   providers: [UserService, NewsService],
   bootstrap: [AppComponent]

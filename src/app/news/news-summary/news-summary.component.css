@@ -7,13 +7,6 @@
 
 .content-container {
     cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.content-container:hover {
-    -webkit-transform: scale(1.1); 
-      -ms-transform: scale(1.1); 
-          transform: scale(1.1);
 }
 
 .summary-content {
@@ -21,16 +14,8 @@
     letter-spacing: 0.02em; 
 }
 
-.summary-content > h3 {
-    font-size: 1.1em;
-    text-align: center;
-}
-
-.summary-content hr {
-    opacity: 0.5;
-}
-
 .summary-body {
+    margin-top: 12px;
     line-height: 1.7em;
     font-size: 1em; 
 }
