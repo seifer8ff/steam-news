@@ -3,12 +3,9 @@
     <h2 class="title deep-ignore" id="{{ a + newsItem.articleId }}">{{ newsItem.title }}</h2>
     <h5 class="subtitle deep-ignore">{{ newsItem.getDate() | date }}</h5>
     <div class="article-body" [innerHTML]="newsItem.body"></div>
-    <a class="article-link" href="{{ newsItem.url }}">
-      <div class="article-bottom">
-        <hr>
-        <p>View on Steam</p>
-      </div>
-    </a>
+    <div class="article-bottom">
+      <a class="button raised" href="{{ newsItem.url }}">View on Steam</a>
+    </div>
   </article> 
 </div>
 

@@ -24,9 +24,9 @@
     z-index: 9;
 }
 
-.list-item {
-    font-size: 2em;
-}
+ .list-item {
+    font-size: 1.6em;
+} 
 
 .search {
     margin-left: auto;

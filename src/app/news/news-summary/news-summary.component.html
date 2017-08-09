@@ -1,6 +1,6 @@
 <article class="content-container hover" [routerLink]="[newsItem?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
     <div class="media-container">
-         <img class="media deep-ignore" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ newsItem?.appId }}/header.jpg" alt="banner"> 
+        <img class="media deep-ignore" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ newsItem?.appId }}/header.jpg" alt="{{ newsItem?.appId }} banner"> 
     </div>
     <div class="summary-content" fxFlex="grow">
         <h3 class="title">{{ newsItem?.title }}</h3>

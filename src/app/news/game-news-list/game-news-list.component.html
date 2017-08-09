@@ -6,9 +6,12 @@
   <app-news-article *ngFor="let article of (newsService.getGameNews(appId) | async)" [newsItem]="article"></app-news-article>
 </div>
 <aside class="container article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="20">
+  <div class="media-container">
+      <img class="media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
+      <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
+  </div>
   <div class="article-list-inner">
-    <h4 class="article-list-title">{{ userService.getGame(appId)?.title }} News Articles</h4>
-    <a href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Link to Store Page</a>
+    <h2 class="title">Articles</h2>
     <ul>
       <li fxLayout="row" *ngFor="let news of (newsService.getGameNews(appId) | async)">
         <a class="list-item" [routerLink] fragment="{{ a + news.articleId }}">{{ news.title | shorten:35 }}</a>

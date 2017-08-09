@@ -19,16 +19,16 @@
 }
 
 .article-list-inner {
-    padding: 20px;
-}
-
-.list-item {
-    padding: 5px 10px 5px 10px; 
-    margin-top: 3px;
-    margin-bottom: 3px; 
+    padding: 0px 20px 20px 20px;
 }
 
 .article-list-title {
      margin-top: 20px; 
+}
+
+.button {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
 }
 
