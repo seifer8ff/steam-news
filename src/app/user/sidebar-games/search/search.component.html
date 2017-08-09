@@ -1,0 +1,9 @@
+<div #searchContainer>
+  <input #newGame type="text" class="content-container search" placeholder="Add Game" [(ngModel)]=query (keyup)=filter()>
+  <ul *ngIf="filteredGames.length > 0">
+    <li *ngFor="let suggestion of filteredGames">
+      <a (click)="select(suggestion)">{{ suggestion.title }}</a>
+    </li>
+  </ul>
+</div>
+<!-- <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button>  -->

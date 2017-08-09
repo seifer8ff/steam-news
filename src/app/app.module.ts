@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AllNewsListComponent } from './news/all-news-list/all-news-list.component';
@@ -20,6 +21,7 @@ import { ClickOutsideDirective } from './click-outside.directive';
 import { ShortenPipe } from './shorten.pipe';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 import { AuthModule } from './auth.module';
+import { SearchComponent } from './user/sidebar-games/search/search.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { AuthModule } from './auth.module';
     FooterComponent,
     ClickOutsideDirective,
     ShortenPipe,
-    SignUpComponent
+    SignUpComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { AuthModule } from './auth.module';
     FlexLayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AuthModule
+    AuthModule,
+    FormsModule
   ],
   providers: [UserService, NewsService],
   bootstrap: [AppComponent]
