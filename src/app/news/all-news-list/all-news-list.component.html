@@ -6,8 +6,8 @@
     <div fxLayout="row wrap" fxLayoutAlign="space-around stretch" fxFlex="90">
       <app-news-summary 
         fxFlex="375px"
-        *ngFor="let game of (userService?.getGameList() | async)" 
-        [newsItem]="newsService?.getGameNews(game?.appId) | async | firstElement"
+        *ngFor="let game of this.gameList" 
+        [newsItem]="this.allNews[game.appId] | firstElement"
         [game]="game">
       </app-news-summary>
     </div>

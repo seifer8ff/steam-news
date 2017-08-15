@@ -1,8 +1,10 @@
-<div #searchContainer>
+<div id="search-container" #searchContainer>
   <input #newGame type="text" class="content-container search" placeholder="Add Game" [(ngModel)]=query (keyup)=filter()>
   <ul *ngIf="filteredGames.length > 0">
-    <li *ngFor="let suggestion of filteredGames">
-      <a (click)="select(suggestion)">{{ suggestion.title }}</a>
+    <li class="suggestion-item" *ngFor="let suggestion of filteredGames">
+      <img class="suggestion-image" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ suggestion.appId }}/header.jpg" 
+        alt="{{ appId }} banner" default="http://cdn.akamai.steamstatic.com/steam/apps/440/header.jpg">
+      <a class="suggestion-link" (click)="select(suggestion)">{{ suggestion.title | shorten:25 }}</a>
     </li>
   </ul>
 </div>

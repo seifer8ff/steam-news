@@ -43,6 +43,16 @@ export class UserService {
     this.http.get('api/games')
       .map((gameDataRes: Response) => gameDataRes.json())
       .subscribe(gameDataRes => {
+        gameDataRes = gameDataRes.filter((el) => {
+          return !el.title.toLowerCase().includes('server') && 
+            !el.title.toLowerCase().includes('soundtrack') &&
+            !el.title.toLowerCase().includes('unstable') &&
+            !el.title.toLowerCase().includes('soundtrack') &&
+            !el.title.toLowerCase().includes('trailer') &&
+            !el.title.toLowerCase().includes('dlc') &&
+            !el.title.toLowerCase().includes('demo') &&
+            !el.title.toLowerCase().includes('bundle');
+        });
         this.gameDataSub.next(gameDataRes);
         this.gameDataSub.
           subscribe(gameData => this.gameData = gameData);
@@ -63,6 +73,7 @@ export class UserService {
 
   onAddGame(appId: string) {
     if (!this.currentUser.gameList.find(thisGame => thisGame.appId === appId)) {
+      console.log('adding game to users gameList');
       var newGame = new Game(appId, this.getGame(appId).title);
       
       this.currentUser.gameList.push(newGame);

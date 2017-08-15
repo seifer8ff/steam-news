@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 import { UserService } from '../../user.service';
+import { NewsService } from '../../../news/news.service';
 import { Game } from '../../game';
 
 @Component({
@@ -19,7 +20,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   gameData: Game[];
   gameData$: Subscription;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private newsService: NewsService) { }
 
   ngOnInit() {
     this.gameData$ = this.userService.getGameData().subscribe((games) => {
@@ -37,9 +38,15 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
  
-  select(game){
+  select(game) {
+    // show game title in search bar
     this.query = game.title;
-    // add game to backend using game.appId
+
+    // add game to user's game list + get news from backend
+    this.newsService.onAddGame(game.appId); 
+    this.userService.onAddGame(game.appId);
+
+    // clear list after short timeout
     setTimeout(() => {
       this.filteredGames = [];
     }, 500);

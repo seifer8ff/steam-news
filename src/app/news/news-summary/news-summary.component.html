@@ -1,6 +1,7 @@
-<article class="content-container hover" [routerLink]="[newsItem?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
+<article class="content-container hover" [routerLink]="[game?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlexFill>
     <div class="media-container">
-        <img class="media deep-ignore" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ newsItem?.appId }}/header.jpg" alt="{{ newsItem?.appId }} banner"> 
+        <img class="media deep-ignore" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ game?.appId }}/header.jpg" 
+            alt="{{ newsItem?.appId }} banner" default="http://cdn.akamai.steamstatic.com/steam/apps/440/header.jpg"> 
     </div>
     <div class="summary-content" fxFlex="grow">
         <h3 class="title">{{ newsItem?.title }}</h3>
