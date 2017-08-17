@@ -120,7 +120,6 @@ export class UserService {
     }
     this.authHttp.get(url)
       .map((res: Response) => {
-        console.log(res);
         return res;
       })
       .map((gameListRes: Response) => gameListRes.json())
