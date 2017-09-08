@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 import { UserService } from '../../user.service';
 import { NewsService } from '../../../news/news.service';
 import { Game } from '../../game';
+import { User } from '../../user';
 
 @Component({
   selector: 'app-search',
@@ -19,13 +21,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   filteredGames: Game[] = [];
   gameData: Game[];
   gameData$: Subscription;
+  user: User;
 
-  constructor(private userService: UserService, private newsService: NewsService) { }
+  constructor(private userService: UserService, private newsService: NewsService, private router: Router) { }
 
   ngOnInit() {
     this.gameData$ = this.userService.getGameData().subscribe((games) => {
       this.gameData = games;
     });
+    this.user = this.userService.getUser();
   }
 
   filter() {
@@ -38,13 +42,21 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
  
-  select(game) {
+  select(game: Game) {
     // show game title in search bar
     this.query = game.title;
-
-    // add game to user's game list + get news from backend
-    this.newsService.onAddGame(game.appId); 
-    this.userService.onAddGame(game.appId);
+    
+    // check if user already has game save to list
+    if (!this.user.gameList.some(el => el.appId === game.appId)) {
+      // add game to user's game list + get news from backend
+      this.newsService.onAddGame(game.appId); 
+      this.userService.onAddGame(game.appId);
+    } else {
+      // navigate to the game page and close the sidebar
+      console.log("already have game");
+      this.router.navigate(['news', game.appId]);
+      this.userService.closeSidebar();
+    }
 
     // clear list after short timeout
     setTimeout(() => {
