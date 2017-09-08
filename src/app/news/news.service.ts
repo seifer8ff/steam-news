@@ -14,7 +14,7 @@ export class NewsService {
 
   allNews: {};
   allNews$: ReplaySubject<any> = new ReplaySubject(1);
-  gameNews: ReplaySubject<any> = new ReplaySubject(1);
+  gameNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameList: Game[];
 
 
@@ -70,9 +70,9 @@ export class NewsService {
   getGameNews(appId: string) {
     // console.log("getting game news for appId: " + appId);
     this.getAllNews(false).subscribe((allNews) => {
-      this.gameNews.next(allNews[appId]);
+      this.gameNews$.next(allNews[appId]);
     });
-    return this.gameNews;
+    return this.gameNews$;
   }
 
   responseToNews(newsRes: any) {

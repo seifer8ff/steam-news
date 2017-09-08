@@ -19,9 +19,9 @@ export class UserService {
     ]
   );
   gameData: Game[] = [];
-  gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
-  gameDataSub: ReplaySubject<Game[]> = new ReplaySubject(1);
-  sidebarToggleSub: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
+  gameData$: ReplaySubject<Game[]> = new ReplaySubject(1);
+  sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
     this.init();
@@ -35,7 +35,7 @@ export class UserService {
      }
 
      // get latest game list from backend
-     this.gameListSub
+     this.gameList$
       .subscribe(gameList => this.currentUser.gameList = gameList);
     this.updateGameList();
     
@@ -53,8 +53,8 @@ export class UserService {
             !el.title.toLowerCase().includes('demo') &&
             !el.title.toLowerCase().includes('bundle');
         });
-        this.gameDataSub.next(gameDataRes);
-        this.gameDataSub.
+        this.gameData$.next(gameDataRes);
+        this.gameData$.
           subscribe(gameData => this.gameData = gameData);
       });
   }
@@ -64,11 +64,11 @@ export class UserService {
   }
 
   getGameList() {
-    return this.gameListSub;
+    return this.gameList$;
   }
 
   getGameData() {
-    return this.gameDataSub;
+    return this.gameData$;
   }
 
   onAddGame(appId: string) {
@@ -77,7 +77,7 @@ export class UserService {
       var newGame = new Game(appId, this.getGame(appId).title);
       
       this.currentUser.gameList.push(newGame);
-      this.gameListSub.next(this.currentUser.gameList);
+      this.gameList$.next(this.currentUser.gameList);
 
       let jsonHeaders = new Headers({
         'Content-Type': 'application/json'
@@ -103,7 +103,7 @@ export class UserService {
       .subscribe(res => {
         if (res.status === 200) {
           // update gameList for all components
-          this.gameListSub.next(updatedGameList);
+          this.gameList$.next(updatedGameList);
         }
       });
     }
@@ -124,7 +124,7 @@ export class UserService {
       })
       .map((gameListRes: Response) => gameListRes.json())
       .subscribe(gameListRes => {
-        this.gameListSub.next(gameListRes);
+        this.gameList$.next(gameListRes);
       });
   }
 
@@ -192,15 +192,15 @@ export class UserService {
   // SIDEBAR ----------------------
   
   sidebarIsOpen() {
-    return this.sidebarToggleSub;
+    return this.sidebarToggle$;
   }
 
   openSidebar() {
-    this.sidebarToggleSub.next(true);
+    this.sidebarToggle$.next(true);
   }
 
   closeSidebar() {
-    this.sidebarToggleSub.next(false);
+    this.sidebarToggle$.next(false);
   }
 
 }
