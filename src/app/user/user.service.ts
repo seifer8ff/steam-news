@@ -12,7 +12,7 @@ import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class UserService {
   currentUser: User = new User(
-    'Test User',
+    'Demo',
     [
       { appId: '440', title: 'Team Fortress 2' },
       { appId: '211820', title: 'Starbound' }
@@ -59,6 +59,7 @@ export class UserService {
       });
   }
 
+  // NEED TO REMOVE THIS OR TURN INTO OBSERVABLE (PROBABALY REMOVE)
   getUser() {
     return this.currentUser;
   }

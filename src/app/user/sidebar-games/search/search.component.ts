@@ -21,7 +21,8 @@ export class SearchComponent implements OnInit, OnDestroy {
   filteredGames: Game[] = [];
   gameData: Game[];
   gameData$: Subscription;
-  user: User;
+  gameList: Game[];
+  GameList$: Subscription;
 
   constructor(private userService: UserService, private newsService: NewsService, private router: Router) { }
 
@@ -29,7 +30,9 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.gameData$ = this.userService.getGameData().subscribe((games) => {
       this.gameData = games;
     });
-    this.user = this.userService.getUser();
+    this.GameList$ = this.userService.getGameList().subscribe((games) => {
+      this.gameList = games;
+    });
   }
 
   filter() {
@@ -47,7 +50,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.query = game.title;
     
     // check if user already has game save to list
-    if (!this.user.gameList.some(el => el.appId === game.appId)) {
+    if (!this.gameList.some(el => el.appId === game.appId)) {
       // add game to user's game list + get news from backend
       this.newsService.onAddGame(game.appId); 
       this.userService.onAddGame(game.appId);
@@ -80,6 +83,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gameData$.unsubscribe();
+    this.GameList$.unsubscribe();
   }
 
 }
