@@ -16,6 +16,7 @@ export class NewsService {
   allNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameList: Game[];
+  gameList$: Subscription;
 
 
   constructor(private http: Http, private userService: UserService) {
@@ -23,8 +24,7 @@ export class NewsService {
   }
 
   init() {
-    this.userService.getGameList()
-    .subscribe(gameList => {
+    this.gameList$ = this.userService.getGameList().subscribe(gameList => {
       this.gameList = gameList;
       console.log('news service picked up gameList change');
       console.log(this.gameList);
@@ -46,7 +46,7 @@ export class NewsService {
         this.allNews$.next(this.allNews);
       });
     }
-    return this.allNews$;
+    return this.allNews$.asObservable();
   }
 
   onAddGame(appId: string) {
@@ -72,7 +72,7 @@ export class NewsService {
     this.getAllNews(false).subscribe((allNews) => {
       this.gameNews$.next(allNews[appId]);
     });
-    return this.gameNews$;
+    return this.gameNews$.asObservable();
   }
 
   responseToNews(newsRes: any) {

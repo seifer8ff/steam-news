@@ -18,8 +18,8 @@ export class UserService {
       { appId: '211820', title: 'Starbound' }
     ]
   );
-  gameData: Game[] = [];
   gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
+  gameData: Game[] = [];
   gameData$: ReplaySubject<Game[]> = new ReplaySubject(1);
   sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
@@ -65,11 +65,11 @@ export class UserService {
   }
 
   getGameList() {
-    return this.gameList$;
+    return this.gameList$.asObservable();
   }
 
   getGameData() {
-    return this.gameData$;
+    return this.gameData$.asObservable();
   }
 
   onAddGame(appId: string) {
@@ -193,7 +193,7 @@ export class UserService {
   // SIDEBAR ----------------------
   
   sidebarIsOpen() {
-    return this.sidebarToggle$;
+    return this.sidebarToggle$.asObservable();
   }
 
   openSidebar() {
