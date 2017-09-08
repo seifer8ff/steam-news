@@ -6,6 +6,7 @@
   
   <div class="content-container" *ngIf="!this.newUser" [@newUser]>
     <h2>Log In</h2>
+    <h3 class="error" *ngIf="userService.loginErrorMessage">{{ userService.loginErrorMessage }}</h3>
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
       <div class="form-group">
         <input type="text" name="username" ngModel required minlength="4">

@@ -80,3 +80,9 @@ form input:focus {
 form input:focus {
     outline: none;
 }
+
+.error {
+    text-align: center;
+    font-size: 1.35em;
+    color: #f44949;
+}

@@ -106,7 +106,15 @@ router.get('/demo/gamelist/', (req, res) => {
 router.post('/register', registerUser, passport.authenticate('local', { session: false }), generateToken, respond);
 
 // login a user
-router.post('/login', passport.authenticate('local', { session: false }), generateToken, respond);
+router.post('/login', function(req, res, next) {
+  passport.authenticate('local', { session: false }, function(err, user) {
+    if (!user) {
+      return res.status(401).send({ success : false, message : 'authentication failed' });
+    }
+    req.user = user;
+    next();
+  })(req, res, next);
+}, generateToken, respond);
 
 // get the users current tracked game list
 router.get('/:username/gamelist/', authenticate, (req, res) => {

@@ -22,6 +22,8 @@ export class UserService {
   gameData: Game[] = [];
   gameData$: ReplaySubject<Game[]> = new ReplaySubject(1);
   sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  loginErrorMessage: string;
 
   constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
     this.init();
@@ -33,6 +35,10 @@ export class UserService {
        let storedUser = JSON.parse(localStorage.getItem('currentUser'));
        this.currentUser = new User(storedUser.username, storedUser.gameList);
      }
+
+     this.loginErrorMessage = null;
+
+     this.isLoggedIn$.next(tokenNotExpired());
 
      // get latest game list from backend
      this.gameList$
@@ -169,13 +175,20 @@ export class UserService {
 
     this.http.post('/api/login', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
-      .subscribe(resObj => {
-        this.currentUser = resObj.user;
-        localStorage.setItem('currentUser', JSON.stringify(resObj.user));
-        localStorage.setItem('token', resObj.token);
-        this.init();
-        this.router.navigate(['news']);
-      });
+      .subscribe(
+        data => { 
+          console.log(data);
+          this.currentUser = data.user;
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          localStorage.setItem('token', data.token);
+          this.init();
+          this.router.navigate(['news']);
+        }, err => {
+          if (err.status === 401) {
+            this.loginErrorMessage = "Incorrect Login Information"
+          }
+        }
+      )
   }
 
   logOut() {
@@ -185,7 +198,7 @@ export class UserService {
   }
 
   isLoggedIn() {
-    return tokenNotExpired();
+    return this.isLoggedIn$.asObservable();
   }
 
 
