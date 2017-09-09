@@ -3,7 +3,6 @@ const router = express.Router();
 const passport	= require("passport");
 const News = require('../models/news');
 const Games = require('../models/game');
-const TrackedGames = require('../models/tracked-game');
 const steam = require('../steamInterface');
 const Promise = require('bluebird');
 const jwt = require('jsonwebtoken');
