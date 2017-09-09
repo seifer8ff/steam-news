@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { Game } from '../../user/game'
-import { News } from '../News'
+import { News } from '../news'
 
 @Component({
   selector: 'app-all-news-list',
