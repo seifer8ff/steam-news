@@ -1,11 +1,11 @@
 <div class="header-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="60px" fxFlexFill>
-  <button class="header-item icon click-outside" (click)="userService.openSidebar()" fxFlex="5">
+  <button class="header-item icon click-outside" (click)="userService.openSidebar()">
     <img class="click-outside" src="assets/190-menu.svg" alt="Menu Icon"> 
   </button>
   <a class="header-item" [routerLink]="['news']">
     Home
   </a>
-  <a class="header-item" *ngIf="!(userService.isLoggedIn() | async)" [routerLink]="['login']">
+  <a class="header-item right" *ngIf="!(userService.isLoggedIn() | async)" [routerLink]="['login']">
     Login
   </a>
   <a class="header-item right" *ngIf="userService.isLoggedIn() | async" (click)="userService.logOut()">
