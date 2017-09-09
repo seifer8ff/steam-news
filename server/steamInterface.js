@@ -43,7 +43,7 @@ steam.serverSetup = function() {
     // if we haven't gotten game names and ids from steam yet, do it on server start
     Games.count({}, (err, count) => {
         if (count < 1) {
-            refreshGameNames();
+            steam.refreshGameNames();
         }
     });
 }
