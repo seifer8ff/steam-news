@@ -1,9 +1,6 @@
 <aside class="container content-container" *ngIf="(userService.sidebarIsOpen() | async)" [@sidebarState] (appClickOutside)="userService.closeSidebar()">
   <div class="sidebar-inner">
-    <div *ngIf="userService.isLoggedIn()">
-      <input #newGame type="text" class="content-container search" placeholder="Add Game">
-      <button (click)="newsService.addGameNews(newGame.value); userService.onAddGame(newGame.value); newGame.value=null">Track Game</button> 
-    </div>
+    <app-search *ngIf="userService.isLoggedIn()"></app-search>
     <ul>
       <li fxLayoutAlign="space-between" *ngFor="let game of (userService.getGameList() | async)">
         <a class="list-item" [routerLink]="['news', game.appId]">{{ game.title }}</a>

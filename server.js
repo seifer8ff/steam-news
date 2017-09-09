@@ -65,7 +65,7 @@ var gameJob = scheduler.scheduleJob(gameRule, steam.refreshGameNames);
 
 // sync news from Steam every X minutes
 var newsRule = new scheduler.RecurrenceRule();
-newsRule.minute = 40;
+newsRule.minute = 18;
 var newsJob = scheduler.scheduleJob(newsRule, steam.refreshNews);
 
 // Setup dummy data for gameList + get all game names + appIds

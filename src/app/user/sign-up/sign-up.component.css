@@ -1,0 +1,88 @@
+:host {
+    width: 100%;
+}
+
+.content-container {
+    position: relative;
+    padding: 20px;
+    margin-top: 30px;
+    width: 30%;
+}
+
+.link {
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+form input[type=text],input[type=password] {
+    text-indent: 4px;
+    height: 2em;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #f5f5f5;
+    background-color: transparent;
+    color: white;
+    font-size: 1.7em;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    transition: all 0.3s ease;
+}
+
+form {
+    position: relative;
+    text-align: center;
+}
+
+.form-group {
+    position: relative;
+}
+
+label {
+    position: absolute;
+    font-size: 1.2em;
+    top: -50%;
+    left: 0;
+    color: grey;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+form input ~ label {
+    top: 30%;
+    left: 0;
+    font-size: 1.4em;
+}
+
+form input.ng-touched.ng-valid ~ label {
+    font-size: 1.2em;
+    top: -50%;
+    left: 0;
+}
+
+form input.ng-touched.ng-invalid ~ label {
+    font-size: 1.5em;
+    top: -50%;
+    left: 0;
+    color: #f44949;
+}
+
+form input:focus ~ label {
+    font-size: 1.2em;
+    top: -50%;
+    left: 0;
+}
+
+form input:focus {
+    border-bottom-color: #64c0f4;
+}
+
+form input:focus {
+    outline: none;
+}
+
+.error {
+    text-align: center;
+    font-size: 1.35em;
+    color: #f44949;
+}

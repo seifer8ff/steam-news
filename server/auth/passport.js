@@ -52,6 +52,7 @@ module.exports = function() {
       }
       // no user
       if (!user) {
+        console.log('no user with that info found');
         return done(null, false);
       }
     });

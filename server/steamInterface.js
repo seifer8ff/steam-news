@@ -1,6 +1,6 @@
-const TrackedGames = require('./models/tracked-game');
 const News = require('./models/news');
 const Games = require('./models/game');
+const User = require('./models/user');
 const axios = require('axios');
 const Promise = require('bluebird');
 var bbcode = require('bbcode.js');
@@ -31,7 +31,14 @@ steam.getNews = function getNews(refreshIds) {
 }
 
 steam.serverSetup = function() {
-    addBaseGames();
+    setupDefaultUser();
+
+    News.count({}, (err, count) => {
+        if (count < 1) {
+            console.log('should be refreshing news');
+            steam.refreshNews();
+        }
+    })
 
     // if we haven't gotten game names and ids from steam yet, do it on server start
     Games.count({}, (err, count) => {
@@ -44,20 +51,34 @@ steam.serverSetup = function() {
 steam.refreshNews = function() {
     console.log("fetching latest news from steam");
     
-    TrackedGames.find()
+    // User.find({}, 'gameList')
+    User.find({}, 'gameList.appId')
     .catch(err => console.log(err))
-    .then(games => {
-        games.forEach(game => {
-            console.log("getting news for " + game.appId);
-            axios.get(steam.baseURL + game.appId + '&count=30')
-            .then(response => response.data.appnews.newsitems)
-            .then(rawNews => rawNews.map(processNewsResponse))
-            .then(news => news.map(addNewsItemToDB))
-            .catch(error => {
-                console.log("error");
-            });
+    .then(users => {
+        var allGames = [];
+        users.forEach(user => {
+            allGames = allGames.concat(user.gameList);
         });
-    })  
+        return allGames;
+    })
+    .then(games => {
+        var appIds = new Set()
+        games.forEach(game => {
+            appIds.add(game.appId);
+        })
+        return appIds;
+    })
+    .map(appId => {
+        console.log("getting news for " + appId);
+        axios.get(steam.baseURL + appId + '&count=30')
+        .then(response => response.data.appnews.newsitems)
+        .then(rawNews => rawNews.map(processNewsResponse))
+        .then(news => news.map(addNewsItemToDB))
+        .catch(error => {
+            console.log("error");
+            // console.log(error);
+        });
+    })
 }
 
 steam.refreshGameNames = function() {
@@ -114,32 +135,31 @@ function addNewsItemToDB(newsItem) {
 }
 
 
-
-function addBaseGames() {
-    console.log("adding dummy games to db");
-    let baseGames = [
+function setupDefaultUser() {
+    let defaultGames = [
         {
-        appId: '440',
-        title: 'Team Fortress 2'
+            appId: '440',
+            title: 'Team Fortress 2'
         },
         {
-        appId: '582660',
-        title: 'Black Desert Online'
+            appId: '582660',
+            title: 'Black Desert Online'
         },
         {
-        appId: '252950',
-        title: 'Rocket League'
+            appId: '252950',
+            title: 'Rocket League'
         },
         {
-        appId: '211820',
-        title: 'Starbound'
+            appId: '211820',
+            title: 'Starbound'
         }
     ];
-    
-    baseGames.forEach(game => {
-        TrackedGames.findOneAndUpdate(game, game, {upsert:true}, (err, doc) => {});
-    })
+    let user = new User({ username: 'demo', password: 'passwordSteamNews', gameList: defaultGames });
+
+    User.findOneAndUpdate(user.username, user, {upsert:true}, (err, doc) => {});
 }
+
+
 
 
 module.exports = steam;

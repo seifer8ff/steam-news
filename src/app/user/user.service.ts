@@ -12,16 +12,17 @@ import { tokenNotExpired } from 'angular2-jwt';
 @Injectable()
 export class UserService {
   currentUser: User = new User(
-    'Test User',
+    'Demo',
     [
       { appId: '440', title: 'Team Fortress 2' },
       { appId: '211820', title: 'Starbound' }
     ]
   );
+  gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
   gameData: Game[] = [];
-  gameListSub: ReplaySubject<Game[]> = new ReplaySubject(1);
-  gameDataSub: ReplaySubject<Game[]> = new ReplaySubject(1);
-  sidebarToggleSub: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  gameData$: ReplaySubject<Game[]> = new ReplaySubject(1);
+  sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  loginErrorMessage: string;
 
   constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
     this.init();
@@ -35,7 +36,7 @@ export class UserService {
      }
 
      // get latest game list from backend
-     this.gameListSub
+     this.gameList$
       .subscribe(gameList => this.currentUser.gameList = gameList);
     this.updateGameList();
     
@@ -43,30 +44,42 @@ export class UserService {
     this.http.get('api/games')
       .map((gameDataRes: Response) => gameDataRes.json())
       .subscribe(gameDataRes => {
-        this.gameDataSub.next(gameDataRes);
-        this.gameDataSub.
+        gameDataRes = gameDataRes.filter((el) => {
+          return !el.title.toLowerCase().includes('server') && 
+            !el.title.toLowerCase().includes('soundtrack') &&
+            !el.title.toLowerCase().includes('unstable') &&
+            !el.title.toLowerCase().includes('soundtrack') &&
+            !el.title.toLowerCase().includes('trailer') &&
+            !el.title.toLowerCase().includes('dlc') &&
+            !el.title.toLowerCase().includes('demo') &&
+            !el.title.toLowerCase().includes('bundle');
+        });
+        this.gameData$.next(gameDataRes);
+        this.gameData$.
           subscribe(gameData => this.gameData = gameData);
       });
   }
 
+  // NEED TO REMOVE THIS OR TURN INTO OBSERVABLE (PROBABALY REMOVE)
   getUser() {
     return this.currentUser;
   }
 
   getGameList() {
-    return this.gameListSub;
+    return this.gameList$.asObservable();
   }
 
   getGameData() {
-    return this.gameDataSub;
+    return this.gameData$.asObservable();
   }
 
   onAddGame(appId: string) {
     if (!this.currentUser.gameList.find(thisGame => thisGame.appId === appId)) {
+      console.log('adding game to users gameList');
       var newGame = new Game(appId, this.getGame(appId).title);
       
       this.currentUser.gameList.push(newGame);
-      this.gameListSub.next(this.currentUser.gameList);
+      this.gameList$.next(this.currentUser.gameList);
 
       let jsonHeaders = new Headers({
         'Content-Type': 'application/json'
@@ -92,7 +105,7 @@ export class UserService {
       .subscribe(res => {
         if (res.status === 200) {
           // update gameList for all components
-          this.gameListSub.next(updatedGameList);
+          this.gameList$.next(updatedGameList);
         }
       });
     }
@@ -109,12 +122,11 @@ export class UserService {
     }
     this.authHttp.get(url)
       .map((res: Response) => {
-        console.log(res);
         return res;
       })
       .map((gameListRes: Response) => gameListRes.json())
       .subscribe(gameListRes => {
-        this.gameListSub.next(gameListRes);
+        this.gameList$.next(gameListRes);
       });
   }
 
@@ -141,7 +153,8 @@ export class UserService {
         this.currentUser = resObj.user;
         localStorage.setItem('currentUser', JSON.stringify(resObj.user));
         localStorage.setItem('token', resObj.token);
-        this.init();
+        this.loginErrorMessage = null;
+        this.updateGameList();
         this.router.navigate(['news']);
       });
   }
@@ -158,18 +171,26 @@ export class UserService {
 
     this.http.post('/api/login', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
-      .subscribe(resObj => {
-        this.currentUser = resObj.user;
-        localStorage.setItem('currentUser', JSON.stringify(resObj.user));
-        localStorage.setItem('token', resObj.token);
-        this.init();
-        this.router.navigate(['news']);
-      });
+      .subscribe(
+        data => { 
+          console.log(data);
+          this.currentUser = data.user;
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          localStorage.setItem('token', data.token);
+          this.loginErrorMessage = null;
+          this.updateGameList();
+          this.router.navigate(['news']);
+        }, err => {
+          if (err.status === 401) {
+            this.loginErrorMessage = "Incorrect Login Information"
+          }
+        }
+      )
   }
 
   logOut() {
     localStorage.clear();
-    this.init();
+    this.updateGameList();
     this.router.navigate(['news']);
   }
 
@@ -182,15 +203,15 @@ export class UserService {
   // SIDEBAR ----------------------
   
   sidebarIsOpen() {
-    return this.sidebarToggleSub;
+    return this.sidebarToggle$.asObservable();
   }
 
   openSidebar() {
-    this.sidebarToggleSub.next(true);
+    this.sidebarToggle$.next(true);
   }
 
   closeSidebar() {
-    this.sidebarToggleSub.next(false);
+    this.sidebarToggle$.next(false);
   }
 
 }

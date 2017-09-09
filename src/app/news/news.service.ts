@@ -12,11 +12,11 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class NewsService {
 
-  allNews: ReplaySubject<any> = new ReplaySubject(1);
-  allNewsKeys: ReplaySubject<string[]> = new ReplaySubject(1);
-  
-  gameNews: ReplaySubject<any> = new ReplaySubject(1);
+  allNews: {};
+  allNews$: ReplaySubject<any> = new ReplaySubject(1);
+  gameNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameList: Game[];
+  gameList$: Subscription;
 
 
   constructor(private http: Http, private userService: UserService) {
@@ -24,8 +24,7 @@ export class NewsService {
   }
 
   init() {
-    this.userService.getGameList()
-    .subscribe(gameList => {
+    this.gameList$ = this.userService.getGameList().subscribe(gameList => {
       this.gameList = gameList;
       console.log('news service picked up gameList change');
       console.log(this.gameList);
@@ -43,61 +42,38 @@ export class NewsService {
       .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
       .subscribe(newsRes => {
         console.log('emitting all news');
-        this.allNews.next(newsRes);
-        this.allNewsKeys.next(Object.keys(newsRes));
+        this.allNews = newsRes;
+        this.allNews$.next(this.allNews);
       });
     }
-    return this.allNews;
+    return this.allNews$.asObservable();
   }
 
-  addGameNews(appId: string) {
-    console.log('attempting to add game to news');
+  onAddGame(appId: string) {
+    if (!this.allNews[appId]) {
+      console.log('attempting to add game to news');
+      
+      let steamNewsURL = this.buildRequestURL(this.gameList, [appId]);
+      console.log(steamNewsURL);
 
-    let steamNewsURL = this.buildRequestURL(this.gameList, [appId]);
-    console.log(steamNewsURL);
       this.http.get(steamNewsURL)
-      .map((newsRes: Response) => newsRes.json())
-      .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
-      .subscribe(newsRes => {
-        console.log('emitting all news');
-        console.log(newsRes);
-        this.allNews.next(newsRes);
-        this.allNewsKeys.next(Object.keys(newsRes));
-      });
-  }
-
-  getAllNewsKeys() {
-    if(!this.allNewsKeys.observers.length) {
-      this.getAllNews(false);
+        .map((newsRes: Response) => newsRes.json())
+        .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
+        .subscribe(newsRes => {
+          console.log('emitting all news');
+          console.log(newsRes);
+          this.allNews$.next(newsRes);
+        });
     }
-    return this.allNewsKeys;
   }
 
   getGameNews(appId: string) {
     // console.log("getting game news for appId: " + appId);
     this.getAllNews(false).subscribe((allNews) => {
-      this.gameNews.next(allNews[appId]);
+      this.gameNews$.next(allNews[appId]);
     });
-    return this.gameNews;
+    return this.gameNews$.asObservable();
   }
-
-  // getNewsItem(appId: string, articleId: string) {
-  //   console.log("fetching individual article");
-  //   let news = this.allNews
-  //   .subscribe();
-  //   console.log(news);
-  //   return news[appId].find((newsItem) => {
-  //     return newsItem.articleId === articleId; 
-  //   });
-  // }
-
-  // getNewsItem(articleId: string) {
-  //   return this.allNews.find( (gameNews) => { 
-  //     return gameNews.find((newsItem) => {
-  //       return newsItem.articleId === articleId; 
-  //     });
-  //   });
-  // }
 
   responseToNews(newsRes: any) {
     let processedNews = {};

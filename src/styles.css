@@ -72,6 +72,15 @@ hr {
     margin-bottom: 0;
 }
 
+.link {
+    display: inline-block;
+    font-size: 0.9em;
+    color: #64c0f4;
+    font-weight: 400;
+    margin: 10px;
+    padding: 10px;
+}
+
 
 
  /* -----------------BUTTON STYLES -------------  */
@@ -88,15 +97,20 @@ hr {
      text-decoration: none;
      background-color: #64c0f4;
      color: black;
+     border: none;
  }
 
-  .button:hover {
+  .button:hover:not([disabled]) {
       filter: brightness(85%);
-     -webkit-filter: brightness(85%);
-	-moz-filter: brightness(85%);
-	-o-filter: brightness(85%);
-	-ms-filter: brightness(85%);
+      -webkit-filter: brightness(85%);
+         -moz-filter: brightness(85%);
+	       -o-filter: brightness(85%);
+	      -ms-filter: brightness(85%);
  } 
+
+ .button.grow {
+    width: 100%;
+}
 
  .button.raised {
       transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -108,6 +122,20 @@ hr {
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
     transition-delay: 0s;
 }
+
+.button:focus:not([disabled]) {
+    outline: none;
+    filter: brightness(85%);
+    -webkit-filter: brightness(85%);
+       -moz-filter: brightness(85%);
+         -o-filter: brightness(85%);
+        -ms-filter: brightness(85%);
+}
+
+.button[disabled], .button[disabled]:hover, .button[disabled]:focus, .button[disabled]:active { 
+    background-color: grey;
+    box-shadow: none;
+ }
 
 
 
@@ -150,3 +178,5 @@ ul {
       -ms-transform: scale(1.3); 
           transform: scale(1.3);
 } 
+
+ 
