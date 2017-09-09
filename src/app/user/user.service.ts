@@ -22,7 +22,6 @@ export class UserService {
   gameData: Game[] = [];
   gameData$: ReplaySubject<Game[]> = new ReplaySubject(1);
   sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  isLoggedIn$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   loginErrorMessage: string;
 
   constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
@@ -35,10 +34,6 @@ export class UserService {
        let storedUser = JSON.parse(localStorage.getItem('currentUser'));
        this.currentUser = new User(storedUser.username, storedUser.gameList);
      }
-
-     this.loginErrorMessage = null;
-
-     this.isLoggedIn$.next(tokenNotExpired());
 
      // get latest game list from backend
      this.gameList$
@@ -158,7 +153,8 @@ export class UserService {
         this.currentUser = resObj.user;
         localStorage.setItem('currentUser', JSON.stringify(resObj.user));
         localStorage.setItem('token', resObj.token);
-        this.init();
+        this.loginErrorMessage = null;
+        this.updateGameList();
         this.router.navigate(['news']);
       });
   }
@@ -181,7 +177,8 @@ export class UserService {
           this.currentUser = data.user;
           localStorage.setItem('currentUser', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
-          this.init();
+          this.loginErrorMessage = null;
+          this.updateGameList();
           this.router.navigate(['news']);
         }, err => {
           if (err.status === 401) {
@@ -193,12 +190,12 @@ export class UserService {
 
   logOut() {
     localStorage.clear();
-    this.init();
+    this.updateGameList();
     this.router.navigate(['news']);
   }
 
   isLoggedIn() {
-    return this.isLoggedIn$.asObservable();
+    return tokenNotExpired();
   }
 
 
