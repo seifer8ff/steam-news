@@ -17,7 +17,7 @@
     <h2 class="title">Articles</h2>
     <ul>
       <li fxLayout="row" *ngFor="let news of (newsService.getGameNews(appId) | async)">
-        <a class="list-item" [routerLink] fragment="{{ a + news.articleId }}">{{ news.title | shorten:30 }}</a>
+        <a class="list-item" [routerLink] fragment="{{ 'a' + news.articleId }}">{{ news.title | shorten:30 }}</a>
       </li>
     </ul>
   </div>

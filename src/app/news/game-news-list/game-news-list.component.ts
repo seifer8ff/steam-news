@@ -15,7 +15,7 @@ export class GameNewsListComponent implements OnInit {
   appId: string;
   fragment: string;
 
-  constructor(private newsService: NewsService, private userService: UserService, private route: ActivatedRoute) { }
+  constructor(public newsService: NewsService, public userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params
