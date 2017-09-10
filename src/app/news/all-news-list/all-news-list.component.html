@@ -1,18 +1,16 @@
 <div class="title-container main">
   <h1>Latest News</h1>
 </div>
-<div>
-  <div fxLayout="row" fxLayoutAlign="center start">
-    <div fxLayout="row wrap" fxLayoutAlign="space-around stretch" fxFlex="90">
-      <app-news-summary 
-        fxFlex="375px"
-        *ngFor="let game of this.gameList" 
-        [newsItem]="this.allNews[game.appId] | firstElement"
-        [game]="game">
-      </app-news-summary>
-    </div>
+<div fxLayout="row" fxLayoutAlign="center start">
+  <div fxLayout="row wrap" fxLayoutAlign="space-around stretch" fxFlex="90">
+    <app-news-summary 
+      fxFlex="375px"
+      *ngFor="let game of this.gameList" 
+      [newsItem]="this.allNews[game.appId] | firstElement"
+      [game]="game">
+    </app-news-summary>
   </div>
-</div> 
+</div>
 
 
 
