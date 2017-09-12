@@ -3,7 +3,8 @@
     left: 0;
     height: 100%;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     box-shadow: 3px 0px 17px 0px #202021;
     font-size: 0.9em;
     z-index: 15;

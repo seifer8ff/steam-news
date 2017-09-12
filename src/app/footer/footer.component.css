@@ -1,6 +1,8 @@
 :host {
     width: 100%;
     min-width: 100%;
+    position: absolute;
+    bottom: 0;
 }
 
 div {
@@ -8,10 +10,6 @@ div {
     text-align: center;
     background-color: #64c0f4;
     color: #303030;
-    /* position: relative;
-    right: 0;
-    bottom: 0;
-    left: 0; */
 }
 
 h6 {
