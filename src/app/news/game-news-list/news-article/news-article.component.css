@@ -17,6 +17,7 @@
 }
 
 .article-body {
+    width: 100%;
     margin-top: 30px;
     line-height: 1.2em;
     font-size: 1.1em; 
@@ -37,7 +38,8 @@
 
 
 
-.article-body >>> .bbcode_image {
+
+.article-body >>> img,.bbcode_image {
     display: block;
     max-width: 90%;
     margin: 14px auto 14px auto;

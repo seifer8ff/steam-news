@@ -1,6 +1,7 @@
 :host {
     width: 100%;
     min-width: 100%;
+    z-index: 10;
 }
 
 .header-container {
@@ -29,7 +30,7 @@ button img {
     font-size: 1.3em;
     text-decoration: none;
     text-transform: uppercase;
-    min-width: 120px;
+    min-width: 60px;
     text-align: center;
 }
 

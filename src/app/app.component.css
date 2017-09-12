@@ -1,8 +1,16 @@
 .container {
     height: 100%;
-    overflow-y: scroll;
 }
 
-.main {
+.content {
     width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.footer-padding {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 40px;
 }

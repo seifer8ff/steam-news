@@ -8,6 +8,7 @@ html,body {
 body {
     background-color: #303030;
     color: #dddddd;
+    overflow: hidden;
 }
 
 a {

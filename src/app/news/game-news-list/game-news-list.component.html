@@ -1,6 +1,5 @@
-
-<div class="container" fxLayout="column" fxLayoutAlign="start center" fxFlex="grow">
-  <div class="title-container main">
+<div fxLayout="column" fxLayoutAlign="start center" fxFlex="grow">
+  <div class="title-container">
     <h1 class="game-title">{{ userService.getGame(appId)?.title }} News</h1>
   </div>
   <div *ngIf="!(newsService.getGameNews(appId) | async)?.length">
@@ -8,7 +7,8 @@
   </div>
   <app-news-article *ngFor="let article of (newsService.getGameNews(appId) | async)" [newsItem]="article"></app-news-article>
 </div>
-<aside *ngIf="(newsService.getGameNews(appId) | async)?.length" class="container article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="20">
+<div fxFlex="350px" fxHide.lt-md></div>
+<aside *ngIf="(newsService.getGameNews(appId) | async)?.length" class="article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
   <div class="media-container">
       <img class="media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
       <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
@@ -17,7 +17,7 @@
     <h2 class="title">Articles</h2>
     <ul>
       <li fxLayout="row" *ngFor="let news of (newsService.getGameNews(appId) | async)">
-        <a class="list-item" [routerLink] fragment="{{ a + news.articleId }}">{{ news.title | shorten:35 }}</a>
+        <a class="list-item" [routerLink] fragment="{{ 'a' + news.articleId }}">{{ news.title | shorten:30 }}</a>
       </li>
     </ul>
   </div>

@@ -1,10 +1,10 @@
 <app-sidebar-games></app-sidebar-games>
  <div class="container" fxLayout="column" fxLayoutAlign="start start">
     <app-header></app-header>
-    <div class="main" fxLayout="row" fxLayoutAlign="center stretch" fxFlex="grow">
-        <div class="container" fxLayout="column" fxLayoutAlign="start start" fxFlex="grow">
+    <div class="content" fxFlex="grow">
+        <div class="footer-padding">
             <router-outlet></router-outlet>
+            <app-footer></app-footer>
         </div>
     </div>
-    <app-footer></app-footer>
 </div>

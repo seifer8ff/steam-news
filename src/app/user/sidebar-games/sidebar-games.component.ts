@@ -39,7 +39,7 @@ import { NewsService } from '../../news/news.service';
 })
 export class SidebarGamesComponent implements OnInit {
 
-  constructor(private userService: UserService, private newsService: NewsService) { }
+  constructor(public userService: UserService, private newsService: NewsService) { }
 
   ngOnInit() {
   }
