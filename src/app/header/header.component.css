@@ -9,7 +9,6 @@
     background-color: #64c0f4; 
     z-index: 4;
     box-shadow: 0px 2px 20px 2px #202021;
-    overflow-x: hidden;
 }
 
 button {
@@ -25,6 +24,7 @@ button img {
 }
 
 .header-item {
+    position: relative;
     padding: 16px;
     color: #303030; 
     font-size: 1.3em;
@@ -32,17 +32,52 @@ button img {
     text-transform: uppercase;
     min-width: 60px;
     text-align: center;
+    white-space: nowrap;
 }
 
 .header-item.icon {
      padding: 0; 
 }
 
-.header-item:hover {
+.header-item.hover {
     background-color: #2190c1;
     color: #dddddd;  
 }
 
 .header-item.right {
     margin-left: auto;
+}
+
+.header-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 130px;
+    background-color: #2190c1;
+}
+
+.header-dropdown.open {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 16px;
+    font-size: 0.9em;
+    min-width: 60px;
+    text-align: center;
+    color: #dddddd;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .header-item:hover {
+        background-color: #2190c1;
+        color: #dddddd;
+    }
+
+    .header-item:hover .header-dropdown {
+        display: block;
+    }
 }

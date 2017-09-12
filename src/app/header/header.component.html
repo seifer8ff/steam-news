@@ -3,12 +3,15 @@
     <img class="click-outside" src="assets/190-menu.svg" alt="Menu Icon"> 
   </button>
   <a class="header-item" [routerLink]="['news']">
-    Home
+    Steam News
   </a>
   <a class="header-item right" *ngIf="!userService.isLoggedIn()" [routerLink]="['login']">
     Login
   </a>
-  <a class="header-item right" *ngIf="userService.isLoggedIn()" (click)="userService.logOut()">
-    {{ userService.currentUser?.username }} - logout
+  <a class="header-item right" *ngIf="userService.isLoggedIn()" (click)="openDropdown($event)">
+    {{ userService.currentUser?.username }}
+    <div class="header-dropdown">
+      <button class="dropdown-item" (click)="userService.logOut()">Logout</button>
+    </div>
   </a>
 </div>

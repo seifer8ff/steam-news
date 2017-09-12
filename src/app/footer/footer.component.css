@@ -6,20 +6,36 @@
 }
 
 div {
-    padding: 8px;
+    padding: 4px;
     text-align: center;
     background-color: #64c0f4;
     color: #303030;
 }
 
 h6 {
-    margin: 0 60px 0 0;
+    margin: 0 10px 0 0;
     display: inline-block;
-    font-size: 0.9em;
+    font-size: 0.6em;
 }
 
 a {
     display: inline-block;
-    font-size: 0.9em;
+    font-size: 0.6em;
     color: #303030;
+}
+
+
+@media (min-width: 500px) { 
+    div {
+        padding: 8px;
+    }
+    
+    h6 {
+        font-size: 0.9em;
+        margin: 0 60px 0 0;
+    }
+    
+    a {
+        font-size: 0.9em;
+    }
 }

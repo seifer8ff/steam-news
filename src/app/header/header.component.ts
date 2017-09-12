@@ -14,4 +14,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  openDropdown(event) {
+    if (window.innerWidth <= 768 && event.target.firstElementChild) {
+      event.target.classList.toggle("hover");
+      event.target.firstElementChild.classList.toggle("open");
+    }
+  }
+
 }
