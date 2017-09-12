@@ -27,4 +27,6 @@
 
  .list-item {
     font-size: 1.6em;
+    white-space: nowrap;
+    overflow: hidden;
 } 

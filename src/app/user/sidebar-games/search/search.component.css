@@ -18,18 +18,50 @@
 .suggestion-item {
     display: flex;
     align-items: center;
-    height: 100px;
+    height: 40px;
     margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .suggestion-image {
-    height: 100px;
-    min-height: 100px;
-    width: 214px;
-    min-width: 214px;
+    height: 100%;
+    width: auto;
+    max-height: 100px;
 }
 
 .suggestion-link {
-    font-size: 2.2em;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.suggestion-title {
+    font-size: 1em;
     margin-left: 20px;
+}
+
+
+@media (min-width: 500px) { 
+
+    .suggestion-item {
+        height: 60px;
+    }
+
+    .suggestion-title {
+        font-size: 1.6em;
+    }
+}
+
+ @media (min-width: 700px) { 
+    
+    .suggestion-item {
+        height: 90px;
+    }
+
+    .suggestion-title {
+        font-size: 2.2em;
+    }
 }

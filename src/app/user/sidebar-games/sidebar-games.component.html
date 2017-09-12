@@ -1,4 +1,4 @@
-<aside class="container content-container" *ngIf="(userService.sidebarIsOpen() | async)" [@sidebarState] (appClickOutside)="userService.closeSidebar()" fxFlex="30" fxFlex.lt-md="80">
+<aside class="container content-container" *ngIf="(userService.sidebarIsOpen() | async)" [@sidebarState] (appClickOutside)="userService.closeSidebar()" fxFlex="700px" fxFlex.lt-md="80">
   <div class="sidebar-inner">
     <app-search *ngIf="userService.isLoggedIn()"></app-search>
     <ul>
