@@ -46,6 +46,7 @@ button img {
 
 .header-item.right {
     margin-left: auto;
+    text-transform: none;
 }
 
 .header-dropdown {
