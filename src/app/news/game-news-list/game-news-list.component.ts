@@ -29,7 +29,6 @@ export class GameNewsListComponent implements OnInit {
 
   scrollToFragment() {
     let element = document.querySelector ( "#" + this.fragment );
-    window.location.hash = "";
     if (element) element.scrollIntoView();
   }
 

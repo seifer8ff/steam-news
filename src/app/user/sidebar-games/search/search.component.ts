@@ -64,6 +64,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     // clear list after short timeout
     setTimeout(() => {
       this.filteredGames = [];
+      this.router.navigate(['news', game.appId]);
+      this.userService.closeSidebar();
     }, 500);
   }
 
