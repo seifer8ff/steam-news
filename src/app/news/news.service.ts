@@ -49,11 +49,11 @@ export class NewsService {
     return this.allNews$.asObservable();
   }
 
-  onAddGame(appId: string) {
-    if (!this.allNews[appId]) {
+  onAddGame(game: Game) {
+    if (!this.allNews[game.appId]) {
       console.log('attempting to add game to news');
       
-      let steamNewsURL = this.buildRequestURL(this.gameList, [appId]);
+      let steamNewsURL = this.buildRequestURL(this.gameList, [game.appId]);
       console.log(steamNewsURL);
 
       this.http.get(steamNewsURL)

@@ -1,5 +1,5 @@
 <div id="search-container" #searchContainer>
-  <input #newGame type="text" class="content-container search" placeholder="Add Game" [(ngModel)]=query (keyup)=filter()>
+  <input #newGame type="text" class="content-container search" placeholder="Add Game" [(ngModel)]="query" (keyup)="handleKeyup()">
   <ul *ngIf="filteredGames.length > 0">
     <li class="suggestion-item" *ngFor="let suggestion of filteredGames">
       <a class="suggestion-link" (click)="select(suggestion)">

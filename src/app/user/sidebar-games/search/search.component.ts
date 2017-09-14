@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Http, Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 
@@ -19,27 +20,38 @@ export class SearchComponent implements OnInit, OnDestroy {
   @ViewChild('searchContainer') element; 
   query: string;
   filteredGames: Game[] = [];
-  gameData: Game[];
-  gameData$: Subscription;
+  searchTimeout: number;
+
   gameList: Game[];
   GameList$: Subscription;
 
-  constructor(private userService: UserService, private newsService: NewsService, private router: Router) { }
+  constructor(private userService: UserService, private newsService: NewsService, private router: Router, private http: Http) { }
 
   ngOnInit() {
-    this.gameData$ = this.userService.getGameData().subscribe((games) => {
-      this.gameData = games;
-    });
     this.GameList$ = this.userService.getGameList().subscribe((games) => {
       this.gameList = games;
     });
   }
 
+  handleKeyup() {
+      clearTimeout(this.searchTimeout);
+      this.searchTimeout = window.setTimeout(() => {
+        this.filter();
+      }, 1000)
+  }
+
   filter() {
     if (this.query !== "") {
-      this.filteredGames = this.gameData.filter((el) => {
-        return el.title.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
-      }).slice(0, 5);
+      console.log("sending query to backend");
+      let searchURL = "/api/games?q=" + this.query.toLowerCase();
+      console.log(searchURL);
+      this.http.get(searchURL)
+      .map((gameListRes: Response) => gameListRes.json())
+      .subscribe(gameList => {
+        console.log('got gameList');
+        console.log(gameList);
+        this.filteredGames = gameList.slice(0,5);
+      });
     }else{
       this.filteredGames = [];
     }
@@ -52,8 +64,8 @@ export class SearchComponent implements OnInit, OnDestroy {
     // check if user already has game save to list
     if (!this.gameList.some(el => el.appId === game.appId)) {
       // add game to user's game list + get news from backend
-      this.newsService.onAddGame(game.appId); 
-      this.userService.onAddGame(game.appId);
+      this.newsService.onAddGame(game); 
+      this.userService.onAddGame(game);
     } else {
       // navigate to the game page and close the sidebar
       console.log("already have game");
@@ -84,7 +96,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gameData$.unsubscribe();
     this.GameList$.unsubscribe();
   }
 

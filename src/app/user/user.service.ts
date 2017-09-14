@@ -19,8 +19,6 @@ export class UserService {
     ]
   );
   gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
-  gameData: Game[] = [];
-  gameData$: ReplaySubject<Game[]> = new ReplaySubject(1);
   sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   loginErrorMessage: string;
 
@@ -39,25 +37,6 @@ export class UserService {
      this.gameList$
       .subscribe(gameList => this.currentUser.gameList = gameList);
     this.updateGameList();
-    
-    // get latest listing of appIds and titles from backend
-    this.http.get('api/games')
-      .map((gameDataRes: Response) => gameDataRes.json())
-      .subscribe(gameDataRes => {
-        gameDataRes = gameDataRes.filter((el) => {
-          return !el.title.toLowerCase().includes('server') && 
-            !el.title.toLowerCase().includes('soundtrack') &&
-            !el.title.toLowerCase().includes('unstable') &&
-            !el.title.toLowerCase().includes('soundtrack') &&
-            !el.title.toLowerCase().includes('trailer') &&
-            !el.title.toLowerCase().includes('dlc') &&
-            !el.title.toLowerCase().includes('demo') &&
-            !el.title.toLowerCase().includes('bundle');
-        });
-        this.gameData$.next(gameDataRes);
-        this.gameData$.
-          subscribe(gameData => this.gameData = gameData);
-      });
   }
 
   // NEED TO REMOVE THIS OR TURN INTO OBSERVABLE (PROBABALY REMOVE)
@@ -69,14 +48,10 @@ export class UserService {
     return this.gameList$.asObservable();
   }
 
-  getGameData() {
-    return this.gameData$.asObservable();
-  }
-
-  onAddGame(appId: string) {
-    if (!this.currentUser.gameList.find(thisGame => thisGame.appId === appId)) {
+  onAddGame(game: Game) {
+    if (!this.currentUser.gameList.find(thisGame => thisGame.appId === game.appId)) {
       console.log('adding game to users gameList');
-      var newGame = new Game(appId, this.getGame(appId).title);
+      var newGame = new Game(game.appId, game.title);
       
       this.currentUser.gameList.push(newGame);
       this.gameList$.next(this.currentUser.gameList);
@@ -126,15 +101,16 @@ export class UserService {
       })
       .map((gameListRes: Response) => gameListRes.json())
       .subscribe(gameListRes => {
+        console.log(gameListRes);
         this.gameList$.next(gameListRes);
       });
   }
 
   // find game by appId (typically used to find game title by appId)
-  getGame(appId: string) {
-    if (!this.gameData.length) return {appId: '0', title: 'Game'};
+  getGame(appId: string): Game {
+    if (!this.currentUser.gameList.length) return {appId: '0', title: 'Game'};
 
-    let match = this.gameData.find(thisGame => thisGame.appId === appId);
+    let match = this.currentUser.gameList.find(thisGame => thisGame.appId === appId);
     return match;
   }
 

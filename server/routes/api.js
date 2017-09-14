@@ -79,12 +79,40 @@ router.get('/news', (req, res) => {
   })
 });
 
-// get all game data (appId + title)
+// get all matching game data (appId + title)
+// query based on game title
 router.get('/games', (req, res) => {
-  Games.find()
-  .then(games => {
-    res.status(200).json(games)
-  });
+  if (req.query.q) {
+    let query = req.query.q;
+    let regex = new RegExp("^" + query, "i");
+
+    console.log('filtering gameList');
+    console.log(query);
+
+    return Games.find({ title: regex })
+      .then(games => {
+        return games.filter((game) => {
+          return !game.title.toLowerCase().includes('server') && 
+            !game.title.toLowerCase().includes('soundtrack') &&
+            !game.title.toLowerCase().includes('unstable') &&
+            !game.title.toLowerCase().includes('soundtrack') &&
+            !game.title.toLowerCase().includes('trailer') &&
+            !game.title.toLowerCase().includes('dlc') &&
+            !game.title.toLowerCase().includes('demo') &&
+            !game.title.toLowerCase().includes('bundle');
+        });
+      })
+      .then(games => {
+        console.log(games.length);
+        res.status(200).json(games)
+      })
+  }
+
+  return Games.find()
+    .then(games => {
+      console.log(games.length);
+      res.status(200).json(games)
+    });
 });
 
 
