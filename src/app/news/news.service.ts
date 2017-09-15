@@ -12,8 +12,8 @@ import { UserService } from '../user/user.service';
 @Injectable()
 export class NewsService {
 
-  allNews: {};
-  allNews$: ReplaySubject<any> = new ReplaySubject(1);
+  latestNews: News[];
+  latestNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameList: Game[];
   gameList$: Subscription;
@@ -28,40 +28,31 @@ export class NewsService {
       this.gameList = gameList;
       console.log('news service picked up gameList change');
       console.log(this.gameList);
-      this.getLatestNews(true);
+      this.updateLatestNews();
     });
   }
 
-  getLatestNews(forceRefresh: boolean) {
-    if (forceRefresh) {
-      let steamNewsURL = this.buildRequestURL(this.gameList, 1, null);
-      this.http.get(steamNewsURL)
-      .map((newsRes: Response) => newsRes.json())
-      .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
-      .subscribe(newsRes => {
-        console.log("latest news from backend: ");
-        console.log(newsRes);
-        this.allNews = newsRes;
-        this.allNews$.next(this.allNews);
-      });
-    }
-    return this.allNews$.asObservable();
+  updateLatestNews() {
+    let steamNewsURL = this.buildRequestURL(this.gameList, 1, null);
+    this.http.get(steamNewsURL)
+    .map((newsRes: Response) => newsRes.json())
+    .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
+    .map(news => this.sortNewsByDate(news))
+    .subscribe(news => {
+      console.log("latest news from backend: ");
+      console.log(news);
+      this.latestNews = news;
+      this.latestNews$.next(this.latestNews);
+    });
+  }
+
+  getLatestNews() {
+    return this.latestNews$.asObservable();
   }
 
   onAddGame(game: Game) {
-    if (!this.allNews[game.appId]) {
-      
-      let steamNewsURL = this.buildRequestURL(this.gameList, 1, [game.appId]);
-      console.log(steamNewsURL);
-
-      this.http.get(steamNewsURL)
-        .map((newsRes: Response) => newsRes.json())
-        .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
-        .subscribe(newsRes => {
-          console.log('updated latest news: ');
-          console.log(newsRes);
-          this.allNews$.next(newsRes);
-        });
+    if (!this.latestNews.some((article) => article.appId === game.appId)) {
+      this.updateLatestNews();
     }
   }
 
@@ -99,6 +90,22 @@ export class NewsService {
     }
     // console.log(processedNews);
     return processedNews;
+  }
+
+  sortNewsByDate(news): News[] {
+    var newsArray: News[] = [];
+
+    for (let appId in news) {
+      if (news[appId].length) {
+        newsArray.push(news[appId][0]);
+      }
+    }
+
+    newsArray.sort((a: any, b: any) => {
+      return -(a.date - b.date);
+    })
+
+    return newsArray;
   }
 
   buildRequestURL(gameList: Game[], limit: number, refreshIds?: string[],) {

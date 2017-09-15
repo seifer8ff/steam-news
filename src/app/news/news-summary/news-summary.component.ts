@@ -9,8 +9,7 @@ import { Game } from '../../user/game';
   styleUrls: ['./news-summary.component.css']
 })
 export class NewsSummaryComponent implements OnInit {
-  @Input() newsItem: News;
-  @Input() game: Game;
+  @Input() article: News;
 
   constructor() { }
 

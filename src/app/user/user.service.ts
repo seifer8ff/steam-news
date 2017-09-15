@@ -35,7 +35,9 @@ export class UserService {
 
      // get latest game list from backend
      this.gameList$
-      .subscribe(gameList => this.currentUser.gameList = gameList);
+      .subscribe(gameList => {
+        this.currentUser.gameList = gameList;
+      });
     this.updateGameList();
   }
 
@@ -100,6 +102,15 @@ export class UserService {
         return res;
       })
       .map((gameListRes: Response) => gameListRes.json())
+      .map((gameListRes) => {
+        // sort alphabetically
+        gameListRes.sort((a: any, b: any) => {
+          let titleA = a.title.toLowerCase();
+          let titleB = b.title.toLowerCase();
+          return (titleA < titleB) ? -1 : (titleA > titleB) ? 1 : 0;
+        });
+        return gameListRes;
+      })
       .subscribe(gameListRes => {
         console.log(gameListRes);
         this.gameList$.next(gameListRes);
