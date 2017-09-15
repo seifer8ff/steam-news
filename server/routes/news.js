@@ -40,7 +40,7 @@ router.get('', (req, res) => {
       .then(news => newsObj[appId] = news);
   })
   .then(() => {
-    res.status(200).json(newsObj);
+    return res.status(200).json(newsObj);
   })
 });
 

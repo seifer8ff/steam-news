@@ -33,14 +33,14 @@ router.get('', authenticate, (req, res) => {
       })
       .then(games => {
         console.log(games.length);
-        res.status(200).json(games)
+        return res.status(200).json(games)
       })
   }
 
   return Games.find()
     .then(games => {
       console.log(games.length);
-      res.status(200).json(games)
+      return res.status(200).json(games)
     });
 });
 

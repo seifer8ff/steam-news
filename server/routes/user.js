@@ -52,7 +52,7 @@ router.post('/login', function(req, res, next) {
 // get a dummy user gamelist
 router.get('/demo/gamelist/', (req, res) => {
   console.log('returning dummy gamelist');
-  res.status(200).json(dummyGameList);
+  return res.status(200).json(dummyGameList);
 });
 
 
@@ -62,7 +62,7 @@ router.get('/:username/gamelist/', authenticate, (req, res) => {
   User.findOne({username: req.params.username})
     .then(user => user.gameList)
     .then(gameList => {
-      res.status(200).json(gameList);
+      return res.status(200).json(gameList);
     });
 });
 
@@ -85,11 +85,16 @@ router.post('/:username/gamelist', authenticate, (req, res) => {
   console.log('adding ' + req.body.title + ' to game track list');
   if (req.body.appId && req.body.title) {
     var newGame = req.body;
-    User.findOneAndUpdate({ username: req.params.username }, { $push: {gameList: newGame} }, (err, doc) => {
-      if (err) console.log(err);
+    User.findOneAndUpdate({ username: req.params.username }, { $addToSet: {gameList: newGame} }, (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(409).send({ success : false, message : 'error adding ' + req.body.title + ' to ' + req.params.username + ' gamelist' });
+      }
+      return res.sendStatus(200);
     });
   } else {
     console.log('invalid appId received');
+    return res.status(409).send({ success : false, message : 'invalid game received' });
   }
 });
 
