@@ -34,19 +34,25 @@ module.exports = function() {
   // });
 
   passport.use("local", new LocalStrategy({ session: false }, (username, password, done) => {
-    console.log('looking for user: ' + username + " " + password);
+    console.log('looking for user: ' + username);
     User.findOne({ 'username' : username }, (err, user) => {
       // if there is an error, stop everything and return that
       // ie an error connecting to the database
       if (err) {
+        console.log('error');
         return done(err);
       }
       // if the user is found then log them in
       if (user) {
         user.comparePassword(password, function(err, isMatch) {
+          console.log('comparing password');
           if (err) throw err;
           if (isMatch) {
+            console.log('user found');
             return done(null, user); // user found, return that user
+          } else {
+            console.log('wrong password');
+            return done(null, false);
           }
         });
       }

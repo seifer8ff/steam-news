@@ -207,15 +207,29 @@ function respond(req, res) {
 }
 
 function registerUser(req, res, next) {
-  let user = new User({ username: req.body.username, password: req.body.password });
-  // save in Mongo
-  user.save(function(err) {
-    if(err) {
-      console.log(err);
-    } else {
-      console.log('user: ' + user.username + " saved.");
+  let newUser = new User({ username: req.body.username, password: req.body.password });
+
+  // User.findOne({user})
+  User.findOne({ username: newUser.username }, (err, foundUser) => {
+    if (err) {
+      console.log('error');
+      return res.status(409).send({ success : false, message : 'username taken' });
     }
-    next();
+
+    if (foundUser) {
+      console.log('username taken');
+      return res.status(409).send({ success : false, message : 'username taken' });
+    } else {
+      // save in Mongo
+      newUser.save(function(err) {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log('user: ' + newUser.username + " saved.");
+        }
+        next();
+      });
+    }
   });
 }
 

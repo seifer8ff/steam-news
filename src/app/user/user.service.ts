@@ -21,6 +21,7 @@ export class UserService {
   gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
   sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   loginErrorMessage: string;
+  registerErrorMessage: string;
 
   constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
     this.init();
@@ -136,14 +137,21 @@ export class UserService {
 
     this.http.post('/api/register', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
-      .subscribe(resObj => {
-        this.currentUser = resObj.user;
-        localStorage.setItem('currentUser', JSON.stringify(resObj.user));
-        localStorage.setItem('token', resObj.token);
-        this.loginErrorMessage = null;
-        this.updateGameList();
-        this.router.navigate(['news']);
-      });
+      .subscribe(
+        data => {
+          this.currentUser = data.user;
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          localStorage.setItem('token', data.token);
+          this.loginErrorMessage = null;
+          this.registerErrorMessage = null;
+          this.updateGameList();
+          this.router.navigate(['news']);
+        }, err => {
+          if (err.status === 409) {
+            this.registerErrorMessage = "Username Already In Use"
+          }
+        }
+      );
   }
 
   logIn(username: string, password: string) {
@@ -165,6 +173,7 @@ export class UserService {
           localStorage.setItem('currentUser', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
           this.loginErrorMessage = null;
+          this.registerErrorMessage = null;
           this.updateGameList();
           this.router.navigate(['news']);
         }, err => {

@@ -9,12 +9,12 @@
     <h3 class="error" *ngIf="userService.loginErrorMessage">{{ userService.loginErrorMessage }}</h3>
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
       <div class="form-group">
-        <input type="text" name="username" ngModel required minlength="4">
-        <label for="login-username">Username</label>
+        <input type="text" name="loginUsername" ngModel required minlength="4">
+        <label for="loginUsername">Username</label>
       </div>
       <div class="form-group">
-        <input type="password" name="password" ngModel required minlength="6">
-        <label for="login-password">Password</label>
+        <input type="password" name="loginPassword" ngModel required minlength="6">
+        <label for="loginPassword">Password</label>
       </div>
       <button class="button grow raised" type="submit" [disabled]="!loginForm.valid">Submit</button>
       <a class="link" (click)="this.newUser = true;">New User?</a>
@@ -23,14 +23,19 @@
 
   <div class="content-container" *ngIf="this.newUser" [@newUser]>
       <h2>Sign Up</h2>
+      <h3 class="error" *ngIf="userService.registerErrorMessage">{{ userService.registerErrorMessage }}</h3>
       <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm.value)">
         <div class="form-group">
-          <input type="text" name="username" ngModel required minlength="4">
-          <label for="new-username">Username</label>
+          <input type="text" name="registerUsername" ngModel required minlength="4">
+          <label for="registerUsername">Username</label>
         </div>
         <div class="form-group">
-          <input type="password" name="password" ngModel required minlength="6">
-          <label for="new-password">Password</label>
+          <input type="password" name="registerPassword" ngModel required minlength="6">
+          <label for="registerPassword">Password</label>
+        </div>
+        <div class="form-group">
+          <input type="password" name="registerPasswordConfirm" ngModel required minlength="6">
+          <label for="registerPasswordConfirm">Confirm Password</label>
         </div>
         <button class="button grow raised" type="submit" [disabled]="!signupForm.valid">Submit</button>
         <a class="link" (click)="this.newUser = false;">Already Signed Up?</a>

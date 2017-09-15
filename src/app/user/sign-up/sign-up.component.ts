@@ -31,11 +31,11 @@ export class SignUpComponent implements OnInit {
   }
 
   onSignup(form: any) {
-    this.userService.register(form.username, form.password);
+    this.userService.register(form.registerUsername, form.registerPassword);
   }
 
   onLogin(form: any) {
-    this.userService.logIn(form.username, form.password);
+    this.userService.logIn(form.loginUsername, form.loginPassword);
   }
 
 }
