@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { StateService } from '../user/../state.service';
 import { UserService } from '../user/user.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { UserService } from '../user/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public userService: UserService) { }
+  constructor(public userService: UserService, public stateService: StateService) { }
 
   ngOnInit() {
   }

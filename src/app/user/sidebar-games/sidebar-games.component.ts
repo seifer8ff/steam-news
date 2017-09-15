@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import {
   trigger,
   state,
@@ -9,6 +10,7 @@ import {
 
 import { UserService } from '../user.service';
 import { NewsService } from '../../news/news.service';
+import { StateService } from '../../news/../state.service';
 
 @Component({
   selector: 'app-sidebar-games',
@@ -16,32 +18,40 @@ import { NewsService } from '../../news/news.service';
   styleUrls: ['./sidebar-games.component.css'],
   animations: [
     trigger('sidebarState', [
-      transition(':enter', [
-        style({transform: 'translateX(-100%)'}),
-        animate('300ms ease-in')
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', 
-        style({transform: 'translateX(-100%)'}))
-      ])
+      state('false', style({
+        transform: 'translate3d(0, 0, 0)'
+      })),
+      state('true', style({
+        transform: 'translate3d(-120%, 0, 0)'
+      })),
+      transition('false <=> true', animate('300ms ease-in-out'))
     ]),
     trigger('sidebarOverlayState', [
-      transition(':enter', [
-        style({opacity: '0'}),
-        animate('300ms ease-in')
-      ]),
-      transition(':leave', [
-        animate('300ms ease-in', 
-        style({opacity: '0'}))
-      ])
-    ]),
+      state('false', style({
+        opacity: '0.2'
+      })),
+      state('true', style({
+        opacity: '0',
+        display: 'none'
+      })),
+      transition('false <=> true', animate('300ms ease-in-out'))
+    ])
   ]
 })
 export class SidebarGamesComponent implements OnInit {
+  hidden: boolean = true;
+  sidebarHidden$: Subscription;
 
-  constructor(public userService: UserService, private newsService: NewsService) { }
+  constructor(public userService: UserService, private newsService: NewsService, public stateService: StateService) { }
 
   ngOnInit() {
+    this.sidebarHidden$ = this.stateService.sidebarHidden$.subscribe(hidden => {
+      this.hidden = hidden;
+    });
+  }
+
+  ngOnDestroy() {
+    this.sidebarHidden$.unsubscribe();
   }
 
 }

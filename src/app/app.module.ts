@@ -23,6 +23,7 @@ import { SignUpComponent } from './user/sign-up/sign-up.component';
 import { AuthModule } from './auth.module';
 import { SearchComponent } from './user/sidebar-games/search/search.component';
 import { BrokenImageDirective } from './broken-image.directive';
+import { StateService } from './state.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { BrokenImageDirective } from './broken-image.directive';
     AuthModule,
     FormsModule
   ],
-  providers: [UserService, NewsService],
+  providers: [StateService, UserService, NewsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

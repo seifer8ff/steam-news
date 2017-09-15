@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 
 import { AuthHttp } from 'angular2-jwt';
+import { StateService } from '../../../state.service';
 import { UserService } from '../../user.service';
 import { NewsService } from '../../../news/news.service';
 import { Game } from '../../game';
@@ -27,7 +28,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   gameList: Game[];
   GameList$: Subscription;
 
-  constructor(private userService: UserService, private newsService: NewsService, private router: Router, private authHttp: AuthHttp) { }
+  constructor(private stateService: StateService, private userService: UserService, private newsService: NewsService, private router: Router, private authHttp: AuthHttp) { }
 
   ngOnInit() {
     this.GameList$ = this.userService.getGameList().subscribe((games) => {
@@ -73,14 +74,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       // navigate to the game page and close the sidebar
       console.log("already have game");
       this.router.navigate(['news', game.appId]);
-      this.userService.closeSidebar();
+      this.stateService.closeSidebar();
     }
 
     // clear list after short timeout
     setTimeout(() => {
       this.filteredGames = [];
       this.router.navigate(['news', game.appId]);
-      this.userService.closeSidebar();
+      this.stateService.closeSidebar();
     }, 500);
   }
 

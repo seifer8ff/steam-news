@@ -19,7 +19,6 @@ export class UserService {
     ]
   );
   gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
-  sidebarToggle$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   loginErrorMessage: string;
   registerErrorMessage: string;
 
@@ -194,20 +193,5 @@ export class UserService {
     return tokenNotExpired();
   }
 
-
-
-  // SIDEBAR ----------------------
-  
-  sidebarIsOpen() {
-    return this.sidebarToggle$.asObservable();
-  }
-
-  openSidebar() {
-    this.sidebarToggle$.next(true);
-  }
-
-  closeSidebar() {
-    this.sidebarToggle$.next(false);
-  }
 
 }
