@@ -13,26 +13,26 @@ import { News } from '../news'
 })
 export class AllNewsListComponent implements OnInit, OnDestroy {
   gameList$: Subscription;
-  allNews$ : Subscription;
+  latestNews$ : Subscription;
   gameList: Game[];
-  allNews: News[];
+  latestNews: News[];
 
   constructor(private newsService: NewsService, private userService: UserService) { }
 
   ngOnInit() {
-    this.allNews$ = this.newsService.getAllNews(false).subscribe(allNews => {
-      this.allNews = allNews;
+    this.latestNews$ = this.newsService.getLatestNews(false).subscribe(latestNews => {
+      this.latestNews = latestNews;
 
       this.gameList$ = this.userService.getGameList().subscribe(gameList => {
         this.gameList = gameList.filter(game => {
-          return this.allNews[game.appId] && this.allNews[game.appId].length;
+          return this.latestNews[game.appId] && this.latestNews[game.appId].length;
         });
       });
     });
   }
 
   ngOnDestroy() {
-    this.allNews$.unsubscribe();
+    this.latestNews$.unsubscribe();
     this.gameList$.unsubscribe();
   }
 

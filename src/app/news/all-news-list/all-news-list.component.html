@@ -6,7 +6,7 @@
     <app-news-summary 
       fxFlex="100" fxFlex.gt-xs="250px" fxFlex.gt-md="300px" fxFlex.gt-lg="375px"
       *ngFor="let game of this.gameList" 
-      [newsItem]="this.allNews[game.appId] | firstElement"
+      [newsItem]="this.latestNews[game.appId] | firstElement"
       [game]="game">
     </app-news-summary>
     <!-- <app-news-summary 

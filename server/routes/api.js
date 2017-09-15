@@ -52,6 +52,8 @@ router.get('/news', (req, res) => {
   var refreshAppIds = [];
   typeof req.query.refreshId === 'string' ? refreshAppIds.push(req.query.refreshId) : refreshAppIds = req.query.refreshId;
 
+  let limit = Number(req.query.limit) || 1;
+
   //set up return objects
   var newsObj = {};
 
@@ -70,6 +72,7 @@ router.get('/news', (req, res) => {
   // get all news from db 
   .each(appId => {
     return News.find({ appId: appId })
+      .limit(limit)
       .catch(err => console.log("error fetching news from DB for " + appId))
       // add news returned from DB to final newsArray obj
       .then(news => newsObj[appId] = news);

@@ -1,4 +1,4 @@
-<aside *ngIf="(newsService.getGameNews(appId) | async)?.length" class="article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
+<aside *ngIf="gameNews?.length" class="article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
   <div class="media-container">
       <img class="media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
       <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
@@ -6,18 +6,18 @@
   <div class="article-list-inner">
     <h2 class="title">Articles</h2>
     <ul>
-      <li fxLayout="row" *ngFor="let news of (newsService.getGameNews(appId) | async)">
+      <li fxLayout="row" *ngFor="let news of gameNews">
         <a class="list-item" [routerLink] fragment="{{ 'a' + news.articleId }}">{{ news.title | shorten:30 }}</a>
       </li>
     </ul>
   </div>
 </aside> 
-<div fxLayout="column" fxLayoutAlign="start center" fxFlexOffset="{{ (newsService.getGameNews(appId) | async)?.length ? '350px' : '0' }}" fxFlexOffset.lt-md="0" fxFlex="grow">
+<div fxLayout="column" fxLayoutAlign="start center" fxFlexOffset="{{ gameNews?.length ? '350px' : '0' }}" fxFlexOffset.lt-md="0" fxFlex="grow">
   <div class="title-container">
     <h1 class="game-title">{{ userService.getGame(appId)?.title }} News</h1>
   </div>
-  <div *ngIf="!(newsService.getGameNews(appId) | async)?.length">
+  <div *ngIf="!gameNews?.length">
     <h2>No news available for this game</h2>
   </div>
-  <app-news-article *ngFor="let article of (newsService.getGameNews(appId) | async)" [newsItem]="article"></app-news-article>
+  <app-news-article *ngFor="let article of gameNews" [newsItem]="article"></app-news-article>
 </div>

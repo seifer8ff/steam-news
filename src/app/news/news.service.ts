@@ -28,20 +28,19 @@ export class NewsService {
       this.gameList = gameList;
       console.log('news service picked up gameList change');
       console.log(this.gameList);
-      this.getAllNews(true);
+      this.getLatestNews(true);
     });
   }
 
-  getAllNews(forceRefresh: boolean) {
+  getLatestNews(forceRefresh: boolean) {
     if (forceRefresh) {
-      console.log("fetching all news from backend");
-
-      let steamNewsURL = this.buildRequestURL(this.gameList);
+      let steamNewsURL = this.buildRequestURL(this.gameList, 1, null);
       this.http.get(steamNewsURL)
       .map((newsRes: Response) => newsRes.json())
       .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
       .subscribe(newsRes => {
-        console.log('emitting all news');
+        console.log("latest news from backend: ");
+        console.log(newsRes);
         this.allNews = newsRes;
         this.allNews$.next(this.allNews);
       });
@@ -51,26 +50,35 @@ export class NewsService {
 
   onAddGame(game: Game) {
     if (!this.allNews[game.appId]) {
-      console.log('attempting to add game to news');
       
-      let steamNewsURL = this.buildRequestURL(this.gameList, [game.appId]);
+      let steamNewsURL = this.buildRequestURL(this.gameList, 1, [game.appId]);
       console.log(steamNewsURL);
 
       this.http.get(steamNewsURL)
         .map((newsRes: Response) => newsRes.json())
         .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
         .subscribe(newsRes => {
-          console.log('emitting all news');
+          console.log('updated latest news: ');
           console.log(newsRes);
           this.allNews$.next(newsRes);
         });
     }
   }
 
-  getGameNews(appId: string) {
-    // console.log("getting game news for appId: " + appId);
-    this.getAllNews(false).subscribe((allNews) => {
-      this.gameNews$.next(allNews[appId]);
+  getGameNews(appId: string, limit: number) {
+    let thisGameArray: Game[] = [
+      new Game(appId, null)
+    ];
+
+    let steamNewsURL = this.buildRequestURL(thisGameArray, limit, null);
+    this.http.get(steamNewsURL)
+    .map((newsRes: Response) => newsRes.json())
+    .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
+    .map(newsRes => newsRes[appId])
+    .subscribe(newsRes => {
+      console.log("news for " + appId + ": ");
+      console.log(newsRes);
+      this.gameNews$.next(newsRes);
     });
     return this.gameNews$.asObservable();
   }
@@ -93,9 +101,8 @@ export class NewsService {
     return processedNews;
   }
 
-  buildRequestURL(gameList: Game[], refreshIds?: string[]) {
+  buildRequestURL(gameList: Game[], limit: number, refreshIds?: string[],) {
     let finalUrl = '/api/news?';
-    console.log(gameList);
     gameList.forEach(game => {
       finalUrl += 'id=' + game.appId + '&';
     });
@@ -104,6 +111,8 @@ export class NewsService {
         finalUrl += 'refreshId=' + appId + '&';
       });
     }
+    finalUrl += 'limit=' + limit;
+
     console.log(finalUrl);
     return finalUrl;
   }
