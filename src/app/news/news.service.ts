@@ -32,8 +32,8 @@ export class NewsService {
     });
   }
 
-  updateLatestNews() {
-    let steamNewsURL = this.buildRequestURL(this.gameList, 1, null);
+  updateLatestNews(refreshIds?: string[]) {
+    let steamNewsURL = this.buildRequestURL(this.gameList, 1, refreshIds);
     this.http.get(steamNewsURL)
     .map((newsRes: Response) => newsRes.json())
     .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
@@ -52,7 +52,7 @@ export class NewsService {
 
   onAddGame(game: Game) {
     if (!this.latestNews.some((article) => article.appId === game.appId)) {
-      this.updateLatestNews();
+      this.updateLatestNews([game.appId]);
     }
   }
 
