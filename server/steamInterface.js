@@ -8,7 +8,11 @@ var bbcode = require('bbcode.js');
 var steam = {};
 
 steam.baseURL = 'https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=';
-steam.gameNameURL = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/'
+steam.gameNameURL = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/';
+
+
+
+// ----- NEWS -----
 
 steam.getNews = function getNews(refreshIds) {
     console.log('getting news for refresh appIds');
@@ -30,28 +34,9 @@ steam.getNews = function getNews(refreshIds) {
     });
 }
 
-steam.serverSetup = function() {
-    setupDefaultUser();
-
-    News.count({}, (err, count) => {
-        if (count < 1) {
-            console.log('should be refreshing news');
-            steam.refreshNews();
-        }
-    })
-
-    // if we haven't gotten game names and ids from steam yet, do it on server start
-    Games.count({}, (err, count) => {
-        if (count < 1) {
-            steam.refreshGameNames();
-        }
-    });
-}
-
 steam.refreshNews = function() {
     console.log("fetching latest news from steam");
     
-    // User.find({}, 'gameList')
     User.find({}, 'gameList.appId')
     .catch(err => console.log(err))
     .then(users => {
@@ -81,20 +66,7 @@ steam.refreshNews = function() {
     })
 }
 
-steam.refreshGameNames = function() {
-    axios.get(steam.gameNameURL)
-        // .then(response => console.log(response.data))
-        .then(response => response.data.applist.apps)
-        .then(games => games.map(processGameResponse))
-        .then((processedGames) => bulkAddGamesToDB(processedGames))
-        .catch(error => {
-            console.log("error");
-        });
-        return;
-}
-
 function processNewsResponse(rawNewsItem) {
-    // console.log('processing News items');
     // convert bbcode to html before saving to DB
     let processedBody = bbcode.render(rawNewsItem.contents);
 
@@ -107,6 +79,34 @@ function processNewsResponse(rawNewsItem) {
         articleId: rawNewsItem.gid
     }
 }
+
+function addNewsItemToDB(newsItem) {
+    return new Promise(function (resolve, reject) {
+        var query = { articleId: newsItem.articleId };
+        News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
+            if (err) console.log(err);
+            return resolve(newsItem);
+        });
+    });
+}
+
+
+
+// ----- GAME DATA -----
+
+steam.refreshGameNames = function() {
+    axios.get(steam.gameNameURL)
+        // .then(response => console.log(response.data))
+        .then(response => response.data.applist.apps)
+        .then(games => games.map(processGameResponse))
+        .then((processedGames) => bulkAddGamesToDB(processedGames))
+        .catch(error => {
+            console.log("error");
+        });
+        return;
+}
+
+
 
 function processGameResponse(rawGame) {
     return {
@@ -124,16 +124,29 @@ function bulkAddGamesToDB(games) {
     });
 }
 
-function addNewsItemToDB(newsItem) {
-    return new Promise(function (resolve, reject) {
-        var query = { articleId: newsItem.articleId };
-        News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
-            if (err) console.log(err);
-            return resolve(newsItem);
-        });
+
+
+
+
+// ----- SERVER SETUP -----
+
+steam.serverSetup = function() {
+    setupDefaultUser();
+
+    News.count({}, (err, count) => {
+        if (count < 1) {
+            console.log('should be refreshing news');
+            steam.refreshNews();
+        }
+    })
+
+    // if we haven't gotten game names and ids from steam yet, do it on server start
+    Games.count({}, (err, count) => {
+        if (count < 1) {
+            steam.refreshGameNames();
+        }
     });
 }
-
 
 function setupDefaultUser() {
     let defaultGames = [

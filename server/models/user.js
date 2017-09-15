@@ -13,12 +13,30 @@ var userSchema = new mongoose.Schema({
 	gameList: [gameSchema]
 });
 
+
+var dummyGameList = [
+    {
+      appId: '440',
+      title: 'Team Fortress 2'
+    },
+    {
+      appId: '582660',
+      title: 'Black Desert Online'
+    },
+    {
+      appId: '252950',
+      title: 'Rocket League'
+    },
+    {
+      appId: '211820',
+      title: 'Starbound'
+    }
+  ];
+
+
 userSchema.pre("save", function(next) {
   if (this.gameList.length === 0) {
-    this.gameList.push({
-        appId: "440",
-        title: "Team Fortress 2"
-    });
+    this.gameList = dummyGameList;
   }
 
   if (!this.isModified('password')) {

@@ -1,5 +1,6 @@
 // Get dependencies
 const express = require('express');
+const app = express();
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
@@ -15,16 +16,14 @@ if(!process.env.MONGODB_URI) {
 }
 
 // Get our API routes
-const api = require('./server/routes/api');
-
-const app = express();
+const indexRoutes = require('./server/routes/index');
+const gameRoutes = require('./server/routes/games');
+const newsRoutes = require('./server/routes/news');
+const userRoutes = require('./server/routes/user');
 
 // initialize and configure passport
 require("./server/auth/passport")(passport);
 app.use(passport.initialize());
-
-
-
 
 mongoose.Promise = require('bluebird');
 mongoose.connect(process.env.MONGODB_URI);
@@ -37,7 +36,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Set our api routes
-app.use('/api', api);
+app.use("/api/", indexRoutes);
+app.use("/api/news/", newsRoutes);
+app.use("/api/user/", userRoutes);
+app.use("/api/games/", gameRoutes);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {

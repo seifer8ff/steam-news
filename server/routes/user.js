@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport	= require("passport");
-const News = require('../models/news');
 const Games = require('../models/game');
 const steam = require('../steamInterface');
 const Promise = require('bluebird');
@@ -10,6 +9,8 @@ const auth = require("../auth/auth");
 const User = require("../models/user");
 const expressJwt = require('express-jwt');  
 const authenticate = expressJwt({secret : auth.secret});
+// initialize and configure passport
+require("../auth/passport")(passport);
 
 var dummyGameList = [
   {
@@ -32,108 +33,9 @@ var dummyGameList = [
 
 
 
-// initialize and configure passport
-require("../auth/passport")(passport);
-
-
-/* GET api listing. */
-router.get('/', (req, res) => {
-  res.send('api works');
-});
-
-// NEWS ROUTES ----------------------------------------------
-
-//  GET news for all appIds in query string 
-router.get('/news', (req, res) => {
-  // get and process query params
-  var appIds = [];
-  typeof req.query.id === 'string' ? appIds.push(req.query.id) : appIds = req.query.id;
-
-  var refreshAppIds = [];
-  typeof req.query.refreshId === 'string' ? refreshAppIds.push(req.query.refreshId) : refreshAppIds = req.query.refreshId;
-
-  let limit = Number(req.query.limit) || 1;
-
-  //set up return objects
-  var newsObj = {};
-
-  var newsPromise = new Promise((resolve, reject) => {
-    if (!refreshAppIds) {
-      // if we don't need to refresh, just return appIds
-      return resolve(appIds);
-    }
-
-    steam.getNews(refreshAppIds) // gets and saves to DB
-    .then(() => {
-      appIds = appIds.concat(refreshAppIds);
-      return resolve(appIds);
-    })
-  })
-  // get all news from db 
-  .each(appId => {
-    return News.find({ appId: appId })
-      .limit(limit)
-      .catch(err => console.log("error fetching news from DB for " + appId))
-      // add news returned from DB to final newsArray obj
-      .then(news => newsObj[appId] = news);
-  })
-  .then(() => {
-    res.status(200).json(newsObj);
-  })
-});
-
-// get all matching game data (appId + title)
-// query based on game title
-router.get('/games', (req, res) => {
-  if (req.query.q) {
-    let query = req.query.q;
-    let regex = new RegExp("^" + query, "i");
-
-    console.log('filtering gameList');
-    console.log(query);
-
-    return Games.find({ title: regex })
-      .then(games => {
-        return games.filter((game) => {
-          return !game.title.toLowerCase().includes('server') && 
-            !game.title.toLowerCase().includes('soundtrack') &&
-            !game.title.toLowerCase().includes('unstable') &&
-            !game.title.toLowerCase().includes('soundtrack') &&
-            !game.title.toLowerCase().includes('trailer') &&
-            !game.title.toLowerCase().includes('dlc') &&
-            !game.title.toLowerCase().includes('demo') &&
-            !game.title.toLowerCase().includes('bundle');
-        });
-      })
-      .then(games => {
-        console.log(games.length);
-        res.status(200).json(games)
-      })
-  }
-
-  return Games.find()
-    .then(games => {
-      console.log(games.length);
-      res.status(200).json(games)
-    });
-});
-
-
-
-// DEMO ROUTES --------------------------
-
-// get a dummy gamelist
-router.get('/demo/gamelist/', (req, res) => {
-  console.log('returning dummy gamelist');
-  res.status(200).json(dummyGameList);
-});
-
-
-
-// USER ROUTES --------------------------------
-
 // register a user
 router.post('/register', registerUser, passport.authenticate('local', { session: false }), generateToken, respond);
+
 
 // login a user
 router.post('/login', function(req, res, next) {
@@ -146,6 +48,14 @@ router.post('/login', function(req, res, next) {
   })(req, res, next);
 }, generateToken, respond);
 
+
+// get a dummy user gamelist
+router.get('/demo/gamelist/', (req, res) => {
+  console.log('returning dummy gamelist');
+  res.status(200).json(dummyGameList);
+});
+
+
 // get the users current tracked game list
 router.get('/:username/gamelist/', authenticate, (req, res) => {
   console.log('getting gamelist for: ' + req.params.username);
@@ -155,6 +65,7 @@ router.get('/:username/gamelist/', authenticate, (req, res) => {
       res.status(200).json(gameList);
     });
 });
+
 
 // delete a game from the users tracked game list
 router.delete('/:username/gamelist/:appId', authenticate, (req, res) => {
@@ -167,6 +78,7 @@ router.delete('/:username/gamelist/:appId', authenticate, (req, res) => {
     }
   );
 });
+
 
 // add a game to the users tracked game list
 router.post('/:username/gamelist', authenticate, (req, res) => {

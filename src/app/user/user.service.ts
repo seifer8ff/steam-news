@@ -63,7 +63,7 @@ export class UserService {
         'Content-Type': 'application/json'
       });
 
-      this.authHttp.post('/api/' + this.currentUser.username + '/gamelist', JSON.stringify(newGame), {headers: jsonHeaders})
+      this.authHttp.post('/api/user/' + this.currentUser.username + '/gamelist', JSON.stringify(newGame), {headers: jsonHeaders})
       .subscribe();
     }
   }
@@ -79,7 +79,7 @@ export class UserService {
       this.router.navigate(['news']);
 
       // POST TO BACKEND 
-      this.authHttp.delete('/api/' + this.currentUser.username + '/gamelist/' + appId)
+      this.authHttp.delete('/api/user/' + this.currentUser.username + '/gamelist/' + appId)
       .subscribe(res => {
         if (res.status === 200) {
           // update gameList for all components
@@ -91,7 +91,7 @@ export class UserService {
 
   // get latest game list for user from backend
   updateGameList() {
-    let url = 'api/'
+    let url = 'api/user/'
 
     if (!this.isLoggedIn()) {
       url += 'demo/gamelist'
@@ -135,7 +135,7 @@ export class UserService {
       'Content-Type': 'application/json'
     });
 
-    this.http.post('/api/register', JSON.stringify(user), {headers: jsonHeaders})
+    this.http.post('/api/user/register', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
       .subscribe(
         data => {
@@ -164,7 +164,7 @@ export class UserService {
       'Content-Type': 'application/json'
     });
 
-    this.http.post('/api/login', JSON.stringify(user), {headers: jsonHeaders})
+    this.http.post('/api/user/login', JSON.stringify(user), {headers: jsonHeaders})
       .map(res => res.json())
       .subscribe(
         data => { 

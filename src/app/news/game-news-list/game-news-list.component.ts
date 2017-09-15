@@ -28,6 +28,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
       document.querySelector(".title-container").scrollIntoView();
 
       // get news for appId every time it changes
+      this.gameNews = [];
       if (this.gameNews$) {
         this.gameNews$.unsubscribe();
       }

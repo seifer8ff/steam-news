@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
 
+import { AuthHttp } from 'angular2-jwt';
 import { UserService } from '../../user.service';
 import { NewsService } from '../../../news/news.service';
 import { Game } from '../../game';
 import { User } from '../../user';
+
 
 @Component({
   selector: 'app-search',
@@ -25,7 +27,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   gameList: Game[];
   GameList$: Subscription;
 
-  constructor(private userService: UserService, private newsService: NewsService, private router: Router, private http: Http) { }
+  constructor(private userService: UserService, private newsService: NewsService, private router: Router, private authHttp: AuthHttp) { }
 
   ngOnInit() {
     this.GameList$ = this.userService.getGameList().subscribe((games) => {
@@ -45,7 +47,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       console.log("sending query to backend");
       let searchURL = "/api/games?q=" + this.query.toLowerCase();
       console.log(searchURL);
-      this.http.get(searchURL)
+
+      this.authHttp.get(searchURL)
       .map((gameListRes: Response) => gameListRes.json())
       .subscribe(gameList => {
         console.log('got gameList');
