@@ -1,0 +1,18 @@
+{
+    "name": "Steam News",
+    "short_name": "Steam News",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#64c0f4",
+    "background_color": "#303030",
+    "description": "The latest news from Steam on the game you care about.",
+    "icons": [{
+      "src": "assets/steam_logo_192.png",
+      "sizes": "192x192",
+      "type": "image/png" },
+      {
+        "src": "assets/steam_logo_512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }]
+  }
