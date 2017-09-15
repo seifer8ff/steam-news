@@ -1,11 +1,13 @@
-import { Directive, ElementRef, Output, EventEmitter, HostListener } from '@angular/core';
+import { Directive, ElementRef, Output, EventEmitter, HostListener, OnInit, OnDestroy } from '@angular/core';
 
 @Directive({
   selector: '[appClickOutside]'
 })
-export class ClickOutsideDirective {
+export class ClickOutsideDirective implements OnInit, OnDestroy {
 
-  constructor(private elementRef : ElementRef) { }
+  constructor(private elementRef : ElementRef) {}
+
+  content = <HTMLElement>document.querySelector(".content");
 
   @Output() public appClickOutside = new EventEmitter();
 
@@ -21,7 +23,11 @@ export class ClickOutsideDirective {
       }
     }
 
-    @HostListener('document:touchmove', ['$event']) handleScroll(event) {
-      event.preventDefault();
+    ngOnInit() {
+      this.content.style.overflowY = "hidden";
+    }
+
+    ngOnDestroy() {
+      this.content.style.overflowY = "auto";
     }
 }
