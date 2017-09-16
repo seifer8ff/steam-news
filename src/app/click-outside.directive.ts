@@ -13,6 +13,7 @@ export class ClickOutsideDirective implements OnInit, OnDestroy {
 
     @HostListener('document:click', ['$event'])
     @HostListener('document:touchend', ['$event'])
+    @HostListener('document:touchstart', ['$event'])
     handleClick(event) {
       const clickedInside = this.elementRef.nativeElement.contains(event.target) || this.elementRef.nativeElement.parentElement.contains(event.target) || event.target.classList.contains('click-outside');
       if (!clickedInside) {
