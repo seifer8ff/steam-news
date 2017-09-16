@@ -24,6 +24,7 @@ import { AuthModule } from './auth.module';
 import { SearchComponent } from './user/sidebar-games/search/search.component';
 import { BrokenImageDirective } from './broken-image.directive';
 import { StateService } from './state.service';
+import { StripTagPipe } from './stripTag.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { StateService } from './state.service';
     ShortenPipe,
     SignUpComponent,
     SearchComponent,
-    BrokenImageDirective
+    BrokenImageDirective,
+    StripTagPipe
   ],
   imports: [
     BrowserModule,
