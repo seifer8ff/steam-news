@@ -1,11 +1,11 @@
-import { Injectable, ElementRef, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Injectable, ElementRef, HostListener, OnDestroy } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 @Injectable()
-export class ArticleLoaderService implements OnInit, OnDestroy {
-  container = <HTMLElement>document.querySelector(".content");
+export class ArticleLoaderService implements OnDestroy {
+  scrollContainer: Element;
   watchComponent: ElementRef;
   scrollStream$: Subscription;
   minArticlesDisplay: number = 3;
@@ -13,21 +13,18 @@ export class ArticleLoaderService implements OnInit, OnDestroy {
   maxArticlesDisplay$: BehaviorSubject<number> = new BehaviorSubject(this.minArticlesDisplay);
   
 
-  constructor() { 
-    this.scrollStream$ = Observable.fromEvent(this.container, 'scroll')
-    .throttleTime(200)
-    .subscribe(() => {
-      this.isVisible(this.watchComponent, this.container);
-    });
-   }
-
-  ngOnInit() {
-  }
+  constructor() { }
 
   updateWatchComponent(elRef: ElementRef) {
     this.watchComponent = elRef;
-    console.log('watching ');
-    console.log(this.watchComponent);
+  }
+
+  watchScroll(elRef: Element) {
+    this.scrollStream$ = Observable.fromEvent(elRef, 'scroll')
+    .throttleTime(200)
+    .subscribe(() => {
+      this.isVisible(this.watchComponent, elRef);
+    });
   }
 
   isVisible(el, container) {

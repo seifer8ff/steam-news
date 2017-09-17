@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -16,7 +16,7 @@ import { fadeInDelayAnimation } from '../../_animations/fadeInDelayAnim';
   providers: [ArticleLoaderService],
   animations: [slideRightLeftAnimation, fadeInDelayAnimation]
 })
-export class GameNewsListComponent implements OnInit, OnDestroy {
+export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
   appId: string;
   fragment: string;
   noNews: boolean = false;
@@ -61,6 +61,11 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
         
       }
     });
+  }
+
+  ngAfterViewInit() {
+    let scrollContainer = document.querySelector('#scrollContainer');
+    this.articleLoaderService.watchScroll(scrollContainer);
   }
 
   //runs every time the game selected changes
