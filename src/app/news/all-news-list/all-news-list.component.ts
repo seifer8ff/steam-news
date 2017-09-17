@@ -5,11 +5,13 @@ import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { Game } from '../../user/game'
 import { News } from '../news'
+import { fadeInDelayAnimation } from '../../_animations/fadeInDelayAnim';
 
 @Component({
   selector: 'app-all-news-list',
   templateUrl: './all-news-list.component.html',
-  styleUrls: ['./all-news-list.component.css']
+  styleUrls: ['./all-news-list.component.css'],
+  animations: [fadeInDelayAnimation]
 })
 export class AllNewsListComponent implements OnInit, OnDestroy {
   gameList$: Subscription;

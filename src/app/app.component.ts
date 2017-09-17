@@ -9,7 +9,7 @@ import { fadeInAnimation } from './_animations/fadeInAnim';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   animations: [fadeInAnimation],
-  host: { '[@fadeInAnimation]': '' }
+  // host: { '[@fadeInAnimation]': '' }
   // animations: [
   //   trigger('routeAnimation', [
   //     // fade in on first load
