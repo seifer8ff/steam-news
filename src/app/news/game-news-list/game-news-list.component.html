@@ -6,8 +6,8 @@
   <div class="article-list-inner">
     <h2 class="title">Articles</h2>
     <ul>
-      <li fxLayout="row" *ngFor="let news of gameNews">
-        <a class="list-item" [routerLink] fragment="{{ 'a' + news.articleId }}">{{ news.title | shorten:30 }}</a>
+      <li fxLayout="row" *ngFor="let news of gameNews; let i = index;">
+        <a class="list-item" (click)="goToArticle(i, news.articleId)">{{ news.title | shorten:30 }}</a>
       </li>
     </ul>
   </div>
@@ -19,5 +19,9 @@
   <div *ngIf="!gameNews?.length">
     <h2>No news available for this game</h2>
   </div>
-  <app-news-article *ngFor="let article of gameNews" [newsItem]="article"></app-news-article>
+  <app-news-article 
+  *ngFor="let article of gameNews | slice:0:maxArticlesDisplay; last as isLast"
+  [isLast]="isLast" 
+  [newsItem]="article">
+  </app-news-article>
 </div>

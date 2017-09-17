@@ -25,6 +25,7 @@ import { SearchComponent } from './user/sidebar-games/search/search.component';
 import { BrokenImageDirective } from './broken-image.directive';
 import { StateService } from './state.service';
 import { StripTagPipe } from './stripTag.pipe';
+import { ArticleLoaderService } from './news/game-news-list/article-loader.service';
 
 @NgModule({
   declarations: [

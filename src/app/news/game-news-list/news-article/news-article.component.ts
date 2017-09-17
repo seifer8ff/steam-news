@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 
+import { ArticleLoaderService } from '../article-loader.service';
 import { News } from '../../news';
 import { slideUpAnimation } from '../../../_animations/slideUpAnim';
 
@@ -13,10 +14,14 @@ import { slideUpAnimation } from '../../../_animations/slideUpAnim';
 export class NewsArticleComponent implements OnInit {
   @Input() newsItem: News;
   @Input() appId: string;
+  @Input() isLast: boolean; // load more articles after scrolling to last
 
-  constructor() { }
+  constructor(private articleLoaderService: ArticleLoaderService, private elRef: ElementRef) { }
 
   ngOnInit() {
+    if (this.isLast) {
+      this.articleLoaderService.updateWatchComponent(this.elRef);
+    }
   }
 
 }
