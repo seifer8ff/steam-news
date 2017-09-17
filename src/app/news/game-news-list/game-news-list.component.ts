@@ -16,7 +16,7 @@ import { News } from '../news';
 export class GameNewsListComponent implements OnInit, OnDestroy {
   appId: string;
   fragment: string;
-  gameNews: News[] =[];
+  gameNews: News[] = [];
   gameNews$: Subscription;
   maxArticles: number = 20; // controls how many articles get requested from server
   maxArticlesDisplay: number; // this value gets set by article loader service
@@ -95,6 +95,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
+    this.gameNews = [];
     this.gameNews$.unsubscribe();
     this.maxArticlesDisplay$.unsubscribe();
   }
