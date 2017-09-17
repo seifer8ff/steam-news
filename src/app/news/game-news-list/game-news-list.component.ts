@@ -6,12 +6,14 @@ import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { ArticleLoaderService } from './article-loader.service';
 import { News } from '../news';
+import { slideRightLeftAnimation } from '../../_animations/slideRightLeftAnim';
 
 @Component({
   selector: 'app-game-news-list',
   templateUrl: './game-news-list.component.html',
   styleUrls: ['./game-news-list.component.css'],
-  providers: [ArticleLoaderService]
+  providers: [ArticleLoaderService],
+  animations: [slideRightLeftAnimation]
 })
 export class GameNewsListComponent implements OnInit, OnDestroy {
   appId: string;
