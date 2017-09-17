@@ -16,6 +16,7 @@ import { News } from '../news';
 export class GameNewsListComponent implements OnInit, OnDestroy {
   appId: string;
   fragment: string;
+  noNews: boolean = false;
   gameNews: News[] = [];
   gameNews$: Subscription;
   maxArticles: number = 20; // controls how many articles get requested from server
@@ -62,6 +63,15 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
   //runs every time the game selected changes
   onRouteChange() {
     console.log('route changed');
+
+    // controls whether the "there is no news" message is displayed
+    this.noNews = false;
+    setTimeout(() => {
+      if (!this.gameNews || !this.gameNews.length) {
+        this.noNews = true;
+      }
+    }, 1000);
+
     document.querySelector(".title-container").scrollIntoView();
 
     // get news for appId every time it changes

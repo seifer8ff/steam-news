@@ -15,9 +15,9 @@
 <div fxLayout="column" fxLayoutAlign="start center" fxFlexOffset="{{ gameNews?.length ? '350px' : '0' }}" fxFlexOffset.lt-md="0" fxFlex="grow">
   <div class="title-container">
     <h1 class="game-title" fxHide.lt-md>{{ userService.getGame(appId)?.title }} News</h1>
-    <img class="title-media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" alt="{{ appId }} banner" fxHide.md>
+    <img class="title-media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" alt="{{ appId }} banner" fxHide.gt-sm>
   </div>
-  <div *ngIf="!gameNews?.length">
+  <div *ngIf="!this.gameNews?.length && noNews">
     <h2>No news available for this game</h2>
   </div>
   <app-news-article 
