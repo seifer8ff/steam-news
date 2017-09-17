@@ -31,6 +31,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params
     .subscribe((params: Params) => {
+      this.newsService.clearGameNews();
       this.appId = params['appId'];
       this.onRouteChange();
     });
@@ -64,7 +65,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
     document.querySelector(".title-container").scrollIntoView();
 
     // get news for appId every time it changes
-    this.gameNews = [];
     this.articleLoaderService.resetMaxArticlesDisplay();
     if (this.gameNews$) {
       this.gameNews$.unsubscribe(); // destroy old stream with old appId
@@ -95,7 +95,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.gameNews = [];
+    this.newsService.clearGameNews();
     this.gameNews$.unsubscribe();
     this.maxArticlesDisplay$.unsubscribe();
   }
