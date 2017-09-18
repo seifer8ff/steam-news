@@ -1,19 +1,34 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { trigger, state, animate, transition, style, query, group, animateChild, useAnimation } from '@angular/animations';
 
 import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { Game } from '../../user/game'
 import { News } from '../news'
-import { fadeInDelayAnimation } from '../../_animations/fadeInDelayAnim';
+import { slideUpAnimation, slideDownAnimation } from '../../_animations';
 
 @Component({
   selector: 'app-all-news-list',
   templateUrl: './all-news-list.component.html',
   styleUrls: ['./all-news-list.component.css'],
-  animations: [fadeInDelayAnimation]
+  animations: [
+    trigger('componentAnimations', [
+      transition(':enter', [
+        query('app-news-summary', [
+          useAnimation(slideUpAnimation)
+        ], { optional: true })
+      ]),
+      transition(':leave', [
+        query('app-news-summary', [
+          useAnimation(slideDownAnimation)
+        ], { optional: true })
+      ])
+    ])
+  ]
 })
 export class AllNewsListComponent implements OnInit, OnDestroy {
+  @HostBinding('@componentAnimations')
   gameList$: Subscription;
   latestNews$ : Subscription;
   gameList: Game[];

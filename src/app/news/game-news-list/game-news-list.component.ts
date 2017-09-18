@@ -1,22 +1,45 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, HostBinding } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { trigger, state, animate, transition, style, query, group, animateChild, useAnimation } from '@angular/animations';
 
 import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { ArticleLoaderService } from './article-loader.service';
 import { News } from '../news';
-import { slideRightLeftAnimation } from '../../_animations/slideRightLeftAnim';
-import { fadeInDelayAnimation } from '../../_animations/fadeInDelayAnim';
+import { fadeInAnimation, slideUpAnimation, slideDownAnimation } from '../../_animations';
 
 @Component({
   selector: 'app-game-news-list',
   templateUrl: './game-news-list.component.html',
   styleUrls: ['./game-news-list.component.css'],
   providers: [ArticleLoaderService],
-  animations: [slideRightLeftAnimation, fadeInDelayAnimation]
+  animations: [
+    trigger('componentAnimations', [
+      transition(':enter', [
+        query('h1', [
+          useAnimation(fadeInAnimation)
+        ], { optional: true }),
+        query('app-news-article', [
+          useAnimation(slideUpAnimation)
+        ], { optional: true }),
+      ]),
+      transition(':leave', [
+        query('app-news-article', [
+          useAnimation(slideDownAnimation)
+        ], { optional: true }),
+      ])
+    ]),
+    // trigger('slideUpAnimation', [
+    //   transition(':enter', [
+    //     useAnimation(slideUpAnimation)
+    //   ])
+    // ])
+  ]
 })
 export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
+  @HostBinding('@componentAnimations')
+
   appId: string;
   fragment: string;
   noNews: boolean = false;

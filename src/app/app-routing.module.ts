@@ -7,9 +7,9 @@ import { SignUpComponent } from './user/sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/news', pathMatch: 'full' },
-  { path: 'news', component: AllNewsListComponent },
-  { path: 'news/:appId', component: GameNewsListComponent },
-  { path: 'login', component: SignUpComponent },
+  { path: 'news', component: AllNewsListComponent, data: { animation: 'allNews' } },
+  { path: 'news/:appId', component: GameNewsListComponent, data: { animation: 'gameNews' } },
+  { path: 'login', component: SignUpComponent, data: { animation: 'login' } },
   { path: '**', component: GameNewsListComponent }
 ];
 
