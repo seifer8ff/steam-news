@@ -6,7 +6,7 @@
   
   <div class="content-container" *ngIf="!this.newUser" [@flip]>
     <h2>Log In</h2>
-    <h3 class="error" *ngIf="userService.loginErrorMessage">{{ userService.loginErrorMessage }}</h3>
+    <h3 class="error" *ngIf="userService.serverErrorMessage">{{ userService.serverErrorMessage }}</h3>
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
       <div class="form-group">
         <input type="text" name="loginUsername" ngModel required minlength="4">
@@ -23,7 +23,7 @@
 
   <div class="content-container" *ngIf="this.newUser" [@flip]>
       <h2>Sign Up</h2>
-      <h3 class="error" *ngIf="userService.registerErrorMessage">{{ userService.registerErrorMessage }}</h3>
+      <h3 class="error" *ngIf="userService.serverErrorMessage">{{ userService.serverErrorMessage }}</h3>
       <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm.value)">
         <div class="form-group">
           <input type="text" name="registerUsername" ngModel required minlength="4">

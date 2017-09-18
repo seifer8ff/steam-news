@@ -19,8 +19,7 @@ export class UserService {
     ]
   );
   gameList$: ReplaySubject<Game[]> = new ReplaySubject(1);
-  loginErrorMessage: string;
-  registerErrorMessage: string;
+  serverErrorMessage: string;
 
   constructor(private http: Http, private router: Router, private authHttp: AuthHttp) {
     this.init();
@@ -141,13 +140,15 @@ export class UserService {
           this.currentUser = data.user;
           localStorage.setItem('currentUser', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
-          this.loginErrorMessage = null;
-          this.registerErrorMessage = null;
+          this.serverErrorMessage = null;
           this.updateGameList();
           this.router.navigate(['news']);
         }, err => {
           if (err.status === 409) {
-            this.registerErrorMessage = "Username Already In Use"
+            this.serverErrorMessage = err.json().message || "Something Went Wrong";
+          }
+          if (err.status === 422) {
+            this.serverErrorMessage = err.json().message || "Something Went Wrong";
           }
         }
       );
@@ -171,13 +172,12 @@ export class UserService {
           this.currentUser = data.user;
           localStorage.setItem('currentUser', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
-          this.loginErrorMessage = null;
-          this.registerErrorMessage = null;
+          this.serverErrorMessage = null;
           this.updateGameList();
           this.router.navigate(['news']);
         }, err => {
           if (err.status === 401) {
-            this.loginErrorMessage = "Incorrect Login Information"
+            this.serverErrorMessage = err.json().message || "Something Went Wrong";
           }
         }
       )

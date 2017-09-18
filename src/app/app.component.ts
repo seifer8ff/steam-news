@@ -45,7 +45,7 @@ export class AppComponent {
   constructor(private userService: UserService) {}
 
   prepRouteState(outlet: any) {
-    console.log(outlet.activatedRouteData.animation);
+    // console.log(outlet.activatedRouteData.animation);
     return outlet.activatedRouteData.animation;
   }
 }

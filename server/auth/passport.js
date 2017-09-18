@@ -2,6 +2,7 @@ var passport      = require("passport"),
     LocalStrategy = require("passport-local").Strategy,
     auth          = require("./auth"),
     User          = require("../models/user");
+    validator     = require('validator');
 
 
 module.exports = function() {
@@ -35,6 +36,20 @@ module.exports = function() {
 
   passport.use("local", new LocalStrategy({ session: false }, (username, password, done) => {
     console.log('looking for user: ' + username);
+
+    // validate input
+    if (!username ||
+      !validator.isAlphanumeric(username) ||
+      validator.isEmpty(username) || 
+      !validator.isLength(username, { min:4, max: 20 }) ||
+      !password ||
+      !validator.isAlphanumeric(password) ||
+      validator.isEmpty(password) || 
+      !validator.isLength(password, { min:6, max: 20 })) {
+        console.log('invalid username or password');
+        return done(null, false);
+    }
+
     User.findOne({ 'username' : username }, (err, user) => {
       // if there is an error, stop everything and return that
       // ie an error connecting to the database
