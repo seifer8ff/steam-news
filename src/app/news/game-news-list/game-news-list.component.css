@@ -1,5 +1,6 @@
 :host {
     background-color: #303030;
+    z-index: -15;
 }
 
 .title-container {
