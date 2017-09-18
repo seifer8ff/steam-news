@@ -18,12 +18,12 @@ import { slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from '../../
         query('.title-container', [
           useAnimation(slideInDown)
         ], { optional: false }),
-        query('app-news-summary', [
+        query('#summary-container', [
           useAnimation(slideInUpLong)
         ], { optional: true })
       ]),
       transition(':leave', [
-        query('app-news-summary', [
+        query('#summary-container', [
           useAnimation(slideOutDownLong)
         ], { optional: true }),
         query('.title-container', [

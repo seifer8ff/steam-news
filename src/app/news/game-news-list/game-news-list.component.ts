@@ -26,17 +26,19 @@ import { fadeIn, slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from
         query('@slideRight', [
           animateChild()
         ], { optional: true }),
-        query('app-news-article', [
+        query('#article-container', [
           useAnimation(slideInUpLong)
         ], { optional: true }),
       ]),
       transition(':leave', [
-        query('app-news-article', [
-          useAnimation(slideOutDownLong)
-        ], { optional: true }),
-        query('@slideRight', [
-          animateChild()
-        ], { optional: true }),
+        group([
+          query('#article-container', [
+            useAnimation(slideOutDownLong)
+          ], { optional: true }),
+          query('@slideRight', [
+            animateChild()
+          ], { optional: true }),
+        ]),
         query('.title-container', [
           useAnimation(slideOutUp)
         ], { optional: false }),

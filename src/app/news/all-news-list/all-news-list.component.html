@@ -2,7 +2,7 @@
   <h1>Latest News</h1>
 </div>
 <div fxLayout="row" fxLayoutAlign="center start">
-  <div fxLayout="row wrap" fxLayoutAlign="center stretch" fxFlex="90" fxFlex.lt-md="98">
+  <div id="summary-container" fxLayout="row wrap" fxLayoutAlign="center stretch" fxFlex="90" fxFlex.lt-md="98">
     <app-news-summary 
       fxFlex="100" fxFlex.gt-xs="250px" fxFlex.gt-md="300px" fxFlex.gt-lg="375px"
       *ngFor="let article of this.latestNews" 

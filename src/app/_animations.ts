@@ -20,23 +20,23 @@ export const fadeOut = animation([
 
 
 export const slideInUpLong = animation([
-    style({transform: 'translate3d(0, 100vh, 0)'}),
+    style({ transformOrigin: 'top center', transform: 'translate3d(0, 100vh, 0)' }),
     animate('400ms ease-in', style({transform: 'translate3d(0, 0, 0)'}))
 ]);
 
 export const slideInDown = animation([
-    style({transform: 'translate3d(0, -100%, 0)'}),
+    style({ transformOrigin: 'bottom center', transform: 'translate3d(0, -100%, 0)' }),
     style({zIndex: '-5'}),
     animate('100ms ease-in', style({transform: 'translate3d(0, 0, 0)'}))
 ]);
 
 export const slideOutUp = animation([
-    style({transform: 'translate3d(0, 0, 0)'}),
+    style({ transformOrigin: 'bottom center', transform: 'translate3d(0, 0, 0)' }),
     style({zIndex: '-5'}),
     animate('100ms ease-in', style({transform: 'translate3d(0, -100%, 0)'}))
 ]);
 
 export const slideOutDownLong = animation([
-    style({transform: 'translate3d(0, 0, 0)'}),
+    style({ transformOrigin: 'top center', transform: 'translate3d(0, 0, 0)'}),
     animate('400ms ease-in', style({transform: 'translate3d(0, 100vh, 0)'}))
 ]);

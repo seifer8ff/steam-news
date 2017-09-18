@@ -20,9 +20,11 @@
   <div *ngIf="!this.gameNews?.length && noNews">
     <h2>No news available for this game</h2>
   </div>
-  <app-news-article 
-  *ngFor="let article of gameNews | slice:0:maxArticlesDisplay; last as isLast"
-  [isLast]="isLast" 
-  [newsItem]="article">
-  </app-news-article>
+  <div id="article-container">
+    <app-news-article 
+    *ngFor="let article of gameNews | slice:0:maxArticlesDisplay; last as isLast"
+    [isLast]="isLast" 
+    [newsItem]="article">
+    </app-news-article>
+  </div>
 </div>
