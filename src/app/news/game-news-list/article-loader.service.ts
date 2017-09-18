@@ -28,6 +28,10 @@ export class ArticleLoaderService implements OnDestroy {
   }
 
   isVisible(el, container) {
+    if (!el || !container) {
+      return;
+    }
+
     let elRect = el.nativeElement.getBoundingClientRect();
     let containerRect = container.getBoundingClientRect();
 
