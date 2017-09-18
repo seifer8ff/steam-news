@@ -6,7 +6,7 @@ import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { Game } from '../../user/game'
 import { News } from '../news'
-import { slideUpAnimation, slideDownAnimation } from '../../_animations';
+import { slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from '../../_animations';
 
 @Component({
   selector: 'app-all-news-list',
@@ -15,14 +15,20 @@ import { slideUpAnimation, slideDownAnimation } from '../../_animations';
   animations: [
     trigger('componentAnimations', [
       transition(':enter', [
+        query('.title-container', [
+          useAnimation(slideInDown)
+        ], { optional: false }),
         query('app-news-summary', [
-          useAnimation(slideUpAnimation)
+          useAnimation(slideInUpLong)
         ], { optional: true })
       ]),
       transition(':leave', [
         query('app-news-summary', [
-          useAnimation(slideDownAnimation)
-        ], { optional: true })
+          useAnimation(slideOutDownLong)
+        ], { optional: true }),
+        query('.title-container', [
+          useAnimation(slideOutUp)
+        ], { optional: false }),
       ])
     ])
   ]

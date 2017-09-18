@@ -4,7 +4,7 @@
     <h1>Sign up to get the latest news on your Steam Wishlist!</h1>
   </div>
   
-  <div class="content-container" *ngIf="!this.newUser" [@flipAnimation]>
+  <div class="content-container" *ngIf="!this.newUser" [@flip]>
     <h2>Log In</h2>
     <h3 class="error" *ngIf="userService.loginErrorMessage">{{ userService.loginErrorMessage }}</h3>
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
@@ -21,7 +21,7 @@
     </form>
   </div>
 
-  <div class="content-container" *ngIf="this.newUser" [@flipAnimation]>
+  <div class="content-container" *ngIf="this.newUser" [@flip]>
       <h2>Sign Up</h2>
       <h3 class="error" *ngIf="userService.registerErrorMessage">{{ userService.registerErrorMessage }}</h3>
       <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm.value)">

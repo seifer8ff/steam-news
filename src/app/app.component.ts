@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { trigger, state, animate, transition, style, query, group, animateChild, useAnimation } from '@angular/animations';
 
 import { UserService } from './user/user.service';
-import { fadeInAnimation, fadeOutAnimation } from './_animations';
+import { fadeIn, fadeOut } from './_animations';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import { fadeInAnimation, fadeOutAnimation } from './_animations';
     trigger('routeAnimation', [
       // fade in on first load
       transition(':enter', [
-        useAnimation(fadeInAnimation)
+        useAnimation(fadeIn)
       ]),
       transition('* <=> *', [
         group([
@@ -26,12 +26,12 @@ import { fadeInAnimation, fadeOutAnimation } from './_animations';
         query(':leave', [
           group([
             animateChild(),
-            useAnimation(fadeOutAnimation)
+            useAnimation(fadeOut)
           ])
         ], { optional: true }),
         query(':enter', [
           group([
-            useAnimation(fadeInAnimation),
+            useAnimation(fadeIn),
             animateChild()
           ])
         ], { optional: true }),

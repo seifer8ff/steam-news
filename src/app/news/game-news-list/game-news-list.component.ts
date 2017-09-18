@@ -7,7 +7,7 @@ import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { ArticleLoaderService } from './article-loader.service';
 import { News } from '../news';
-import { fadeInAnimation, slideUpAnimation, slideDownAnimation } from '../../_animations';
+import { fadeIn, slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from '../../_animations';
 
 @Component({
   selector: 'app-game-news-list',
@@ -17,24 +17,46 @@ import { fadeInAnimation, slideUpAnimation, slideDownAnimation } from '../../_an
   animations: [
     trigger('componentAnimations', [
       transition(':enter', [
+        query('.title-container', [
+          useAnimation(slideInDown)
+        ], { optional: false }),
         query('h1', [
-          useAnimation(fadeInAnimation)
+          useAnimation(fadeIn)
+        ], { optional: true }),
+        query('@slideRight', [
+          animateChild()
         ], { optional: true }),
         query('app-news-article', [
-          useAnimation(slideUpAnimation)
+          useAnimation(slideInUpLong)
         ], { optional: true }),
       ]),
       transition(':leave', [
         query('app-news-article', [
-          useAnimation(slideDownAnimation)
+          useAnimation(slideOutDownLong)
         ], { optional: true }),
+        query('@slideRight', [
+          animateChild()
+        ], { optional: true }),
+        query('.title-container', [
+          useAnimation(slideOutUp)
+        ], { optional: false }),
       ])
     ]),
-    // trigger('slideUpAnimation', [
-    //   transition(':enter', [
-    //     useAnimation(slideUpAnimation)
-    //   ])
-    // ])
+    trigger('slideRight', [
+        transition(':enter', [
+            style({
+              transform: 'translate3d(-102%, 0, 0)'
+            }),
+            animate('500ms ease-in-out', style({
+              transform: 'translate3d(0, 0, 0)'
+            }))
+        ]),
+        transition(':leave', [
+          animate('500ms ease-in-out', style({
+            transform: 'translate3d(-102%, 0, 0)'
+          }))
+        ])
+    ])
   ]
 })
 export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {

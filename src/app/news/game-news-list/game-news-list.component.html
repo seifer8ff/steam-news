@@ -1,4 +1,4 @@
-<aside *ngIf="gameNews?.length" class="article-list" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
+<aside *ngIf="gameNews?.length" class="article-list" [@slideRight] fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
   <div class="media-container">
       <img class="media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
       <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>

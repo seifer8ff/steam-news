@@ -10,7 +10,7 @@ import {
 } from '@angular/animations';
 
 import { UserService } from '../user.service';
-import { slideUpAnimation, slideDownAnimation } from '../../_animations';
+import { slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from '../../_animations';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,20 +19,26 @@ import { slideUpAnimation, slideDownAnimation } from '../../_animations';
   animations: [
     trigger('componentAnimations', [
       transition(':enter', [
+        query('.title-container', [
+          useAnimation(slideInDown)
+        ], { optional: false }),
         query('.content-container', [
-          useAnimation(slideUpAnimation)
+          useAnimation(slideInUpLong)
         ])
       ]),
       transition(':leave', [
         query('.content-container', [
-          useAnimation(slideDownAnimation)
-        ])
+          useAnimation(slideOutDownLong)
+        ]),
+        query('.title-container', [
+          useAnimation(slideOutUp)
+        ], { optional: false }),
       ]),
     ]),
-    trigger('flipAnimation', [
+    trigger('flip', [
       transition(':enter', [
         style({transform: 'rotateY(179.9deg)'}),
-        animate('300ms ease-in')
+        animate('300ms ease-in'),
       ])
     ])
   ]

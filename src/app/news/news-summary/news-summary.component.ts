@@ -1,8 +1,7 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { News } from '../news';
 import { Game } from '../../user/game';
-import { slideUpAnimation, slideDownAnimation } from '../../_animations';
 
 @Component({
   selector: 'app-news-summary',
