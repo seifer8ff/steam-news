@@ -45,6 +45,11 @@ import { slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from '../../
 })
 export class SignUpComponent implements OnInit {
   @HostBinding('@componentAnimations')
+  user = {
+    username: '',
+    password: '',
+    passwordConfirm: ''
+  }
   newUser: boolean = false;
 
   constructor(private userService: UserService) { }
@@ -53,11 +58,11 @@ export class SignUpComponent implements OnInit {
   }
 
   onSignup(form: any) {
-    this.userService.register(form.registerUsername, form.registerPassword);
+    this.userService.register(form.username, form.password);
   }
 
   onLogin(form: any) {
-    this.userService.logIn(form.loginUsername, form.loginPassword);
+    this.userService.logIn(form.username, form.password);
   }
 
 }

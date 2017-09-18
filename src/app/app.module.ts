@@ -26,6 +26,7 @@ import { BrokenImageDirective } from './broken-image.directive';
 import { StateService } from './state.service';
 import { StripTagPipe } from './stripTag.pipe';
 import { ArticleLoaderService } from './news/game-news-list/article-loader.service';
+import { EqualValidator } from './equal-validator.directive';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ArticleLoaderService } from './news/game-news-list/article-loader.servi
     SignUpComponent,
     SearchComponent,
     BrokenImageDirective,
-    StripTagPipe
+    StripTagPipe,
+    EqualValidator
   ],
   imports: [
     BrowserModule,
