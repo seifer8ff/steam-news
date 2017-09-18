@@ -26,8 +26,6 @@ export class NewsService {
   init() {
     this.gameList$ = this.userService.getGameList().subscribe(gameList => {
       this.gameList = gameList;
-      console.log('news service picked up gameList change');
-      console.log(this.gameList);
       this.updateLatestNews();
     });
   }
@@ -39,8 +37,6 @@ export class NewsService {
     .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
     .map(news => this.sortNewsByDate(news))
     .subscribe(news => {
-      console.log("latest news from backend: ");
-      console.log(news);
       this.latestNews = news;
       this.latestNews$.next(this.latestNews);
     });
@@ -67,8 +63,6 @@ export class NewsService {
     .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
     .map(newsRes => newsRes[appId])
     .subscribe(newsRes => {
-      console.log("news for " + appId + ": ");
-      console.log(newsRes);
       this.gameNews$.next(newsRes);
     });
     return this.gameNews$.asObservable();
@@ -92,7 +86,6 @@ export class NewsService {
           return newsItem;
       });
     }
-    // console.log(processedNews);
     return processedNews;
   }
 
@@ -124,7 +117,6 @@ export class NewsService {
     }
     finalUrl += 'limit=' + limit;
 
-    console.log(finalUrl);
     return finalUrl;
   }
 

@@ -15,9 +15,6 @@ router.get('', authenticate, (req, res) => {
     let query = req.query.q;
     let regex = new RegExp("^" + query, "i");
 
-    console.log('filtering gameList');
-    console.log(query);
-
     return Games.find({ title: regex })
       .then(games => {
         return games.filter((game) => {
@@ -32,14 +29,12 @@ router.get('', authenticate, (req, res) => {
         });
       })
       .then(games => {
-        console.log(games.length);
         return res.status(200).json(games)
       })
   }
 
   return Games.find()
     .then(games => {
-      console.log(games.length);
       return res.status(200).json(games)
     });
 });

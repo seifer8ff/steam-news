@@ -15,12 +15,9 @@ steam.gameNameURL = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/';
 // ----- NEWS -----
 
 steam.getNews = function getNews(refreshIds) {
-    console.log('getting news for refresh appIds');
     return new Promise(function (resolve, reject) {
         var appIds = [];
         typeof refreshIds === 'string' ? appIds.push(refreshIds) : appIds = refreshIds;
-        console.log(appIds);
-        
 
         Promise.resolve(axios.get(steam.baseURL + appIds[0] + '&count=30'))
         .then(response => response.data.appnews.newsitems)
@@ -35,8 +32,6 @@ steam.getNews = function getNews(refreshIds) {
 }
 
 steam.refreshNews = function() {
-    console.log("fetching latest news from steam");
-    
     User.find({}, 'gameList.appId')
     .catch(err => console.log(err))
     .then(users => {
@@ -54,14 +49,13 @@ steam.refreshNews = function() {
         return appIds;
     })
     .map(appId => {
-        console.log("getting news for " + appId);
         axios.get(steam.baseURL + appId + '&count=30')
         .then(response => response.data.appnews.newsitems)
         .then(rawNews => rawNews.map(processNewsResponse))
         .then(news => news.map(addNewsItemToDB))
         .catch(error => {
             console.log("error");
-            // console.log(error);
+            console.log(error);
         });
     })
 }
@@ -84,7 +78,9 @@ function addNewsItemToDB(newsItem) {
     return new Promise(function (resolve, reject) {
         var query = { articleId: newsItem.articleId };
         News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
-            if (err) console.log(err);
+            if (err) {
+                console.log(err);
+            }
             return resolve(newsItem);
         });
     });
@@ -102,6 +98,7 @@ steam.refreshGameNames = function() {
         .then((processedGames) => bulkAddGamesToDB(processedGames))
         .catch(error => {
             console.log("error");
+            console.log(error);
         });
         return;
 }
@@ -135,7 +132,6 @@ steam.serverSetup = function() {
 
     News.count({}, (err, count) => {
         if (count < 1) {
-            console.log('should be refreshing news');
             steam.refreshNews();
         }
     })

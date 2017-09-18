@@ -27,10 +27,10 @@ button img {
     position: relative;
     padding: 16px;
     color: #303030; 
-    font-size: 1.3em;
+    font-size: 1.1em;
     text-decoration: none;
     text-transform: uppercase;
-    min-width: 60px;
+    min-width: 30px;
     text-align: center;
     white-space: nowrap;
 }
@@ -73,6 +73,12 @@ button img {
 }
 
 @media (min-width: 768px) {
+    .header-item {
+        padding: 16px;
+        font-size: 1.3em;
+        min-width: 60px;
+    }
+
     .header-item:hover {
         background-color: #2190c1;
         color: #dddddd;

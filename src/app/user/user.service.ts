@@ -51,7 +51,6 @@ export class UserService {
 
   onAddGame(game: Game) {
     if (!this.currentUser.gameList.find(thisGame => thisGame.appId === game.appId)) {
-      console.log('adding game to users gameList');
       var newGame = new Game(game.appId, game.title);
       
       this.currentUser.gameList.push(newGame);
@@ -111,7 +110,6 @@ export class UserService {
         return gameListRes;
       })
       .subscribe(gameListRes => {
-        console.log(gameListRes);
         this.gameList$.next(gameListRes);
       });
   }
@@ -155,9 +153,6 @@ export class UserService {
   }
 
   logIn(username: string, password: string) {
-    console.log('logging in with');
-    console.log(username + " " + password);
-
     let user = { username: username, password: password };
 
     let jsonHeaders = new Headers({
@@ -168,7 +163,6 @@ export class UserService {
       .map(res => res.json())
       .subscribe(
         data => { 
-          console.log(data);
           this.currentUser = data.user;
           localStorage.setItem('currentUser', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);

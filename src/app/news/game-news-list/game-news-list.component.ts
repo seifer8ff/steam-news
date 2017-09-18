@@ -115,8 +115,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   //runs every time the game selected changes
   onRouteChange() {
-    console.log('route changed');
-
     // controls whether the "there is no news" message is displayed
     this.noNews = false;
     setTimeout(() => {
@@ -140,7 +138,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   scrollToFragment() {
-    console.log('scrolling to ' + this.fragment);
     let element = document.querySelector ( "#" + this.fragment );
     if (element) element.scrollIntoView();
   }

@@ -52,14 +52,12 @@ router.post('/login', function(req, res, next) {
 
 // get a dummy user gamelist
 router.get('/demo/gamelist/', (req, res) => {
-  console.log('returning dummy gamelist');
   return res.status(200).json(dummyGameList);
 });
 
 
 // get the users current tracked game list
 router.get('/:username/gamelist/', authenticate, (req, res) => {
-  console.log('getting gamelist for: ' + req.params.username);
   User.findOne({username: req.params.username})
     .then(user => user.gameList)
     .then(gameList => {
@@ -91,8 +89,6 @@ router.delete('/:username/gamelist/:appId', authenticate, (req, res) => {
 
 // add a game to the users tracked game list
 router.post('/:username/gamelist', authenticate, (req, res) => {
-  console.log('adding ' + req.body.title + ' to game track list');
-
   // validate input
   if (!req.body.appId ||
     !validator.isAlphanumeric(req.body.appId) ||
@@ -167,15 +163,12 @@ function registerUser(req, res, next) {
     }
 
     if (foundUser) {
-      console.log('username taken');
       return res.status(409).send({ success : false, message : 'Username Already Taken' });
     } else {
       // save in Mongo
       newUser.save(function(err) {
         if(err) {
           console.log(err);
-        } else {
-          console.log('user: ' + newUser.username + " saved.");
         }
         next();
       });

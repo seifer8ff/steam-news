@@ -45,15 +45,11 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   filter() {
     if (this.query !== "") {
-      console.log("sending query to backend");
       let searchURL = "/api/games?q=" + this.query.toLowerCase();
-      console.log(searchURL);
 
       this.authHttp.get(searchURL)
       .map((gameListRes: Response) => gameListRes.json())
       .subscribe(gameList => {
-        console.log('got gameList');
-        console.log(gameList);
         this.filteredGames = gameList.slice(0,5);
       });
     }else{
@@ -72,7 +68,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.userService.onAddGame(game);
     } else {
       // navigate to the game page and close the sidebar
-      console.log("already have game");
       this.router.navigate(['news', game.appId]);
       this.stateService.closeSidebar();
     }

@@ -35,8 +35,6 @@ module.exports = function() {
   // });
 
   passport.use("local", new LocalStrategy({ session: false }, (username, password, done) => {
-    console.log('looking for user: ' + username);
-
     // validate input
     if (!username ||
       !validator.isAlphanumeric(username) ||
@@ -46,7 +44,6 @@ module.exports = function() {
       !validator.isAlphanumeric(password) ||
       validator.isEmpty(password) || 
       !validator.isLength(password, { min:6, max: 20 })) {
-        console.log('invalid username or password');
         return done(null, false);
     }
 
@@ -54,26 +51,21 @@ module.exports = function() {
       // if there is an error, stop everything and return that
       // ie an error connecting to the database
       if (err) {
-        console.log('error');
         return done(err);
       }
       // if the user is found then log them in
       if (user) {
         user.comparePassword(password, function(err, isMatch) {
-          console.log('comparing password');
           if (err) throw err;
           if (isMatch) {
-            console.log('user found');
             return done(null, user); // user found, return that user
           } else {
-            console.log('wrong password');
             return done(null, false);
           }
         });
       }
       // no user
       if (!user) {
-        console.log('no user with that info found');
         return done(null, false);
       }
     });
