@@ -25,15 +25,7 @@ import { slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from '../../
         query('.content-container', [
           useAnimation(slideInUpLong)
         ])
-      ]),
-      transition(':leave', [
-        query('.content-container', [
-          useAnimation(slideOutDownLong)
-        ]),
-        query('.title-container', [
-          useAnimation(slideOutUp)
-        ], { optional: false }),
-      ]),
+      ])
     ]),
     trigger('flip', [
       transition(':enter', [

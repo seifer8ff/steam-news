@@ -27,16 +27,27 @@ export const slideInUpLong = animation([
 export const slideInDown = animation([
     style({ transformOrigin: 'bottom center', transform: 'translate3d(0, -100%, 0)' }),
     style({zIndex: '-5'}),
-    animate('100ms ease-in', style({transform: 'translate3d(0, 0, 0)'}))
+    animate('250ms ease-in', style({transform: 'translate3d(0, 0, 0)'}))
 ]);
 
 export const slideOutUp = animation([
     style({ transformOrigin: 'bottom center', transform: 'translate3d(0, 0, 0)' }),
     style({zIndex: '-5'}),
-    animate('100ms ease-in', style({transform: 'translate3d(0, -100%, 0)'}))
+    animate('250ms ease-in', style({transform: 'translate3d(0, -100%, 0)'}))
 ]);
 
 export const slideOutDownLong = animation([
     style({ transformOrigin: 'top center', transform: 'translate3d(0, 0, 0)'}),
     animate('400ms ease-in', style({transform: 'translate3d(0, 100vh, 0)'}))
+]);
+
+
+export const slideOutDownArticles = animation([
+    style({ transformOrigin: 'top center', transform: 'translate3d(0, 0, 0)'}),
+    animate('400ms ease-in', style({transform: 'translate3d(0, 100vh, 0)'}))
+]);
+
+export const slideInUpArticles = animation([
+    style({ transformOrigin: 'top center', transform: 'translate3d(0, 100vh, 0)' }),
+    animate('500ms ease-in', style({transform: 'translate3d(0, 0, 0)'}))
 ]);

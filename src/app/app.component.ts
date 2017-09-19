@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { trigger, state, animate, transition, style, query, group, animateChild, useAnimation } from '@angular/animations';
 
 import { UserService } from './user/user.service';
-import { fadeIn, fadeOut } from './_animations';
+import { fadeIn, fadeOut, slideOutUp } from './_animations';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,9 @@ import { fadeIn, fadeOut } from './_animations';
         ]),
         query(':leave', [
           group([
-            animateChild(),
+            query('.title-container', [
+              useAnimation(slideOutUp)
+            ], { optional: true }),
             useAnimation(fadeOut)
           ])
         ], { optional: true }),
@@ -33,8 +35,8 @@ import { fadeIn, fadeOut } from './_animations';
           group([
             useAnimation(fadeIn),
             animateChild()
-          ])
-        ], { optional: true }),
+          ]),
+        ])
       ]),
     ]),
   ]
