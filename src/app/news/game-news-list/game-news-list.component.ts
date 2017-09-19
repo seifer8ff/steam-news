@@ -19,7 +19,7 @@ import { fadeIn, slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from
       transition(':enter', [
         query('.title-container', [
           useAnimation(slideInDown)
-        ], { optional: false }),
+        ], { optional: true }),
         query('h1', [
           useAnimation(fadeIn)
         ], { optional: true }),
@@ -41,7 +41,7 @@ import { fadeIn, slideInUpLong, slideOutDownLong, slideInDown, slideOutUp } from
         ]),
         query('.title-container', [
           useAnimation(slideOutUp)
-        ], { optional: false }),
+        ], { optional: true }),
       ])
     ]),
     trigger('slideRight', [
