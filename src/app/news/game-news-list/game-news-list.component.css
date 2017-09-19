@@ -35,3 +35,7 @@ aside {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+#article-container {
+    width: 100%;
+}
