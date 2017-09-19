@@ -23,14 +23,22 @@ import { fadeIn, fadeOut, slideOutUp } from './_animations';
             style({ position: 'absolute', display: 'block', top: 0, left: 0, right: 0, width: '100vw' }),
           ], { optional: true }),
         ]),
-        query(':leave', [
-          group([
-            query('.title-container', [
+        group([
+          query(':leave .title-container', [
               useAnimation(slideOutUp)
-            ], { optional: true }),
+          ], { optional: true }),
+          query(':leave', [
             useAnimation(fadeOut)
-          ])
-        ], { optional: true }),
+          ], { optional: true }),
+        ]),
+        // query(':leave', [
+        //   group([
+        //     query('.title-container', [
+        //       useAnimation(slideOutUp)
+        //     ], { optional: true }),
+        //     useAnimation(fadeOut)
+        //   ])
+        // ], { optional: true }),
         query(':enter', [
           group([
             useAnimation(fadeIn),
