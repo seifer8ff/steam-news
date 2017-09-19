@@ -68,14 +68,14 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.userService.onAddGame(game);
     } else {
       // navigate to the game page and close the sidebar
-      this.router.navigate(['news', game.appId]);
+      this.router.navigate(['/', game.appId]);
       this.stateService.closeSidebar();
     }
 
     // clear list after short timeout
     setTimeout(() => {
       this.filteredGames = [];
-      this.router.navigate(['news', game.appId]);
+      this.router.navigate(['/', game.appId]);
       this.stateService.closeSidebar();
     }, 500);
   }

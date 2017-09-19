@@ -4,7 +4,8 @@
     <app-search *ngIf="userService.isLoggedIn()"></app-search>
     <ul>
       <li fxLayoutAlign="space-between" *ngFor="let game of (userService.getGameList() | async)">
-        <a class="list-item" [routerLink]="['news', game.appId]" (click)="stateService.closeSidebar()">{{ game.title }}</a>
+        <a *ngIf="!onAltRoute" class="list-item" [routerLink]="['games', game.appId]" (click)="stateService.closeSidebar()">{{ game.title }}</a>
+        <a *ngIf="onAltRoute" class="list-item" [routerLink]="['/', game.appId]" (click)="stateService.closeSidebar()">{{ game.title }}</a>
         <div fxFlex="10" class="list-item action" *ngIf="userService.isLoggedIn()" (click)="this.userService.onRemoveGame(game.appId)">
           <img  src="assets/270-cancel-circle.svg" alt="Delete Icon">
         </div>

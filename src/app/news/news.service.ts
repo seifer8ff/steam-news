@@ -68,10 +68,6 @@ export class NewsService {
     return this.gameNews$.asObservable();
   }
 
-  clearGameNews() {
-    this.gameNews$.next(null);
-  }
-
   responseToNews(newsRes: any) {
     let processedNews = {};
     for (let game in newsRes) {

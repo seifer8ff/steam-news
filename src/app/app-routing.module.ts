@@ -6,11 +6,11 @@ import { GameNewsListComponent } from './news/game-news-list/game-news-list.comp
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/news', pathMatch: 'full' },
-  { path: 'news', component: AllNewsListComponent, data: { animation: 'allNews' } },
-  { path: 'news/:appId', component: GameNewsListComponent, data: { animation: 'gameNews' } },
+  { path: '', pathMatch: 'full', component: AllNewsListComponent, data: { animation: 'allNews' } },
   { path: 'login', component: SignUpComponent, data: { animation: 'login' } },
-  { path: '**', component: GameNewsListComponent }
+  { path: 'games/:appId', component: GameNewsListComponent, data: { animation: 'gameNewsAlt' } }, // second route for animation purposes
+  { path: ':appId', component: GameNewsListComponent, data: { animation: 'gameNews' } },
+  { path: '**', component: AllNewsListComponent }
 ];
 
 @NgModule({

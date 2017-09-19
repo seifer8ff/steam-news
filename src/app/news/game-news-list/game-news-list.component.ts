@@ -66,7 +66,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   appId: string;
   fragment: string;
-  noNews: boolean = false;
   gameNews: News[] = [];
   gameNews$: Subscription;
   maxArticles: number = 20; // controls how many articles get requested from server
@@ -82,10 +81,15 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.route.params
     .subscribe((params: Params) => {
-      this.newsService.clearGameNews();
       this.appId = params['appId'];
-      this.onRouteChange();
+
+      document.querySelector(".title-container").scrollIntoView();
+      this.gameNews$ = this.newsService.getGameNews(this.appId, this.maxArticles)
+      .subscribe(news => {
+        this.gameNews = news;
+      });
     });
+    
 
     // update the number of articles being displayed
     this.maxArticlesDisplay$ = this.articleLoaderService.getMaxArticlesDisplay().subscribe(max => {
@@ -105,7 +109,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
         
         // need to wait a moment for the articles to load
         setTimeout(this.scrollToFragment.bind(this), 500);
-        
       }
     });
   }
@@ -113,30 +116,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     let scrollContainer = document.querySelector('#scrollContainer');
     this.articleLoaderService.watchScroll(scrollContainer);
-  }
-
-  //runs every time the game selected changes
-  onRouteChange() {
-    // controls whether the "there is no news" message is displayed
-    this.noNews = false;
-    setTimeout(() => {
-      if (!this.gameNews || !this.gameNews.length) {
-        this.noNews = true;
-      }
-    }, 1000);
-
-    document.querySelector(".title-container").scrollIntoView();
-
-    // get news for appId every time it changes
-    this.articleLoaderService.resetMaxArticlesDisplay();
-    if (this.gameNews$) {
-      this.gameNews$.unsubscribe(); // destroy old stream with old appId
-    }
-    // create new news stream with updated appId
-    this.gameNews$ = this.newsService.getGameNews(this.appId, this.maxArticles)
-    .subscribe(news => {
-      this.gameNews = news;
-    });
   }
 
   scrollToFragment() {
@@ -157,7 +136,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnDestroy() {
-    this.newsService.clearGameNews();
+    this.articleLoaderService.resetMaxArticlesDisplay();
     this.gameNews$.unsubscribe();
     this.maxArticlesDisplay$.unsubscribe();
   }

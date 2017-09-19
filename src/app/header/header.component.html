@@ -2,10 +2,10 @@
   <button class="header-item icon click-outside" (click)="stateService.openSidebar()">
     <img class="click-outside header-item" src="assets/190-menu.svg" alt="Menu Icon"> 
   </button>
-  <a class="header-item" [routerLink]="['news']">
+  <a class="header-item" [routerLink]="['/']">
     My Game News
   </a>
-  <a class="header-item right" *ngIf="!userService.isLoggedIn()" [routerLink]="['login']">
+  <a class="header-item right" *ngIf="!userService.isLoggedIn()" [routerLink]="['/login']">
     Login
   </a>
   <a class="header-item right" *ngIf="userService.isLoggedIn()" (click)="openDropdown($event)">

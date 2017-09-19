@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import {
   trigger,
@@ -40,14 +41,24 @@ import { StateService } from '../../news/../state.service';
 })
 export class SidebarGamesComponent implements OnInit {
   hidden: boolean = true;
+  onAltRoute: boolean = false;
   sidebarHidden$: Subscription;
 
-  constructor(public userService: UserService, private newsService: NewsService, public stateService: StateService) { }
+  constructor(public userService: UserService, 
+              private newsService: NewsService, 
+              public stateService: StateService, 
+              private router: Router) { }
 
   ngOnInit() {
     this.sidebarHidden$ = this.stateService.sidebarHidden$.subscribe(hidden => {
       this.hidden = hidden;
     });
+
+    this.router.events
+    .filter(event => event instanceof NavigationEnd)
+    .subscribe(event => {
+      this.onAltRoute = this.router.url.includes('games');
+    })
   }
 
   ngOnDestroy() {

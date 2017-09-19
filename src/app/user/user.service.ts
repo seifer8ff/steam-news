@@ -73,7 +73,7 @@ export class UserService {
         return game.appId !== appId;
       });
       // REDIRECT TO HOME PAGE
-      this.router.navigate(['news']);
+      this.router.navigate(['/']);
 
       // POST TO BACKEND 
       this.authHttp.delete('/api/user/' + this.currentUser.username + '/gamelist/' + appId)
@@ -140,7 +140,7 @@ export class UserService {
           localStorage.setItem('token', data.token);
           this.serverErrorMessage = null;
           this.updateGameList();
-          this.router.navigate(['news']);
+          this.router.navigate(['/']);
         }, err => {
           if (err.status === 409) {
             this.serverErrorMessage = err.json().message || "Something Went Wrong";
@@ -168,7 +168,7 @@ export class UserService {
           localStorage.setItem('token', data.token);
           this.serverErrorMessage = null;
           this.updateGameList();
-          this.router.navigate(['news']);
+          this.router.navigate(['/']);
         }, err => {
           if (err.status === 401) {
             this.serverErrorMessage = err.json().message || "Something Went Wrong";
@@ -180,7 +180,7 @@ export class UserService {
   logOut() {
     localStorage.clear();
     this.updateGameList();
-    this.router.navigate(['news']);
+    this.router.navigate(['/']);
   }
 
   isLoggedIn() {
