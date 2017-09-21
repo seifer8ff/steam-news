@@ -101,6 +101,10 @@ export class NewsService {
     return newsArray;
   }
 
+  clearGameNews() {
+    this.gameNews$.next(null);
+  }
+
   buildRequestURL(gameList: Game[], limit: number, refreshIds?: string[],) {
     let finalUrl = '/api/news?';
     gameList.forEach(game => {

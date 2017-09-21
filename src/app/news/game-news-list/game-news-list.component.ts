@@ -125,6 +125,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnDestroy() {
+    // this.newsService.clearGameNews();
     this.articleLoaderService.resetMaxArticlesDisplay();
     this.gameNews$.unsubscribe();
     this.maxArticlesDisplay$.unsubscribe();
