@@ -1,9 +1,10 @@
 .content-container {
     position: relative;
-    padding: 20px;
-    margin-top: 30px;
     width: 660px;
     max-width: 80%;
+    padding: 20px;
+    margin-top: 30px;
+    margin-bottom: 50px;
 }
 
 .link {

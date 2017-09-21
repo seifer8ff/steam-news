@@ -20,7 +20,7 @@ import { fadeIn, fadeOut, slideOutUp } from './_animations';
             style({ opacity: 0 }),
           ], { optional: true }),
           query(':leave, :enter', [
-            style({ position: 'absolute', display: 'block', top: 0, left: 0, right: 0, width: '100vw' }),
+            style({ position: 'fixed', display: 'block', top: 0, left: 0, right: 0, width: '100vw' }),
           ], { optional: true }),
         ]),
         group([

@@ -10,13 +10,9 @@ import { UserService } from '../user/user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  scrollWindow: HTMLElement;
-
-
   constructor(public userService: UserService, public stateService: StateService, private elementRef: ElementRef) { }
 
   ngOnInit() {
-    this.scrollWindow = <HTMLElement>document.querySelector(".content");
   }
 
   openDropdown(event) {
@@ -29,7 +25,7 @@ export class HeaderComponent implements OnInit {
   handleTouch(event) {
     const clickedInside = this.elementRef.nativeElement.contains(event.target) && !event.target.classList.contains("header-item");
     if (clickedInside) {
-        this.scrollWindow.scrollTop = 0;
+        document.body.scrollTop = 0;
     }
   }
 

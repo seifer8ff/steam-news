@@ -1,7 +1,8 @@
 
 <div fxLayout="column" fxLayoutAlign="start center" fxFlex="grow">
   <div class="title-container main">
-    <h1>Sign up to track and get the latest news on your games!</h1>
+    <h1 *ngIf="!this.newUser">Log In!</h1>
+    <h1 *ngIf="this.newUser">Sign Up!</h1>
   </div>
   
   <div class="content-container" *ngIf="!this.newUser" [@flip]>

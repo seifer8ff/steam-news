@@ -1,10 +1,6 @@
 <app-sidebar-games></app-sidebar-games>
- <div class="container" fxLayout="column" fxLayoutAlign="start start">
-    <app-header></app-header>
-    <div id="scrollContainer" class="content" fxFlex="grow">
-        <div class="footer-padding" [@routeAnimation]="prepRouteState(routerOutlet)">
-            <router-outlet #routerOutlet="outlet"></router-outlet>
-            <app-footer></app-footer>
-        </div>
-    </div>
+<app-header></app-header>
+<div class="router-outlet-container" [@routeAnimation]="prepRouteState(routerOutlet)">
+    <router-outlet #routerOutlet="outlet"></router-outlet>
 </div>
+<app-footer></app-footer>

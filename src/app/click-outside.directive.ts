@@ -4,10 +4,9 @@ import { Directive, ElementRef, Output, EventEmitter, HostListener, OnInit, OnDe
   selector: '[appClickOutside]'
 })
 export class ClickOutsideDirective implements OnInit, OnDestroy {
+  scrollPos = 0;
 
   constructor(private elementRef : ElementRef) {}
-
-  content = <HTMLElement>document.querySelector(".content");
 
   @Output() public appClickOutside = new EventEmitter();
 
@@ -23,10 +22,16 @@ export class ClickOutsideDirective implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-      this.content.style.overflowY = "hidden";
+      this.scrollPos = document.body.scrollTop;
+      document.body.style.position = "fixed";
+      document.body.style.overflow = "hidden";
+      document.body.style.marginTop = -this.scrollPos + 'px';
     }
 
     ngOnDestroy() {
-      this.content.style.overflowY = "auto";
+      document.body.style.overflow = "auto";
+      document.body.style.position = "relative";
+      document.body.style.marginTop = '0';
+      document.body.scrollTop = this.scrollPos;
     }
 }

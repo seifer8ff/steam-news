@@ -72,7 +72,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
     .subscribe((params: Params) => {
       this.appId = params['appId'];
 
-      document.querySelector(".title-container").scrollIntoView();
       this.gameNews$ = this.newsService.getGameNews(this.appId, this.maxArticles)
       .subscribe(news => {
         this.gameNews = news;
@@ -103,8 +102,8 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    let scrollContainer = document.querySelector('#scrollContainer');
-    this.articleLoaderService.watchScroll(scrollContainer);
+    this.articleLoaderService.watchScroll();
+    document.body.scrollTop = 0;
   }
 
   scrollToFragment() {
@@ -123,7 +122,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate([], { fragment: fragment });
   }
 
-
+  
   ngOnDestroy() {
     // this.newsService.clearGameNews();
     this.articleLoaderService.resetMaxArticlesDisplay();

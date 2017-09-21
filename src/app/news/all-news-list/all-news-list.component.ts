@@ -35,7 +35,7 @@ export class AllNewsListComponent implements OnInit, OnDestroy {
   constructor(private newsService: NewsService, private userService: UserService) { }
 
   ngOnInit() {
-    document.querySelector(".title-container.main").scrollIntoView();
+    document.body.scrollTop = 0;;
 
     this.latestNews$ = this.newsService.getLatestNews().subscribe(latestNews => {
       this.latestNews = latestNews;

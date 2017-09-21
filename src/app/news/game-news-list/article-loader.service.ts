@@ -19,17 +19,22 @@ export class ArticleLoaderService implements OnDestroy {
     this.watchComponent = elRef;
   }
 
-  watchScroll(elRef: Element) {
-    this.scrollStream$ = Observable.fromEvent(elRef, 'scroll')
+  watchScroll(elRef?: Element) {
+    let watched = elRef || document;
+    this.scrollStream$ = Observable.fromEvent(watched, 'scroll')
     .throttleTime(200)
-    .subscribe(() => {
-      this.isVisible(this.watchComponent, elRef);
+    .subscribe((res) => {
+      this.isVisible(this.watchComponent, watched);
     });
   }
 
   isVisible(el, container) {
     if (!el || !container) {
       return;
+    }
+
+    if (container === document) {
+      container = document.body;
     }
 
     let elRect = el.nativeElement.getBoundingClientRect();
@@ -45,7 +50,7 @@ export class ArticleLoaderService implements OnDestroy {
     }
 
     elRect.top = Math.max(elRect.top, containerRect.top);
-    elRect.bottom = Math.min(elRect.bottom, containerRect.bottom);
+    elRect.bottom = Math.min(elRect.bottom, containerRect.bottom, window.innerHeight);
 
     elRect.visibleHeight = Math.max(0, elRect.bottom - elRect.top);
     elRect.isVisible = elRect.visibleHeight > 0;
@@ -54,7 +59,6 @@ export class ArticleLoaderService implements OnDestroy {
     if (elRect.isVisible) {
       this.updateMaxArticlesDisplay(this.maxArticlesDisplay+2);
     }
-
   }
 
   getMaxArticlesDisplay() {

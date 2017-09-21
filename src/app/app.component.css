@@ -1,16 +1,4 @@
-.container {
-    height: 100%;
-}
-
-.content {
+.router-outlet-container {
     width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-}
-
-.footer-padding {
-    position: relative;
-    min-height: 100vh;
-    padding-bottom: 40px;
+    width: 100vw;
 }

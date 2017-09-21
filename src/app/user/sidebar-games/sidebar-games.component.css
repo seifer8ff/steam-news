@@ -1,5 +1,6 @@
 .container {
-    position: absolute; 
+    position: fixed; 
+    top: 0;
     left: 0;
     height: 100%;
     width: 100%;
@@ -16,7 +17,7 @@
 }
 
 .sidebar-overlay {
-    position: absolute; 
+    position: fixed; 
     top: 0;
     right: 0;
     width: 100%;
