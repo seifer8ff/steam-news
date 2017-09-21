@@ -21,12 +21,4 @@ export class HeaderComponent implements OnInit {
       event.target.firstElementChild.classList.toggle("open");
     }
   }
-
-  handleTouch(event) {
-    const clickedInside = this.elementRef.nativeElement.contains(event.target) && !event.target.classList.contains("header-item");
-    if (clickedInside) {
-        document.body.scrollTop = 0;
-    }
-  }
-
 }
