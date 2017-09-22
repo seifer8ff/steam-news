@@ -40,3 +40,9 @@ aside {
     width: 100%;
     margin-bottom: 50px;
 }
+
+.list-item.placeholder {
+    height: 24px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}

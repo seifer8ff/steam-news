@@ -27,8 +27,8 @@ import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutU
           query('@slideRight', [
             animateChild()
           ], { optional: true }),
-          query('#article-container', [
-            useAnimation(slideInUpArticles)
+          query('@slideInUpArticles', [
+            animateChild()
           ], { optional: true }),
         ])
       ]),
@@ -47,7 +47,12 @@ import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutU
             transform: 'translate3d(-102%, 0, 0)'
           }))
         ])
-    ])
+    ]),
+    trigger('slideInUpArticles', [
+      transition(':enter', [
+        useAnimation(slideInUpArticles)
+    ]),
+  ])
   ]
 })
 export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -55,7 +60,7 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   appId: string;
   fragment: string;
-  gameNews: News[] = [];
+  gameNews: News[] = [null, null, null];
   gameNews$: Subscription;
   maxArticles: number = 20; // controls how many articles get requested from server
   maxArticlesDisplay: number; // this value gets set by article loader service
@@ -124,7 +129,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   
   ngOnDestroy() {
-    // this.newsService.clearGameNews();
     this.articleLoaderService.resetMaxArticlesDisplay();
     this.gameNews$.unsubscribe();
     this.maxArticlesDisplay$.unsubscribe();

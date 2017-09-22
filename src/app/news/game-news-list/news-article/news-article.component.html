@@ -1,11 +1,15 @@
 <div fxLayout="row" fxLayoutAlign="center start">
-  <article class="content-container" fxFlex="90">
+  <article *ngIf="newsItem !== null" class="content-container" fxFlex="90">
     <h2 class="title deep-ignore" id="{{ 'a-' + newsItem.articleId }}">{{ newsItem.title }}</h2>
     <h5 class="subtitle deep-ignore">{{ newsItem.getDate() | date }}</h5>
     <div class="article-body" [innerHTML]="newsItem.body"></div>
     <div class="article-bottom">
       <a class="button raised" href="{{ newsItem.url }}">View Source</a>
     </div>
-  </article> 
+  </article>
+  <article *ngIf="newsItem === null" class="content-container placeholder" fxFlex="90">
+      <div class="title placeholder anim-pulse"></div>
+      <div class="article-body placeholder anim-pulse"></div>
+    </article>
 </div>
 

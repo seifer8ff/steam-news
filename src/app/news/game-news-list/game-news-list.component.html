@@ -1,26 +1,27 @@
-<aside *ngIf="gameNews?.length" class="article-list" [@slideRight] fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
+<aside class="article-list" [@slideRight] fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
   <div class="media-container">
       <img class="media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
       <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
   </div>
-  <div class="article-list-inner">
+  <div *ngIf="gameNews?.length" class="article-list-inner">
     <h2 class="title">Articles</h2>
     <ul>
-      <li fxLayout="row" *ngFor="let news of gameNews; let i = index;">
-        <a class="list-item" (click)="goToArticle(i, news.articleId)">{{ news.title | shorten:30 }}</a>
+      <li fxLayout="row" *ngFor="let article of gameNews; let i = index;">
+        <a *ngIf="article !== null" class="list-item" (click)="goToArticle(i, article.articleId)">{{ article.title | shorten:30 }}</a>
+        <a *ngIf="article === null" class="list-item placeholder anim-pulse"></a>
       </li>
     </ul>
   </div>
 </aside> 
-<div fxLayout="column" fxLayoutAlign="start center" fxFlexOffset="{{ gameNews?.length ? '350px' : '0' }}" fxFlexOffset.lt-md="0" fxFlex="grow">
+<div fxLayout="column" fxLayoutAlign="start center" fxFlexOffset="350px" fxFlexOffset.lt-md="0" fxFlex="grow">
   <div class="title-container" [ngStyle.gt-sm]="{ width: '200%' }">
     <h1 class="game-title" fxHide.lt-md>{{ userService.getGame(appId)?.title }} News</h1>
-    <img class="title-media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" alt="{{ appId }} banner" fxHide.gt-sm>
+    <img class="title-media" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" alt="{{ appId }} banner" onerror="this.style.display='none'" fxHide.gt-sm>
   </div>
-  <div *ngIf="!this.gameNews?.length">
+  <div *ngIf="!gameNews?.length">
     <h2>No news available for this game</h2>
   </div>
-  <div id="article-container">
+  <div id="article-container" [@slideInUpArticles]>
     <app-news-article 
     *ngFor="let article of gameNews | slice:0:maxArticlesDisplay; last as isLast"
     [isLast]="isLast" 

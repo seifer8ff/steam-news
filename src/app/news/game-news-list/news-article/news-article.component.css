@@ -38,7 +38,22 @@
  }
 
 
+ /* ----- PLACEHOLDER -----  */
 
+ .content-container.placeholder {
+     background-color: initial;
+ }
+
+.title.placeholder {
+    height: 36px;
+}
+
+.article-body.placeholder {
+    height: 400px;
+}
+
+
+ /* ----- BBCODE -----  */
 
 .article-body >>> img,.bbcode_image {
     display: block;

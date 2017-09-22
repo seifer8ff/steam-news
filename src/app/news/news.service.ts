@@ -14,7 +14,6 @@ export class NewsService {
 
   latestNews: News[];
   latestNews$: ReplaySubject<any> = new ReplaySubject(1);
-  gameNews$: ReplaySubject<any> = new ReplaySubject(1);
   gameList: Game[];
   gameList$: Subscription;
 
@@ -58,14 +57,10 @@ export class NewsService {
     ];
 
     let steamNewsURL = this.buildRequestURL(thisGameArray, limit, null);
-    this.http.get(steamNewsURL)
+    return this.http.get(steamNewsURL)
     .map((newsRes: Response) => newsRes.json())
     .map(newsRes => this.responseToNews(newsRes)) // turns JSON response objects into News objects (with methods)
     .map(newsRes => newsRes[appId])
-    .subscribe(newsRes => {
-      this.gameNews$.next(newsRes);
-    });
-    return this.gameNews$.asObservable();
   }
 
   responseToNews(newsRes: any) {
@@ -99,10 +94,6 @@ export class NewsService {
     })
 
     return newsArray;
-  }
-
-  clearGameNews() {
-    this.gameNews$.next(null);
   }
 
   buildRequestURL(gameList: Game[], limit: number, refreshIds?: string[],) {
