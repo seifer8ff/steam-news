@@ -25,12 +25,23 @@ export class SearchComponent implements OnInit, OnDestroy {
   filteredGames: Game[] = [];
   searchTimeout: number;
 
+  hidden: boolean  = true;
+  sidebarHidden$: Subscription;
+
   gameList: Game[];
   GameList$: Subscription;
 
   constructor(private stateService: StateService, private userService: UserService, private newsService: NewsService, private router: Router, private authHttp: AuthHttp) { }
 
   ngOnInit() {
+    this.sidebarHidden$ = this.stateService.sidebarHidden$.subscribe(hidden => {
+      this.hidden = hidden;
+      if (this.hidden) {
+        this.query = null;
+        this.filteredGames = [];
+      }
+    });
+
     this.GameList$ = this.userService.getGameList().subscribe((games) => {
       this.gameList = games;
     });
