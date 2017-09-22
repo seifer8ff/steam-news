@@ -1,7 +1,17 @@
 <article class="content-container hover" [routerLink]="['/', article?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="grow">
     <div class="media-container">
-        <img class="media deep-ignore" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg" 
-            alt="{{ article?.appId }} banner" default="http://cdn.akamai.steamstatic.com/steam/apps/440/header_292x136.jpg"> 
+        <picture>
+            <source 
+            media="(max-width: 599px)" 
+            srcset="http://cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header.jpg">
+            <source 
+            media="(min-width: 600px)" 
+            srcset="http://cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg">
+            <img class="media deep-ignore"
+            src="http://cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
+            srcset="http://cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
+            alt="{{ article?.title }} background img">
+        </picture>
     </div>
     <div class="summary-content" fxFlex="grow">
         <h3 class="title">{{ article?.title }}</h3>

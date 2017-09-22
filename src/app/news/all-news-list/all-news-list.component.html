@@ -4,10 +4,9 @@
 <div fxLayout="row" fxLayoutAlign="center start">
   <div id="summary-container" fxLayout="row wrap" fxLayoutAlign="center stretch" fxFlex="90" fxFlex.lt-md="98">
     <app-news-summary 
-      fxFlex="100" fxFlex.gt-xs="250px" fxFlex.gt-md="300px" fxFlex.gt-lg="375px"
-      *ngFor="let article of this.latestNews" 
-      [article]="article">
-    </app-news-summary>
+    *ngFor="let article of this.latestNews" 
+    [article]="article">
+  </app-news-summary>
     <!-- <app-news-summary 
       fxFlex="100" fxFlex.gt-xs="40%" fxFlex.gt-md="25%" fxFlex.gt-lg="375px" WAITING ON ANGULAR FLEX LAYOUT v1.1.6
       *ngFor="let article of this.latestNews" 
