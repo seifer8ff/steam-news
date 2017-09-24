@@ -55,7 +55,9 @@ form input ~ label {
     font-size: 1.4em;
 }
 
-form input.ng-touched.ng-valid ~ label {
+form input.ng-touched ~ label, 
+form input.ng-dirty ~ label, f
+orm input:focus ~ label {
     font-size: 1.2em;
     top: -50%;
     left: 0;
@@ -63,15 +65,7 @@ form input.ng-touched.ng-valid ~ label {
 
 form input.ng-touched.ng-invalid ~ label {
     font-size: 1.4em;
-    top: -50%;
-    left: 0;
     color: #f44949;
-}
-
-form input:focus ~ label {
-    font-size: 1.2em;
-    top: -50%;
-    left: 0;
 }
 
 form input:focus {
