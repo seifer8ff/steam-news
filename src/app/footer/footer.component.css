@@ -1,11 +1,8 @@
-:host {
-    width: 100%;
-    min-width: 100%;
-    position: absolute;
-    bottom: 0;
-}
-
 div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     padding: 4px;
     text-align: center;
     background-color: #64c0f4;

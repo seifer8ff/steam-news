@@ -3,7 +3,7 @@ html,body {
     font-family: Roboto;
     overflow-x: hidden;
     max-width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 body {
@@ -44,7 +44,7 @@ hr {
     width: 100%;
     margin-top: 55px;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     min-height: 100px;
     background-color: #64c0f4;
     color: #303030;

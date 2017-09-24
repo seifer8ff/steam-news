@@ -3,7 +3,6 @@
     width: 660px;
     max-width: 80%;
     padding: 20px;
-    margin-top: 30px;
     margin-bottom: 50px;
 }
 
@@ -56,8 +55,8 @@ form input ~ label {
 }
 
 form input.ng-touched ~ label, 
-form input.ng-dirty ~ label, f
-orm input:focus ~ label {
+form input.ng-dirty ~ label, 
+form input:focus ~ label {
     font-size: 1.2em;
     top: -50%;
     left: 0;

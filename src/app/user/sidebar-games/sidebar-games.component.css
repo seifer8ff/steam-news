@@ -13,7 +13,9 @@
 } 
 
 .sidebar-inner {
-    padding: 20px;
+    position: relative;
+    min-height: calc(100% - 60px);
+    padding: 20px 20px 40px 20px;
 }
 
 .sidebar-overlay {
