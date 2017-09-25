@@ -88,7 +88,7 @@ export class UserService {
 
   // get latest game list for user from backend
   updateGameList() {
-    let url = 'api/user/'
+    let url = 'api/user/';
 
     if (!this.isLoggedIn()) {
       url += 'demo/gamelist'

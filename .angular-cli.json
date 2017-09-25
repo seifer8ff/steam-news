@@ -19,6 +19,7 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
+      "serviceWorker": true,
       "styles": [
         "../node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
         "../node_modules/normalize.css/normalize.css",
@@ -55,6 +56,7 @@
   },
   "defaults": {
     "styleExt": "css",
-    "component": {}
+    "component": {
+    }
   }
 }

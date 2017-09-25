@@ -31,14 +31,6 @@ import { fadeIn, fadeOut, slideOutUp } from './_animations';
             useAnimation(fadeOut)
           ], { optional: true }),
         ]),
-        // query(':leave', [
-        //   group([
-        //     query('.title-container', [
-        //       useAnimation(slideOutUp)
-        //     ], { optional: true }),
-        //     useAnimation(fadeOut)
-        //   ])
-        // ], { optional: true }),
         query(':enter', [
           group([
             useAnimation(fadeIn),
