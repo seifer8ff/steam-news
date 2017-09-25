@@ -32,6 +32,7 @@ steam.getNews = function getNews(refreshIds) {
 }
 
 steam.refreshNews = function() {
+    console.log('refreshing news');
     User.find({}, 'gameList.appId')
     .catch(err => console.log(err))
     .then(users => {
@@ -54,8 +55,8 @@ steam.refreshNews = function() {
         .then(rawNews => rawNews.map(processNewsResponse))
         .then(news => news.map(addNewsItemToDB))
         .catch(error => {
-            console.log("error");
-            console.log(error);
+            console.log("error getting news for " + appId);
+            // console.log(error);
         });
     })
 }
@@ -79,8 +80,10 @@ function addNewsItemToDB(newsItem) {
         var query = { articleId: newsItem.articleId };
         News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
             if (err) {
+                console.log('error adding news item to db');
                 console.log(err);
             }
+            console.log('added news item to db');
             return resolve(newsItem);
         });
     });
