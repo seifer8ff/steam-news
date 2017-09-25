@@ -50,6 +50,7 @@ steam.refreshNews = function() {
         return appIds;
     })
     .map(appId => {
+        console.log(appId);
         axios.get(steam.baseURL + appId + '&count=30')
         .then(response => response.data.appnews.newsitems)
         .then(rawNews => rawNews.map(processNewsResponse))
@@ -76,6 +77,9 @@ function processNewsResponse(rawNewsItem) {
 }
 
 function addNewsItemToDB(newsItem) {
+    if (newsItem.appId === 333640) {
+        console.log(newsItem.title);
+    }
     return new Promise(function (resolve, reject) {
         var query = { articleId: newsItem.articleId };
         News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
@@ -83,7 +87,6 @@ function addNewsItemToDB(newsItem) {
                 console.log('error adding news item to db');
                 console.log(err);
             }
-            console.log('added news item to db');
             return resolve(newsItem);
         });
     });

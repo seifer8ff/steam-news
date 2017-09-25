@@ -74,6 +74,17 @@ var newsJob = scheduler.scheduleJob(newsRule, steam.refreshNews);
 steam.serverSetup();
 
 
+
+
+
+// TESTING! REMOVE AFTER REFRESH NEWS BUG IS FIXED
+steam.refreshNews();
+
+
+
+
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */
