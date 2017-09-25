@@ -34,6 +34,7 @@ router.get('', (req, res) => {
   // get all news from db 
   .each(appId => {
     return News.find({ appId: appId })
+      .sort({ date: 'descending' })
       .limit(limit)
       .catch(err => console.log("error fetching news from DB for " + appId))
       // add news returned from DB to final newsArray obj

@@ -73,18 +73,6 @@ var newsJob = scheduler.scheduleJob(newsRule, steam.refreshNews);
 // Setup dummy data for gameList + get all game names + appIds
 steam.serverSetup();
 
-
-
-
-
-// TESTING! REMOVE AFTER REFRESH NEWS BUG IS FIXED
-steam.refreshNews();
-
-
-
-
-
-
 /**
  * Listen on provided port, on all network interfaces.
  */
