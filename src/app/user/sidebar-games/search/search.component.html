@@ -3,8 +3,8 @@
   <ul *ngIf="filteredGames.length > 0">
     <li class="suggestion-item" *ngFor="let suggestion of filteredGames">
       <a class="suggestion-link" (click)="select(suggestion)">
-        <img class="suggestion-image" src="http://cdn.akamai.steamstatic.com/steam/apps/{{ suggestion.appId }}/header.jpg" 
-        alt="{{ appId }} banner" default="http://cdn.akamai.steamstatic.com/steam/apps/440/header.jpg">
+        <img class="suggestion-image" src="https://images.weserv.nl/url=cdn.akamai.steamstatic.com/steam/apps/{{ suggestion.appId }}/header.jpg" 
+        alt="{{ appId }} banner" default="https://images.weserv.nl/url=cdn.akamai.steamstatic.com/steam/apps/440/header.jpg">
         <span class="suggestion-title">{{ suggestion.title | shorten:20 }}</span>
       </a>
     </li>
