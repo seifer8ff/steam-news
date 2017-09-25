@@ -51,6 +51,11 @@ button img {
     text-transform: none;
 }
 
+.header-item.active {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.75);
+    padding-bottom: 16px;
+}
+
 .header-dropdown {
     display: none;
     position: absolute;
@@ -79,6 +84,10 @@ button img {
         padding: 16px;
         font-size: 1.3em;
         min-width: 60px;
+    }
+
+    .header-item.active {
+        padding-bottom: 13px;
     }
 
     .header-item:hover {
