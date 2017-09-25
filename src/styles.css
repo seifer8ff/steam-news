@@ -41,7 +41,7 @@ hr {
     display: flex; 
     align-items: center;
     justify-content: center; 
-    width: 100%;
+    width: 100vw;
     margin-top: 55px;
     text-align: center;
     margin-bottom: 50px;

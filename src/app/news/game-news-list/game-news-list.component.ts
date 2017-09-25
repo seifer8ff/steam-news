@@ -7,7 +7,7 @@ import { NewsService } from '../news.service';
 import { UserService } from '../../user/user.service';
 import { ArticleLoaderService } from './article-loader.service';
 import { News } from '../news';
-import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutUp } from '../../_animations';
+import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutUp, slideInRight, slideOutLeft } from '../../_animations';
 
 @Component({
   selector: 'app-game-news-list',
@@ -21,31 +21,18 @@ import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutU
           query('.title-container', [
             useAnimation(slideInDown)
           ], { optional: false }),
-          query('h1', [
-            useAnimation(fadeIn)
-          ], { optional: true }),
-          query('@slideRight', [
+          query('@slideInOut', [
             animateChild()
-          ], { optional: true }),
-          query('@slideInUpArticles', [
-            animateChild()
-          ], { optional: true }),
-        ])
-      ]),
-    ]),
-    trigger('slideRight', [
-        transition(':enter', [
-            style({
-              transform: 'translate3d(-102%, 0, 0)'
-            }),
-            animate('500ms ease-in-out', style({
-              transform: 'translate3d(0, 0, 0)'
-            }))
+          ], { optional: true })
         ]),
-        transition(':leave', [
-          animate('500ms ease-in-out', style({
-            transform: 'translate3d(-102%, 0, 0)'
-          }))
+        query('@slideInUpArticles', [
+          animateChild()
+        ], { optional: true })
+      ])
+    ]),
+    trigger('slideInOut', [
+        transition(':enter', [
+            useAnimation(slideInRight)
         ])
     ]),
     trigger('slideInUpArticles', [

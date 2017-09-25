@@ -1,11 +1,11 @@
 
-<div fxLayout="column" fxLayoutAlign="start center" fxFlex="grow">
+<div fxLayout="column" fxLayoutAlign="start center" fxFlex="100%">
   <div class="title-container main">
     <h1 *ngIf="!this.newUser">Log In!</h1>
     <h1 *ngIf="this.newUser">Sign Up!</h1>
   </div>
   
-  <div class="content-container" *ngIf="!this.newUser" [@flip]>
+  <div class="content-container anim-hide" *ngIf="!this.newUser" [@flip]>
     <h2>Log In</h2>
     <h3 class="error" *ngIf="userService.serverErrorMessage">{{ userService.serverErrorMessage }}</h3>
     <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm.value)">
@@ -26,7 +26,7 @@
     </form>
   </div>
 
-  <div class="content-container" *ngIf="this.newUser" [@flip]>
+  <div class="content-container anim-hide" *ngIf="this.newUser" [@flip]>
     <h2>Sign Up</h2>
     <h3 class="error" *ngIf="userService.serverErrorMessage">{{ userService.serverErrorMessage }}</h3>
     <form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm.value)">
