@@ -77,9 +77,6 @@ function processNewsResponse(rawNewsItem) {
 }
 
 function addNewsItemToDB(newsItem) {
-    if (newsItem.appId === 333640) {
-        console.log(newsItem.title);
-    }
     return new Promise(function (resolve, reject) {
         var query = { articleId: newsItem.articleId };
         News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
@@ -98,12 +95,11 @@ function addNewsItemToDB(newsItem) {
 
 steam.refreshGameNames = function() {
     axios.get(steam.gameNameURL)
-        // .then(response => console.log(response.data))
         .then(response => response.data.applist.apps)
         .then(games => games.map(processGameResponse))
         .then((processedGames) => bulkAddGamesToDB(processedGames))
         .catch(error => {
-            console.log("error");
+            console.log("error refreshing game names");
             console.log(error);
         });
         return;
