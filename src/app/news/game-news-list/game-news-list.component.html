@@ -1,7 +1,7 @@
 <aside class="article-list" [@slideInOut] fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
   <div class="media-container">
-      <img class="media" src="https://images.weserv.nl/?url=ssl:cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
-      <a class="button raised" href="{{ 'https://images.weserv.nl/?url=ssl:store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
+    <img class="media" src="https://images.weserv.nl/?url=ssl:cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
+    <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
   </div>
   <div *ngIf="gameNews?.length" class="article-list-inner">
     <h2 class="title">Articles</h2>
@@ -16,7 +16,12 @@
 <div fxLayout="column" fxLayoutAlign="start center" fxFlexOffset="350px" fxFlexOffset.lt-md="0" fxFlex="grow">
   <div class="title-container" [ngStyle.gt-sm]="{ width: '200%' }">
     <h1 class="game-title" fxHide.lt-md>{{ userService.getGame(appId)?.title }} News</h1>
-    <img class="title-media" src="https://images.weserv.nl/?url=ssl:cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" alt="{{ appId }} banner" onerror="this.style.display='none'" fxHide.gt-sm>
+    <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}" fxHide.gt-sm>Steam Store</a>
+    <img class="title-media" 
+    src="https://images.weserv.nl/?url=ssl:cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" 
+    alt="{{ appId }} banner" 
+    onerror="this.style.display='none'" 
+    fxHide.gt-sm>
   </div>
   <div *ngIf="!gameNews?.length">
     <h2>No news available for this game</h2>
@@ -26,6 +31,6 @@
     *ngFor="let article of gameNews | slice:0:maxArticlesDisplay; last as isLast"
     [isLast]="isLast" 
     [newsItem]="article">
-    </app-news-article>
-  </div>
+  </app-news-article>
+</div>
 </div>

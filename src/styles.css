@@ -38,6 +38,7 @@ hr {
 }
 
 .title-container {
+    position: relative;
     display: flex; 
     align-items: center;
     justify-content: center; 
@@ -84,7 +85,7 @@ hr {
     padding: 10px;
 }
 
-.placeholder {
+.placeholder:not(.content-container) {
     background-color: #dddddd;
 }
 
