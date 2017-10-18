@@ -1,6 +1,6 @@
 <aside class="article-list" [@slideInOut] fxLayout="column" fxLayoutAlign="start stretch" fxFlex="350px" fxHide.lt-md>
   <div class="media-container">
-    <img class="media" src="https://images.weserv.nl/?url=ssl:cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
+    <img class="media" src="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/header.jpg" alt="{{ appId }} banner">
     <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}">Steam Store</a>
   </div>
   <div *ngIf="gameNews?.length" class="article-list-inner">
@@ -18,7 +18,7 @@
     <h1 class="game-title" fxHide.lt-md>{{ userService.getGame(appId)?.title }} News</h1>
     <a class="button raised" href="{{ 'http://store.steampowered.com/app/' + appId + '/'}}" fxHide.gt-sm>Steam Store</a>
     <img class="title-media" 
-    src="https://images.weserv.nl/?url=ssl:cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" 
+    src="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ appId }}/capsule_467x181.jpg" 
     alt="{{ appId }} banner" 
     onerror="this.style.display='none'" 
     fxHide.gt-sm>
