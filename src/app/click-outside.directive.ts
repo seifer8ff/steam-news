@@ -22,7 +22,7 @@ export class ClickOutsideDirective implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-      this.scrollPos = document.body.scrollTop;
+      this.scrollPos = document.documentElement.scrollTop;
       document.body.style.position = "fixed";
       document.body.style.overflow = "hidden";
       document.body.style.marginTop = -this.scrollPos + 'px';
@@ -32,6 +32,6 @@ export class ClickOutsideDirective implements OnInit, OnDestroy {
       document.body.style.overflow = "auto";
       document.body.style.position = "relative";
       document.body.style.marginTop = '0';
-      document.body.scrollTop = this.scrollPos;
+      document.documentElement.scrollTop = this.scrollPos;
     }
 }
