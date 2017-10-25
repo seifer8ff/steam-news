@@ -21,7 +21,7 @@ import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutU
           query('.title-container', [
             useAnimation(slideInDown)
           ], { optional: false }),
-          query('@slideInOut', [
+          query('@slideInSidebar', [
             animateChild()
           ], { optional: true })
         ]),
@@ -30,7 +30,7 @@ import { fadeIn, slideInUpArticles, slideOutDownArticles, slideInDown, slideOutU
         ], { optional: true })
       ])
     ]),
-    trigger('slideInOut', [
+    trigger('slideInSidebar', [
         transition(':enter', [
             useAnimation(slideInRight)
         ])
@@ -95,7 +95,6 @@ export class GameNewsListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     this.articleLoaderService.watchScroll();
-    document.body.scrollTop = 0;
   }
 
   scrollToFragment() {

@@ -47,7 +47,7 @@ export class SignUpComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    document.body.scrollTop = 0;
+    
   }
 
   onSignup(form: any) {

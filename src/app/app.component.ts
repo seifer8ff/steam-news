@@ -10,38 +10,20 @@ import { fadeIn, fadeOut, slideOutUp, slideOutLeft } from './_animations';
   styleUrls: ['./app.component.css'],
   animations: [
     trigger('routeAnimation', [
-      // fade in on first load
-      transition(':enter', [
-        useAnimation(fadeIn)
-      ]),
       transition('* <=> *', [
         group([
-          query(':enter, :leave .anim-hide', [
-            style({ opacity: 0 }),
-          ], { optional: true }),
           query(':leave, :enter', [
-            style({ position: 'fixed', width: '100vw'}),
-          ], { optional: true }),
-        ]),
-        group([
-          query(':leave .title-container', [
-              useAnimation(slideOutUp)
-          ], { optional: true }),
-          query(':leave @slideInOut', [
-            useAnimation(slideOutLeft)
-        ], { optional: true }),
-          query(':leave:not(.anim-hide)', [
-            useAnimation(fadeOut)
-          ], { optional: true }),
+            style({ position: 'fixed', width: '100vw', opacity: 0 }),
+          ], { optional: true })
         ]),
         query(':enter', [
           group([
             useAnimation(fadeIn),
             animateChild()
-          ]),
-        ])
-      ]),
-    ]),
+          ])
+        ], { optional: true })
+      ])
+    ])
   ]
 })
 export class AppComponent {
