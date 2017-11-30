@@ -87,7 +87,7 @@
     hyphens: auto;
 
     color: white;
-    font-size: 
+    font-size: 17px;
 }
 
 .article-body::ng-deep .xbbcode-u {
@@ -105,5 +105,6 @@
 .article-body::ng-deep img {
     display: block;
     max-width: 90%;
+    height: auto;
     margin: 14px auto 14px auto;
 }
