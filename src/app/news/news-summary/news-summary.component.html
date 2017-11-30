@@ -1,6 +1,6 @@
 <article class="content-container hover" [routerLink]="['/', article?.appId]" fxLayout="column" fxLayoutAlign="start stretch" fxFlex="grow">
     <div class="media-container">
-        <picture>
+        <picture fxHide.gt-xs>
             <source 
             media="(max-width: 599px)" 
             srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header.jpg">
@@ -11,6 +11,32 @@
             src="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
             srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
             alt="{{ article?.title }} background img">
+        </picture>
+        <picture fxHide.gt-sm fxHide.xs>
+            <source 
+            media="(max-width: 599px)" 
+            srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header.jpg">
+            <source 
+            media="(min-width: 600px)" 
+            srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg">
+            <img class="media deep-ignore"
+            src="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
+            srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
+            alt="{{ article?.title }} background img"
+            height="116" width="250">
+        </picture>
+        <picture fxHide.lt-md>
+            <source 
+            media="(max-width: 599px)" 
+            srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header.jpg">
+            <source 
+            media="(min-width: 600px)" 
+            srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg">
+            <img class="media deep-ignore"
+            src="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
+            srcset="https://images.weserv.nl/?url=cdn.akamai.steamstatic.com/steam/apps/{{ article?.appId }}/header_292x136.jpg"
+            alt="{{ article?.title }} background img"
+            height="165" width="354">
         </picture>
     </div>
     <div class="summary-content" fxFlex="grow">
