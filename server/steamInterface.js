@@ -3,7 +3,19 @@ const Games = require('./models/game');
 const User = require('./models/user');
 const axios = require('axios');
 const Promise = require('bluebird');
-var bbcode = require('bbcode.js');
+var bbcode = require('xbbcode-parser');
+
+bbcode.addTags({
+    h1: {
+        openTag: function(params,content) {
+            return '<h1>';
+        },
+        closeTag: function(params,content) {
+            return '</h1>';
+        }
+    }
+});
+
 
 var steam = {};
 
@@ -14,11 +26,13 @@ steam.gameNameURL = 'http://api.steampowered.com/ISteamApps/GetAppList/v0002/';
 
 // ----- NEWS -----
 
+
+// Need to add support for multiple refreshIds, or else remove partial functionality from this method
 steam.getNews = function getNews(refreshIds) {
     return new Promise(function (resolve, reject) {
         var appIds = [];
         typeof refreshIds === 'string' ? appIds.push(refreshIds) : appIds = refreshIds;
-
+        
         Promise.resolve(axios.get(steam.baseURL + appIds[0] + '&count=30'))
         .then(response => response.data.appnews.newsitems)
         .then(rawNews => rawNews.map(processNewsResponse))
@@ -64,11 +78,24 @@ steam.refreshNews = function() {
 
 function processNewsResponse(rawNewsItem) {
     // convert bbcode to html before saving to DB
-    let processedBody = bbcode.render(rawNewsItem.contents);
+    let body = rawNewsItem.contents;
+    let isBBCode = /(\[([^\]]+)\])/i.test(body);
+    
+    if (isBBCode) {
+        body = bbcode.process({
+            text: body,
+            removeMisalignedTags: true,
+            addInLineBreaks: true
+        }).html;
 
+        // reparse to remove any stray bbcode [*] or [/*]
+        body = body.replace(/\[\/*\*\]/gi, '');
+    }
+    // console.log('processed news successfully');
+    
     return {
         title: rawNewsItem.title,
-        body: processedBody,
+        body: body,
         url: rawNewsItem.url,
         date: rawNewsItem.date,
         appId: rawNewsItem.appid,
@@ -78,6 +105,7 @@ function processNewsResponse(rawNewsItem) {
 
 function addNewsItemToDB(newsItem) {
     return new Promise(function (resolve, reject) {
+        // console.log('adding news item to DB');
         var query = { articleId: newsItem.articleId };
         News.findOneAndUpdate(query, newsItem, {upsert:true}, (err, doc) => {
             if (err) {
@@ -95,14 +123,14 @@ function addNewsItemToDB(newsItem) {
 
 steam.refreshGameNames = function() {
     axios.get(steam.gameNameURL)
-        .then(response => response.data.applist.apps)
-        .then(games => games.map(processGameResponse))
-        .then((processedGames) => bulkAddGamesToDB(processedGames))
-        .catch(error => {
-            console.log("error refreshing game names");
-            console.log(error);
-        });
-        return;
+    .then(response => response.data.applist.apps)
+    .then(games => games.map(processGameResponse))
+    .then((processedGames) => bulkAddGamesToDB(processedGames))
+    .catch(error => {
+        console.log("error refreshing game names");
+        console.log(error);
+    });
+    return;
 }
 
 
@@ -131,13 +159,13 @@ function bulkAddGamesToDB(games) {
 
 steam.serverSetup = function() {
     setupDefaultUser();
-
+    
     News.count({}, (err, count) => {
         if (count < 1) {
             steam.refreshNews();
         }
     })
-
+    
     // if we haven't gotten game names and ids from steam yet, do it on server start
     Games.count({}, (err, count) => {
         if (count < 1) {
@@ -166,7 +194,7 @@ function setupDefaultUser() {
         }
     ];
     let user = new User({ username: 'demo', password: 'passwordSteamNews', gameList: defaultGames });
-
+    
     User.findOneAndUpdate(user.username, user, {upsert:true}, (err, doc) => {});
 }
 

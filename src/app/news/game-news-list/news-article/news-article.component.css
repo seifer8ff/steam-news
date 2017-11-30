@@ -9,19 +9,18 @@
 
 .title {
     margin-top: 0;
-    font-size: 2em;
+    font-size: 36px;
 }
 
 .subtitle {
-    font-size: 1.2em;
+    font-size: 16px;
+    margin-left: 8px;
 }
 
 .article-body {
     width: 100%;
     margin-top: 30px;
-    line-height: 1.2em;
-    font-size: 1.1em; 
-    letter-spacing: 0.014em; 
+    font-size: 16px; 
     overflow-x: hidden;
 }
 
@@ -51,29 +50,26 @@
 
  /* ----- BBCODE -----  */
 
-.article-body >>> img,.bbcode_image {
-    display: block;
-    max-width: 90%;
-    margin: 14px auto 14px auto;
-}
-
-.article-body >>> h1,h2:not(.deep-ignore),h3 {
+.article-body::ng-deep h1, .article-body::ng-deep h2:not(.deep-ignore), .article-body::ng-deep h3 {
     margin-top: 60px;
     margin-bottom: 20px;
     font-size: 1.1em;
     clear: both;
 }
 
-.article-body >>> hr {
-    clear: both;
+.article-body::ng-deep ul {
+    list-style-type: disc;
+    list-style-position: outside;
+    list-style-image: none;
 }
 
-.article-body >>> li {
-    margin-top: 4px;
-    margin-bottom: 4px;
+.article-body::ng-deep li {
+    margin-top: 6px;
+    margin-bottom: 6px;
+    margin-left: 40px;
 }
 
-.article-body >>> a {
+.article-body::ng-deep a {
     /* These are technically the same, but use both */
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -89,5 +85,25 @@
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
+
+    color: white;
+    font-size: 
 }
 
+.article-body::ng-deep .xbbcode-u {
+    text-decoration: underline;
+}
+
+.article-body::ng-deep .xbbcode-b {
+    font-weight: bold;
+}
+
+.article-body::ng-deep hr {
+    clear: both;
+}
+
+.article-body::ng-deep img {
+    display: block;
+    max-width: 90%;
+    margin: 14px auto 14px auto;
+}

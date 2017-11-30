@@ -8,20 +8,19 @@
 
 .summary-content {
     padding: 0 8px 8px 8px;  
-    letter-spacing: 0.02em; 
 }
 
 .summary-body {
     margin-top: 12px;
     line-height: 1.7em;
-    font-size: 1em; 
+    font-size: 16px; 
 }
 
-.summary-body >>> h1,h2:not(.deep-ignore),h3 {
-    font-size: 1.1em;
+.summary-body::ng-deep h1, .summary-body::ng-deep h2:not(.deep-ignore), .summary-body::ng-deep h3 {
+    font-size: 18px;
 }
 
-.summary-body >>> .bbcode_image {
+.summary-body::ng-deep img {
     display: block;
     max-width: 80%;
     margin: auto;
